@@ -82,9 +82,10 @@ function onDeviceReady() {
 		alert('in device online');
 		// show loading spinner to load data from server
 		$('#spinner').spin('vlarge').show();
+		alert('check access token from db;');
 		// fetch the access token from local db
 		var access_token = getAccessToken(function(access_token) {
-			// alert(access_token);
+			 alert(access_token);
 			// if user has valid access_token
 			// fetch the bundles data
 			if(access_token) {
