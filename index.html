@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Estate Fusion</title>
+
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!-- Include the compiled Ratchet CSS -->
+    <link href="css/ratchet.css" rel="stylesheet">
+	<!-- Include the custom app CSS -->
+	<link href="css/app.css" rel="stylesheet">
+    <script src="phonegap.js"></script>
+  </head>
+  <body >
+
+    <!-- Make sure all your bars are the first things in your <body> -->
+    
+    <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+    <div class="content login">
+		<div class='logo'>
+			<img class='img-responsive media-object' src="images/logo.png" />
+		</div>
+		<form id='loginForm' method='post'>
+				<input class='input-lg' id='email'    name="email" type="text" placeholder="Email Address">
+				<input class='input-lg' id='password' name="password" type="password" placeholder="Password">
+				<button type='button' name='loginSubmit' id='loginSubmit' class="btn btn-primary btn-block">Login</button>
+		</form>
+		<div id='spinner'></div>
+    </div>
+
+  </body>
+</html>
+<!-- Include the compiled jQuery JS -->
+<script src="js/jquery.min.js"></script>
+<!-- Include the compiled Ratchet JS -->
+<script src="js/ratchet.js"></script>
+<!-- Include the compiled push JS -->
+<script src="js/push.js"></script>
+<!-- Include the compiled push JS -->
+<script src="js/spin.min.js"></script>
+<!-- Include the compiled push JS -->
+<script src="js/jquery.spin.js"></script>
+<!-- Include the settings JS -->
+<script src="js/settings.js"></script>
+<!-- Include the database JS -->
+<script src="js/database.js"></script>
+<!-- Include the utils JS -->
+<script src="js/utils.js"></script>
+<script type='text/javascript'>
+$(document).on('ready',function() {
+	$('#spinner').spin('vlarge');
+	$('#loginSubmit').on('click',function(){
+		//window.location.href= 'wizard.html';
+		//return false;
+		if(isDeviceOnline() /* from utils.js*/ ) {
+			// online login
+			checkOnlineLogin();
+		} else {
+			// offline login
+			checkOfflineLogin();
+		}
+	});
+	$('#loginSubmit').on('touchstart',function(){
+		//window.location.href= 'wizard.html';
+		//return false;
+		if(isDeviceOnline() /* from utils.js*/ ) {
+			// online login
+			checkOnlineLogin();
+		} else {
+			// offline login
+			checkOfflineLogin();
+		}
+	});
+	
+});
+function checkOfflineLogin() {
+	var email = $('#email').val();
+	
+	checkLogin(email,function(token){
+		if(token) {
+			window.location.href = 'welcome.html';
+		} else {
+			alert('Your credentials do not exist on device, login in online mode first');
+		}
+	}/* from database.js */);
+}
+function checkOnlineLogin() {
+	var email = $('#email').val();
+	var password = $('#password').val();
+	var data = {'email':email,'password':password}
+	$('#spinner').show();
+	$.post(LOGIN_URL, data)
+	.done(function(res) {
+		var data = $.parseJSON(res);
+		insertUserWhosme(email,data.access_token, data.name, function(){
+			window.location.href = 'welcome.html';
+		});
+		
+	})
+	.fail(function() {
+		//alert( "error" );
+	})
+	.always(function() {
+		$('#spinner').hide();
+	});
+}
+</script>

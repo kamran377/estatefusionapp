@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Estate Fusion - Agent Welcome Page</title>
+
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Include the compiled Ratchet CSS -->
+    <link href="css/ratchet.css" rel="stylesheet">
+	<!-- Include the custom app CSS -->
+	<link href="css/app.css" rel="stylesheet">
+    
+  </head>
+  <body>
+
+    <!-- Make sure all your bars are the first things in your <body> -->
+    <header class="bar bar-nav">
+		<h1 class="title">Agent Home</h1>
+		<a class="status pull-right"><img style='width:32px' src="images/online.jpg" /></a>
+	</header>
+
+    <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+    <div class="content">
+		
+		<div id='spinner'>
+			
+		</div>
+		  
+		<div id='pageContent' class="card" style='display:none;'>
+			
+			<ul class="table-view" >
+				<li class="table-view-cell">
+					<a id='newSale' data-transition="fade" href='javascript://' class="navigate-right">
+						<span class="media-object pull-left icon icon-plus"></span>
+						<div class="media-body">
+							Add New Sale
+						</div>
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+    </div>
+
+  </body>
+</html>
+<!-- Include the compiled jQuery JS -->
+<script src="js/jquery.min.js"></script>
+<!-- Include the compiled Ratchet JS -->
+<script src="js/ratchet.js"></script>
+<!-- Include the compiled push JS -->
+<script src="js/push.js"></script>
+<!-- Include the compiled push JS -->
+<script src="js/spin.min.js"></script>
+<!-- Include the compiled push JS -->
+<script src="js/jquery.spin.js"></script>
+<!-- Include the settings JS -->
+<script src="js/settings.js"></script>
+<!-- Include the database JS -->
+<script src="js/database.js"></script>
+<!-- Include the ajax JS -->
+<script src="js/ajax.js"></script>
+<!-- Include the utils JS -->
+<script src="js/utils.js"></script>
+<script type='text/javascript'>
+$(document).on('ready',function() {
+	$('#newSale').on('click',function(){
+		window.location.href = 'sale.html';
+	});
+	// load latest data from the server if device is online only
+	if(isDeviceOnline() /* from utils.js*/ ) {
+		// show loading spinner to load data from server
+		$('#spinner').spin('vlarge').show();
+		// fetch the access token from local db
+		var access_token = getAccessToken(function(access_token) {
+			// alert(access_token);
+			// if user has valid access_token
+			// fetch the bundles data
+			if(access_token) {
+				loadBundlesData(access_token);
+				
+			} else {
+				// send user to login page
+				window.location.href = 'index.html';
+			}
+		}); /* from database.js */
+	}
+	
+});
+// this function load and store bundles data from server to local db
+function loadBundlesData(access_token) {
+	postRequest(SIMPLE_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
+		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
+			emptyBundlesTable();
+			emptyServicesTable();
+			var bundles = obj.result; // return bundles from server
+			$.each(bundles, function(){
+				var bundle = this;
+				insertSimpleBundle(bundle); /* from database.js */
+				var services = bundle.services;
+				$.each(services, function(){
+					var service = this;
+					insertService(service); /* from database.js*/
+				});
+			});
+			loadOptionsData(access_token);
+		}	
+	});/* from ajax.js*/
+}
+
+// this function load and store bundles data from server to local db
+function loadOptionsData(access_token) {
+	postRequest(OPTIONS_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
+		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
+			var bundles = obj.result; // return bundles from server
+			$.each(bundles, function(){
+				var bundle = this;
+				insertOptionsBundle(bundle); /* from database.js */
+				var services = bundle.services;
+				$.each(services, function(){
+					var service = this;
+					insertService(service); /* from database.js*/
+				});
+			});
+			$('#spinner').hide();
+			alert('Bundles data loaded successfully');
+			$('#pageContent').show();
+		}	
+	});/* from ajax.js*/
+}
+</script>
