@@ -95,6 +95,7 @@ $(document).on('ready',function() {
 });
 // this function load and store bundles data from server to local db
 function loadBundlesData(access_token) {
+	alert(access_token);
 	postRequest(SIMPLE_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
 			emptyBundlesTable();
