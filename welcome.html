@@ -75,7 +75,8 @@ function onDeviceReady() {
 	$('#newSale').on('click',function(){
 		window.location.href = 'sale.html';
 	});
-	slert('device status ' + isDeviceOnline());
+	alert('device status ' + isDeviceOnline());
+	
 	// load latest data from the server if device is online only
 	if(isDeviceOnline() /* from utils.js*/ ) {
 		alert('in device online');
