@@ -69,8 +69,7 @@
 <!-- Include the utils JS -->
 <script src="js/utils.js"></script>
 <script type='text/javascript'>
-document.addEventListener("deviceready", onDeviceReady, false);
-function onDeviceReady() {
+$(document).on('ready',function() {
 	alert(123456);
 	$('#newSale').on('click',function(){
 		window.location.href = 'sale.html';
@@ -97,11 +96,6 @@ function onDeviceReady() {
 			}
 		}); /* from database.js */
 	}
-}
-$(document).on('ready',function() {
-	
-	
-	
 });
 // this function load and store bundles data from server to local db
 function loadBundlesData(access_token) {

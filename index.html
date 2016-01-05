@@ -32,6 +32,7 @@
 				<button type='button' name='loginSubmit' id='loginSubmit' class="btn btn-primary btn-block">Login</button>
 		</form>
 		<div id='spinner'></div>
+		<a id='nextLink' href='welcome.html' style='display:none'>link</a>
     </div>
 
   </body>
@@ -89,7 +90,7 @@ function checkOnlineLogin() {
 	.done(function(res) {
 		var data = $.parseJSON(res);
 		insertUserWhosme(email,data.access_token, data.name, function(){
-			window.location.href = 'welcome.html';
+			$('#nextLink').click();
 		});
 		
 	})
