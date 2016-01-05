@@ -55,17 +55,7 @@
 <script type='text/javascript'>
 $(document).on('ready',function() {
 	$('#spinner').spin('vlarge');
-	$('#loginSubmit').on('click',function(){
-		//window.location.href= 'wizard.html';
-		//return false;
-		if(isDeviceOnline() /* from utils.js*/ ) {
-			// online login
-			checkOnlineLogin();
-		} else {
-			// offline login
-			checkOfflineLogin();
-		}
-	});
+	
 	$('#loginSubmit').on('touchstart',function(){
 		//window.location.href= 'wizard.html';
 		//return false;
@@ -104,7 +94,7 @@ function checkOnlineLogin() {
 		
 	})
 	.fail(function() {
-		//alert( "error" );
+		alert( "Login Failed" );
 	})
 	.always(function() {
 		$('#spinner').hide();
