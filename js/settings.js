@@ -19,3 +19,5 @@ var STATUS_ERROR 		= 'error';
 var AJAX_POST 			= 'POST';
 var AJAX_GET			= 'GET';
 var AJAX_ASYNC 			= false;
+
+
