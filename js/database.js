@@ -24,8 +24,7 @@ $(document).on('ready',function(){
 	
 });
 function onDeviceReady() {
-    alert('database.js');
-	// do everything here.
+    // do everything here.
 	prepDB();
 	//emptyLocalDB();
 	createWhosemeTable();

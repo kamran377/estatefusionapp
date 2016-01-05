@@ -8,6 +8,15 @@
  * This file contains the general utility methods used in the app
  *
  *************************************************/
+// this function returns whether the device is online or offline
 function isDeviceOnline() {
 	return navigator.onLine;
+}
+// this function shows the ajax loader
+function showLoader() {
+	$.mobile.loading( "show");
+}
+// this function hides the ajax loader
+function hideLoader() {
+	$.mobile.loading( "hide");
 }

@@ -1,62 +1,138 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Estate Fusion</title>
-
-    <!-- Sets initial viewport load and disables zooming  -->
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-
-    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-	<!-- Include the compiled Ratchet CSS -->
-    <link href="css/ratchet.css" rel="stylesheet">
-	<!-- Include the custom app CSS -->
-	<link href="css/app.css" rel="stylesheet">
-    <script src="phonegap.js"></script>
-  </head>
-  <body >
-
-    <!-- Make sure all your bars are the first things in your <body> -->
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Estate Fusion</title>
+		<link rel="stylesheet" href="themes/estate-fusion.min.css" />
+		<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+		<!-- Step Form Wizard plugin -->
+		<link rel="stylesheet" href="css/step-form-wizard-all.css" type="text/css" media="screen, projection">
+		<!-- Include the compiled app CSS -->
+		<link href="css/bootstrap.css" rel="stylesheet">
     
-    <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
-    <div class="content login">
-		<div class='logo'>
-			<img class='img-responsive media-object' src="images/logo.png" />
+		<!-- nicer scroll in steps -->
+		<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
+		<link href='css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+		<!-- Include the custom app CSS -->
+		<link href="css/app.css" rel="stylesheet">
+		<script src="phonegap.js"></script>
+	</head>
+	<body data-theme="a">
+		<!---
+		-- Page Login Start
+		-->
+		<div id='loginPage' data-role="page" data-theme="a">
+			<div data-role="content" data-theme="a">
+				<div class='logo'>
+					<img class='img-responsive media-object' src="images/logo.png" />
+				</div>
+				<form id='loginForm' method='post'>
+						<label for='email'>Email</label>
+						<input id='email' name="email" type="text" placeholder="Email Address">
+						<br/>
+						<label for='password'>Password</label>
+						<input class='input-lg' id='password' name="password" type="password" placeholder="Password">
+						<button type='button' name='loginSubmit' id='loginSubmit' class="ui-btn">Login</button>
+				</form>
+				
+			</div>
 		</div>
-		<form id='loginForm' method='post'>
-				<input class='input-lg' id='email'    name="email" type="text" placeholder="Email Address">
-				<input class='input-lg' id='password' name="password" type="password" placeholder="Password">
-				<button type='button' name='loginSubmit' id='loginSubmit' class="btn btn-primary btn-block">Login</button>
-		</form>
-		<div id='spinner'></div>
-		<a id='nextLink' data-ignore='push' href='welcome.html' style='display:none'>link</a>
-    </div>
-
-  </body>
+		<!---
+		-- Page Login End
+		-->
+		<!---
+		-- Page Welcome End
+		-->
+		<div id='welcomePage' data-role="page" data-theme="a">
+			<div data-role="header">
+				<h1>Estate Fusion</h1>
+			</div>
+			<div data-role="content">
+				<div id='pageContent' style='display:none;'>
+					<a href="#salePage" class="ui-btn">Add New Sale</a>
+				</div>
+			</div>
+		</div>
+		<!---
+		-- Page Welcome End
+		-->
+		<!---
+		-- Page Sale Start
+		-->
+		<div id='salePage' data-role="page" data-theme="a">
+			<div data-role="header">
+				<h1>Estate Fusion - New Sale</h1>
+			</div>
+			<div data-role="content">
+				<form id="wizard_example" action="">
+					<fieldset>
+						<legend>Services</legend>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<table id='services-table' class='table table-bordered table-responsive'>
+										<thead>
+											<tr>
+												<th style='width:40%'>Description</th>
+												<th class='bundle first'></th>
+												<th class='bundle second'></th>
+												<th class='bundle third'></th>
+											</tr>
+										</thead>
+										<tbody>
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Seller Details</legend>
+						<div id="books"></div>
+					</fieldset>
+					<fieldset>
+						<legend>Terms &amp; Conditions</legend>
+						<div id="books"></div>
+					</fieldset>
+					<fieldset>
+						<legend>Digital Signature</legend>
+						<div id="books"></div>
+					</fieldset>
+					<fieldset>
+						<legend>Photos</legend>
+						<div id="books"></div>
+					</fieldset>
+					<fieldset>
+						<legend>Payment</legend>
+						<div id="books"></div>
+					</fieldset>	
+				</form>
+			</div>
+		</div>	
+		<!---
+		-- Page Sale End
+		-->
+	</body>
 </html>
-<!-- Include the compiled jQuery JS -->
-<script src="js/jquery.min.js"></script>
-<!-- Include the compiled Ratchet JS -->
-<script src="js/ratchet.js"></script>
-<!-- Include the compiled push JS -->
-<script src="js/push.js"></script>
-<!-- Include the compiled push JS -->
-<script src="js/spin.min.js"></script>
-<!-- Include the compiled push JS -->
-<script src="js/jquery.spin.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<!-- Include the compiled Step Form Wizard JS -->
+<script src="js/step-form-wizard.min.js"></script>
 <!-- Include the settings JS -->
 <script src="js/settings.js"></script>
 <!-- Include the database JS -->
 <script src="js/database.js"></script>
+<!-- Include the database JS -->
+<script src="js/ajax.js"></script>
 <!-- Include the utils JS -->
 <script src="js/utils.js"></script>
 <script type='text/javascript'>
 $(document).on('ready',function() {
-	$('#spinner').spin('vlarge');
-	
+	/**
+	* Events - Start - Login Page
+	*/
 	$('#loginSubmit').on('touchstart',function(){
 		//window.location.href= 'wizard.html';
 		//return false;
@@ -68,14 +144,269 @@ $(document).on('ready',function() {
 			checkOfflineLogin();
 		}
 	});
-	
+	/**
+	* Events - End - Login Page
+	*/
+	/**
+	* Events - Start - Welcome Page
+	*/
+	$(document).on("pageshow","#welcomePage",function() { // When entering welcomePage
+		if(isDeviceOnline() /* from utils.js*/ ) {
+			// show loading spinner to load data from server
+			showLoader(/* from utils.js */);
+			// fetch the access token from local db
+			var access_token = getAccessToken(function(access_token) {
+				// if user has valid access_token
+				// fetch the bundles data
+				if(access_token) {
+					loadBundlesData(access_token);
+				} else {
+					alert('Please login to continue');
+					hideLoader(/* from utils.js */);
+					// send user to login page
+					$.mobile.changePage('#loginPage');
+				}
+			}); /* from database.js */
+		}
+	});
+	/**
+	* Events - End - Welcome Page
+	*/
+	/**
+	* Events - Start - Sale Page
+	*/
+	$(document).on("pageshow","#salePage",function() {
+		// show loading spinner to load data from server
+		showLoader(/* from utils.js */);
+		// display the bundles data
+		setTimeout(function(){displayBundlesData();},1000);
+		/**
+		* This section holds the event handlers for different elements on the page
+		*/
+		// change event for the bundle selection
+		$(document).on('click','.header-checkbox',function(){
+			// uncheck all other bundles
+			$('.header-checkbox').not(this).prop('checked',false);
+			$th = $(this).closest('th');
+			// get index of column
+			var index = $('#services-table thead tr th').index($th);
+			// add 1 to overcome index start from 0 property
+			index = index + 1;
+			// get column class
+			var cls ='first';
+			if(index == 3) {
+				cls = 'second';
+			} else if(index == 4) {
+				cls = 'third';
+			}
+			// uncheck all checkboxes
+			$('#services-table td.highlighted input[type=checkbox]:not(:disabled)').prop('checked',false);
+			//remove highlighted from all columns
+			$('#services-table th,td').removeClass('highlighted');
+			// reset price columns
+			$('#services-table tr.sub-price-1 td.first span').text($('#services-table th.first').attr('data-bundle-price'));
+			$('#services-table tr.sub-price-1 td.second span').text($('#services-table th.second').attr('data-bundle-price'));
+			$('#services-table tr.sub-price-1 td.third span').text($('#services-table th.third').attr('data-bundle-price'));
+			// if current chekbox is checked
+			if($(this).prop('checked')) {
+				// add highlighted to currently selected column
+				$('.' + cls).addClass('highlighted');
+				// update price columns
+				
+			}
+		});
+		// change event for the service selection
+		$(document).on('click','.service-checkbox',function(){
+			$td = $(this).closest('td');
+			if($td.hasClass('highlighted')) {
+				// get the price
+				var _price = $td.attr('data-price'); 
+				// convert to int
+				var price = parseInt(_price,10);
+				// get the sub total
+				var _subtotal = $('#services-table tr.sub-price-1 td.highlighted span').text();
+				// convert it to int
+				var subtotal = parseInt(_subtotal,10);
+				if($(this).prop('checked')) {
+					// get the new total
+					var newtotal = price + subtotal;
+				} else {
+					// get the new total
+					var newtotal = subtotal - price;
+				}
+				// update the sub total
+				$('#services-table tr.sub-price-1 td.highlighted span').text(newtotal);
+			} else {
+				// do nothing if the bundle is not selected
+				return false;
+			}
+		});
+	});
+	/**
+	* Events - End - Sale Page
+	*/
 });
+/**
+* Functions - Start - Sale Page
+*/
+// this function will fetch services data from local db
+// and display the data in the table
+function displayBundlesData() {
+	// the column index of the current bundle
+	var colIndex = 2;
+	// get all simple bundles
+	getSimpleBundles(function(bundles){
+		if(bundles.length > 0) {
+			// load all services from local table
+			// services for each bundle will be separated later
+			getAllServices(function(services){
+				var len = bundles.length ;
+				// in this loop the services related to current bundle are extracted from the list of all services
+				for(var i=0;i<len;i++) {
+					var slen = 	services.length;
+					var bundle = bundles[i];
+					var bundleid = bundle['id'];
+					var bundleservices = [];
+					// class to applied to different columns
+					var cls ='first';
+					if(colIndex == 3) {
+						cls = 'second';
+					} else if(colIndex == 4) {
+						cls = 'third';
+					}
+					
+					//console.log(services);
+					for(var j=0;j<slen;j++) {
+						if(services[j]['bundle_id'] == bundleid) {
+							bundleservices.push(services[j]);
+						}
+					}
+					//console.log(bundleservices);
+					// show table header
+					var $headerCheck = $('<div class=" checkbox checkbox-success checkbox-circle"><input class="header-checkbox" id="checkbox-header'+i+'" type="checkbox"><label for="checkbox-header'+i+'">'+bundle['name']+'</label></div>');
+					$('#services-table thead tr th:nth-child('+ colIndex +')').attr('data-bundle-price',bundle['price']).attr('data-bundle-id',bundle['id']).append($headerCheck);
+					// display services in the first column
+					var klen = 	bundleservices.length;
+					//console.log(klen);
+					for(var k=0;k<klen;k++) {
+						var service = bundleservices[k];
+						if(colIndex == 2) {
+							// append all columns for all bundles in first loop
+							// later bundles will only add their values
+							$tr = $('<tr/>')
+								.append($('<td/>')
+									.attr({'title':service['info']})
+									.text(service['name']))
+								.append($('<td/>'))
+								.append($('<td/>'))
+								.append($('<td/>'));
+							// add row to the table
+							$('#services-table tbody').append($tr);
+							
+						}
+						$tr = $('#services-table tbody tr:nth-child('+ (k+1) +')');
+						
+						if(service.free == 'true') {
+							var $serviceCheck = $('<div class="checkbox checkbox-success checkbox-circle"><input checked="checked" disabled="disabled" class="service-checkbox" id="checkbox-service-'+colIndex+'-'+k+'" type="checkbox"><label for="checkbox-service-'+colIndex+'-'+k+'">&nbsp;</label></div>');
+							$('td:nth-child(' + colIndex + ')', $tr).addClass(cls).append($serviceCheck);
+						} else {
+							var $serviceCheck = $('<div class="checkbox checkbox-success checkbox-circle"><input class="service-checkbox" id="checkbox-service-'+colIndex+'-'+k+'" type="checkbox"><label for="checkbox-service-'+colIndex+'-'+k+'">&pound;'+service['price']+'</label></div>');
+							$('td:nth-child(' + colIndex + ')', $tr).attr('data-price',service['price']).addClass(cls).append($serviceCheck);	
+						}
+						
+						
+					}
+					// increment the colIndex for next bundle
+					colIndex += 1;
+				}
+				// add the price row
+				$tr = $('<tr/>').addClass('sub-price-1')
+					.append($('<td/>')
+						.text('Price'))
+					.append($('<td/>').addClass('first').html('&pound; <span></span>'))
+					.append($('<td/>').addClass('second').html('&pound; <span></span>'))
+					.append($('<td/>').addClass('third').html('&pound; <span></span>'));
+				$('#services-table tbody').append($tr);			
+				// update prices 
+				for(var i=0;i<len;i++) {
+					$('td:nth-child(' + (i+2) + ') span',$tr).text(bundles[i]['price']);
+				}
+				// show the content and apply form wizard
+				applyWizard();
+			})/* from database.js */;
+		}
+	}) /* from database.js */;
+}
+function applyWizard() {
+	// show loading spinner to load data from server
+	hideLoader(/* from utils.js*/);
+	$('#pageContent').show();
+	$("#wizard_example").stepFormWizard({
+		height: 'auto',
+		theme:'circle'
+	});
+}
+/**
+* Functions - End - Sale Page
+*/
+
+/**
+* Functions - Start - Welcome Page
+*/
+// this function load and store bundles data from server to local db
+function loadBundlesData(access_token) {
+	postRequest(SIMPLE_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
+		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
+			emptyBundlesTable();
+			emptyServicesTable();
+			var bundles = obj.result; // return bundles from server
+			$.each(bundles, function(){
+				var bundle = this;
+				insertSimpleBundle(bundle); /* from database.js */
+				var services = bundle.services;
+				$.each(services, function(){
+					var service = this;
+					insertService(service); /* from database.js*/
+				});
+			});
+			loadOptionsData(access_token);
+		}	
+	});/* from ajax.js*/
+}
+
+// this function load and store bundles data from server to local db
+function loadOptionsData(access_token) {
+	postRequest(OPTIONS_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
+		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
+			var bundles = obj.result; // return bundles from server
+			$.each(bundles, function(){
+				var bundle = this;
+				insertOptionsBundle(bundle); /* from database.js */
+				var services = bundle.services;
+				$.each(services, function(){
+					var service = this;
+					insertService(service); /* from database.js*/
+				});
+			});
+			hideLoader(/* from utils.js */);
+			alert('Bundles data loaded successfully');
+			//show the page
+			$('#pageContent').show();
+		}	
+	});/* from ajax.js*/
+}
+/**
+* Functions - End - Welcome Page
+*/
+/**
+* Functions - Start - Login Page
+*/
 function checkOfflineLogin() {
 	var email = $('#email').val();
 	
 	checkLogin(email,function(token){
 		if(token) {
-			window.location.href = 'welcome.html';
+			$.mobile.changePage('#welcomePage');
 		} else {
 			alert('Your credentials do not exist on device, login in online mode first');
 		}
@@ -85,12 +416,13 @@ function checkOnlineLogin() {
 	var email = $('#email').val();
 	var password = $('#password').val();
 	var data = {'email':email,'password':password}
-	$('#spinner').show();
+	showLoader(/* from utils.js */);
 	$.post(LOGIN_URL, data)
 	.done(function(res) {
 		var data = $.parseJSON(res);
 		insertUserWhosme(email,data.access_token, data.name, function(){
-			$('#nextLink').click();
+			hideLoader(/* from utils.js */);
+			$.mobile.changePage('#welcomePage');
 		});
 		
 	})
@@ -101,4 +433,7 @@ function checkOnlineLogin() {
 		$('#spinner').hide();
 	});
 }
+/**
+* Functions - End - Login Page
+*/
 </script>
