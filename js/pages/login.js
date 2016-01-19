@@ -31,6 +31,12 @@ $(document).on('ready',function() {
 	* Events - End - Login Page
 	*/
 });
+
+
+
+
+
+
 /**
 * Functions - Start - Login Page
 */
@@ -53,10 +59,11 @@ function checkOnlineLogin() {
 	$.post(LOGIN_URL, data)
 	.done(function(res) {
 		var json = $.parseJSON(res);
+		hideLoader(/* from utils.js */);
 		if(json.status == 'success') {
 			var data = json.user;
 			insertUserWhosme(email,data.access_token, data.name, function(){
-				hideLoader(/* from utils.js */);
+				
 				$.mobile.changePage('#welcomePage');
 			});
 		} else {

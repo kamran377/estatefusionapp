@@ -210,7 +210,7 @@ function attachServicesEvents() {
 		if($('th.' + cls).hasClass('highlighted')) {
 			var r = confirm('Are you sure you want to confirm this selection, it cannot be reversed');
 			if(r == true) {
-				$('input[type=checkbox]').prop('disabled',true);
+				$('#services-table input[type=checkbox]').prop('disabled',true);
 			} else {
 				return false;
 			}
