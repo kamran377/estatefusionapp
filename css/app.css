@@ -1,4 +1,16 @@
-
+body,
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper,
+input,
+select,
+textarea,
+button,
+.ui-btn {
+	text-shadow: none !important;
+	-webkit-text-shadow: none !important;
+	-moz-text-shadow: none !important;
+	color:#000;
+	font-family: 'Open Sans' !important;
+}
 .logo {
 	margin:0 auto;
 	text-align:center;
@@ -19,26 +31,22 @@
 	padding:2% 5%;
 }
 .row {
-	margin-left:0;
-	margin-right:0;
+	margin-left: 20px;
+    margin-right: 20px;
 }
 .col-md-12 {
 	padding-left:0;
 	padding-right:0;
 }
-#spinner {
-	position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 1000;
-	display:none;
-}
+
 .status  {
 	margin-top:5px;
 }
 #services-table tr th,
 #services-table tr td {
 	text-align:center;
+	font-family: 'Open Sans' !important;
+	vertical-align: middle;
 }
 
 #services-table tr th.highlighted,
@@ -46,4 +54,64 @@
 	z-index:1000;
 	background:#A1A6F1;
 	box-shadow: 10px 10px 5px #888;
+}
+
+#services-table thead tr th:first-child,
+#services-table tbody tr td:first-child {
+	text-align:left;
+}
+
+#services-table thead tr th,
+#services-table tbody tr td.header {
+	background:#78A5F3;
+	font-size:16px;
+	font-weight:bold;
+}
+#services-table tbody tr td.price {
+	background:#B4CAF1;
+	font-size:16px;
+	font-weight:bold;
+}
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+	border: 1px solid #aaa;
+}
+label {
+	color:#000;
+}
+td.label {
+	background:#efefef;
+	vertical-align: middle;
+}
+
+td.label label {
+	font-weight:bold;
+	text-align:left;
+	font-size:16px;
+	
+}
+div.terms {
+	color:#000;
+}
+div.sf-step:nth-child(4) {
+	height:450px !important;
+}
+#signature{
+	border: 1px dotted #000;
+	color :#000;
+}
+#signature canvas{
+	
+	color :#000;
+}
+#sellerDetailsTable tr td {
+	text-align:left;
+	width:25%;
+	vertical-align:middle;
+}
+.error {
+	font-size:.8em !important;
+	color:red;
+}
+.form-control.error {
+	border: 1px solid red;
 }

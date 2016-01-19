@@ -29,7 +29,7 @@ clearfix:before,
   display: block; }
 
 .sf-wizard {
-  position: relative; }
+  position: relative;font-family:'Open Sans' !important;color:#fff !important; }
   .sf-wizard.sf-rtl {
     direction: rtl; }
 

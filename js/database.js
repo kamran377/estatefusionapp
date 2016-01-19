@@ -30,6 +30,9 @@ function onDeviceReady() {
 	createWhosemeTable();
 	createBundlesTable();
 	createServicesTable();
+	createDiscountsTable();
+	createCustomersTable();
+	createTermsTable();
 }
 // this is the instance used to deal with lcoal storage
 var estateAppDB = null;
@@ -58,6 +61,7 @@ function emptyLocalDB() {
 				tx.executeSql('DROP TABLE whosme');
 				tx.executeSql('DROP TABLE bundles');
 				tx.executeSql('DROP TABLE services');
+				tx.executeSql('DROP TABLE discounts');
 			});
 		}
 	} catch(e) {
@@ -98,6 +102,8 @@ function createBundlesTable() {
 								(id TEXT NOT NULL,\
 								name TEXT NOT NULL,\
 								price TEXT NOT NULL,\
+								default_bundle TEXT NOT NULL,\
+								discount TEXT NOT NULL,\
 								type TEXT NOT NULL)');
 			});
 		}
@@ -123,6 +129,88 @@ function createServicesTable() {
 	} catch(e) {
 		console.log(e);
 	}
+}
+
+// this function creates the discounts table
+function createDiscountsTable() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('CREATE TABLE IF NOT EXISTS discounts \
+								(id TEXT NOT NULL,\
+								name TEXT NOT NULL,\
+								percentage TEXT NOT NULL,\
+								now TEXT NOT NULL,\
+								later TEXT NOT NULL,\
+								info TEXT NOT NULL)');
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function creates the customers table
+function createCustomersTable() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('CREATE TABLE IF NOT EXISTS customers (\
+					id INTEGER PRIMARY KEY AUTOINCREMENT,\
+					first_name_1 TEXT,\
+					surname_1 TEXT,\
+					first_name_2 TEXT,\
+					surname_2 TEXT,\
+					home_address_1 TEXT,\
+					home_address_2 TEXT,\
+					home_address_3 TEXT,\
+					home_town TEXT,\
+					home_county TEXT,\
+					home_post TEXT,\
+					home_is_property TEXT,\
+					mobile_number TEXT,\
+					phone_number TEXT,\
+					email_1 TEXT,\
+					email_2 TEXT,\
+					property_address_1 TEXT,\
+					property_address_2 TEXT,\
+					property_address_3 TEXT,\
+					property_town TEXT,\
+					proprty_county TEXT,\
+					property_postcode TEXT,\
+					property_tenure TEXT,\
+					property_notes TEXT,\
+					agency_type TEXT,\
+					joint_agency_name TEXT,\
+					asking_price TEXT )',
+					[],
+					onSuccessExecuteSql,
+					onError
+				);
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function creates the terms table
+function createTermsTable() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('CREATE TABLE IF NOT EXISTS terms \
+								(id TEXT NOT NULL,\
+								terms TEXT NOT NULL)');
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+function onSuccessExecuteSql( tx, results ){
+	console.log(results);
+}
+function onError( tx, err ){
+	console.log( err.message )
 }
 /****************************************************************
  * 
@@ -164,8 +252,8 @@ function insertBundle(bundle, type) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO bundles (id,name,type,price) values (?,?,?,?)'
-				,[bundle.id,bundle.name,type,bundle.price],
+				tx.executeSql('INSERT INTO bundles (id,name,type,price,default_bundle,discount) values (?,?,?,?,?,?)'
+				,[bundle.id,bundle.name,type,bundle.price,bundle.def,bundle.discount],
 				function(tx,results){
 					return true;
 				});
@@ -183,6 +271,71 @@ function insertService(service) {
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('INSERT INTO services (id,name,price,bundle_id,free,info) values (?,?,?,?,?,?)'
 				,[service.id, service.name, service.cost, service.bundle, service.free,service.info],
+				function(tx,results){
+					return true;
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+
+// this function inserts bundles in the local bundles table
+function insertDiscount(discount) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('INSERT INTO discounts (id,name,percentage,info,now,later) values (?,?,?,?,?,?)'
+				,[discount.id,discount.name,discount.percentage,discount.info, discount.now, discount.later],
+				function(tx,results){
+					return true;
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function inserts customer data in the local customers table
+function insertCustomer(customer) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('INSERT INTO customers (first_name_1 ,surname_1 ,first_name_2 ,surname_2 ,home_address_1 ,home_address_2 ,home_address_3 ,home_town ,home_county ,home_post ,home_is_property ,mobile_number ,phone_number ,email_1 ,email_2 ,property_address_1 ,property_address_2 ,property_address_3 ,property_town ,proprty_county ,property_postcode ,property_tenure ,property_notes ,agency_type ,joint_agency_name ,asking_price) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+				,[
+					customer.firstName,customer.surname,
+					customer.firstName2,customer.surname2, 
+					customer.homeAddress + customer.homeLine1, customer.homeLine2, customer.homeLine3,
+					customer.homeTown, customer.homeCountry, customer.homeCode,
+					customer.sameAddress,
+					customer.mobile, customer.phone,
+					customer.emailPrimary, customer.emailSecondary,
+					customer.propertyAddress + customer.propertyLine1, customer.propertyLine2, customer.propertyLine3,
+					customer.propertyTown, customer.propertyCountry, customer.propertyCode,
+					customer.tenure, customer.notes,
+					customer.agencyType, customer.agencyName,customer.price
+				],
+				function(tx,results){
+					return true;
+				},
+				function(tx,error){
+					console.log(error.message);
+					return false;
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function inserts terms in the local terms table
+function insertTerms(terms) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('INSERT INTO terms (id,terms) values (?,?)'
+				,[terms.id,terms.terms,],
 				function(tx,results){
 					return true;
 				});
@@ -231,12 +384,44 @@ function emptyBundlesTable(){
 	}
 }
 
-//empty the bundles table for insertion of new bundles data
+//empty the services table for insertion of new services data
 function emptyServicesTable(){
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('delete from services'
+				,[],
+				function(tx,results){
+					return true;
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+//empty the discounts table for insertion of new discounts data
+function emptyDiscountsTable(){
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('delete from discounts'
+				,[],
+				function(tx,results){
+					return true;
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+//empty the terms table for insertion of new terms data
+function emptyTermsTable(){
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('delete from terms'
 				,[],
 				function(tx,results){
 					return true;
@@ -274,6 +459,10 @@ function getAccessToken(callback) {
 	} catch(e) {
 		console.log(e);
 	}
+}
+// This function will return options bundles form local data
+function getOptionsBundles(callback) {
+	getBundles(OPTIONS_BUNDLE_TYPE /* from settings.js*/,callback);
 }
 // This function will return simple bundles form local data
 function getSimpleBundles(callback) {
@@ -323,6 +512,7 @@ function getAllServices(callback) {
 		console.log(e);
 	}
 }
+// This function provided offline login functionality to the user
 function checkLogin(email, callback) {
 	try {
 		if (estateAppDB) {
@@ -337,6 +527,50 @@ function checkLogin(email, callback) {
 					} else {
 						return callback("");
 					}
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// This function returns all the discounts data for the local db
+function getAllDiscounts(callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from discounts'
+				,[],
+				function(tx,results){
+					var len = results.rows.length;
+					var array = [];
+					for(var i=0; i<len; i++) {
+						var row = results.rows.item(i);
+						array.push(row);
+					}
+					callback(array);
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// This function returns all the terms data for the local db
+function getTerms(callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from terms'
+				,[],
+				function(tx,results){
+					var len = results.rows.length;
+					//var array = [];
+					for(var i=0; i<len; i++) {
+						var row = results.rows.item(i);
+						callback(row);
+					}
+					
 				});
 			});
 		}

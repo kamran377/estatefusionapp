@@ -20,3 +20,7 @@ function showLoader() {
 function hideLoader() {
 	$.mobile.loading( "hide");
 }
+// this will return the parsed value for the number
+function getFloat(number) {
+	return parseFloat(number);
+}
