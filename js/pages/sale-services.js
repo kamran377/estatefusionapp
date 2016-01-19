@@ -435,9 +435,9 @@ function displayBundlesData() {
 						var dlen = discounts.length;
 						for(var p = 0; p < dlen; p++) {
 							var discount = discounts[p];
-							var $discountCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-1'+p+'" type="checkbox"><label for="checkbox-discount-1'+p+'">&pound;'+discount['percentage']+' %</label></div>');
-							var $discountCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-2'+p+'" type="checkbox"><label for="checkbox-discount-2'+p+'">&pound;'+discount['percentage']+' %</label></div>');
-							var $discountCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-3'+p+'" type="checkbox"><label for="checkbox-discount-3'+p+'">&pound;'+discount['percentage']+' %</label></div>');
+							var $discountCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-1'+p+'" type="checkbox"><label for="checkbox-discount-1'+p+'">'+discount['percentage']+' %</label></div>');
+							var $discountCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-2'+p+'" type="checkbox"><label for="checkbox-discount-2'+p+'">'+discount['percentage']+' %</label></div>');
+							var $discountCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-3'+p+'" type="checkbox"><label for="checkbox-discount-3'+p+'">'+discount['percentage']+' %</label></div>');
 								
 							$tr = $('<tr/>').addClass('').attr({'data-now':discount['now'],'data-later':discount['later']})
 								.append($('<td/>').addClass('discountTitle').attr('title',discount['info'])
