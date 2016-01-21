@@ -24,3 +24,9 @@ function hideLoader() {
 function getFloat(number) {
 	return parseFloat(number);
 }
+// this ill handle logout button
+$(document).on('ready',function(){
+	$('.logout').on('click',function(){
+		window.location.href = 'index.html';
+	});
+});
