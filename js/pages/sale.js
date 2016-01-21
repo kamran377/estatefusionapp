@@ -1,6 +1,7 @@
 /**
 	* Events - Start - Sale Page
 	*/
+var sfw;
 $(document).on("pageshow","#salePage",function() {
 	// show loading spinner to load data from server
 	showLoader(/* from utils.js */);
@@ -20,7 +21,7 @@ function applyWizard() {
 	hideLoader(/* from utils.js*/);
 	$('#saleContent').show();
 	var i = 0;
-	var sfw = $("#wizard_example").stepFormWizard({
+	sfw = $("#wizard_example").stepFormWizard({
 		height: 'auto',
 		theme:'circle',
 		transition:'slide',
@@ -43,6 +44,7 @@ function applyWizard() {
 			if(to == 2) {
 				handleTermsPage(sfw);
 			}
+				
 		}
 	});
 	$("#wizard_example").on('sf-step-before', function(e, from, to, data) {
@@ -52,11 +54,16 @@ function applyWizard() {
 			handleCustomerData(e,sfw)/* from sale-seller.js*/;
 			sfw.refresh();
 		}
-		if(from == 1) {
+		if(from == 1 && to == 2) {
+			alert(1);
 			// this function will handle saving customer data to the localdb	
 			handleServiceData(e)/* from sale-services.js*/;
 			
 		}
+		if(from == 2) {
+			checkTermsAcceptance(e)/* from sale-terms.js*/;	
+		}
+		
 		//e.preventDefault(); // this you have to call if you need to interrupt transition to next step
 	});
 }

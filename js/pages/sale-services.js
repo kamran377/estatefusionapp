@@ -193,6 +193,7 @@ function attachServicesEvents() {
 	});
 	// change event for the confirm selection
 	$(document).on('click','.confirm-checkbox',function(){
+		
 		// get closest column of checkbox
 		$td = $(this).closest('td');
 		// get the index of column
@@ -208,6 +209,10 @@ function attachServicesEvents() {
 		}
 		// check if the discount offer is selected
 		if($('th.' + cls).hasClass('highlighted')) {
+			// check if discount is selected 
+			if($('.discount-checkbox:checked').length < 1) {
+				return false;
+			}
 			var r = confirm('Are you sure you want to confirm this selection, it cannot be reversed');
 			if(r == true) {
 				$('#services-table input[type=checkbox]').prop('disabled',true);
@@ -300,6 +305,7 @@ function displayBundlesData() {
 							// later bundles will only add their values
 							$tr = $('<tr/>')
 								.append($('<td/>')
+									.addClass('tooltip1')
 									.attr({'title':service['info']})
 									.text(service['name']))
 								.append($('<td/>'))
@@ -384,7 +390,7 @@ function displayBundlesData() {
 						var $optionCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="option-checkbox" id="checkbox-option-3'+k+'" type="checkbox"><label for="checkbox-option-3'+k+'">&pound;'+service['price']+'</label></div>');
 							
 						$tr = $('<tr/>').addClass('')
-							.append($('<td/>').addClass('serviceTitle').attr('title',service['info'])
+							.append($('<td/>').addClass('tooltip1 serviceTitle').attr('title',service['info'])
 								.text(service['name']))
 							.append($('<td/>').addClass('options-col').attr('data-price',service['price']).append($optionCheck1))
 							.append($('<td/>').addClass('options-col').attr('data-price',service['price']).append($optionCheck2))
@@ -430,6 +436,16 @@ function displayBundlesData() {
 						.append($('<td/>').html(''))
 						.append($('<td/>').html(''));
 					$('#services-table tbody').append($tr);
+					// add discount options header
+					//apply options header
+					$tr = $('<tr/>').addClass('')
+					.append($('<td/>').addClass('header')
+						.text('Discount Options'))
+					.append($('<td/>').addClass('').html(''))
+					.append($('<td/>').addClass('').html(''))
+					.append($('<td/>').addClass('').html(''));
+					$('#services-table tbody').append($tr);			
+					
 					getAllDiscounts(function(discounts){
 						// get length of discount 
 						var dlen = discounts.length;
@@ -440,7 +456,7 @@ function displayBundlesData() {
 							var $discountCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-3'+p+'" type="checkbox"><label for="checkbox-discount-3'+p+'">'+discount['percentage']+' %</label></div>');
 								
 							$tr = $('<tr/>').addClass('').attr({'data-now':discount['now'],'data-later':discount['later']})
-								.append($('<td/>').addClass('discountTitle').attr('title',discount['info'])
+								.append($('<td/>').addClass('tooltip1 discountTitle').attr('title',discount['info'])
 									.text(discount['name']))
 								.append($('<td/>').addClass('discounts-col').attr('data-percentage',discount['percentage']).append($discountCheck1))
 								.append($('<td/>').addClass('discounts-col').attr('data-percentage',discount['percentage']).append($discountCheck2))
@@ -482,6 +498,8 @@ function displayBundlesData() {
 							.append($('<td/>').addClass('confirm-second').append($confirmCheck2))
 							.append($('<td/>').addClass('confirm-third').append($confirmCheck3));
 						$('#services-table tbody').append($tr);	
+						// attach tooltip
+						$('.tooltip1').tooltipster({'position':'right'});
 						// show the content and apply form wizard
 						applyWizard();
 					})/* from database.js */;
@@ -497,7 +515,7 @@ function displayBundlesData() {
 }
 
 function handleServiceData(e) {
-	if(!$('#checkbox-confirm-1').prop('checked')){
+	if(!$('.confirm-checkbox:checked').length){
 		e.preventDefault();
 	}
 }

@@ -1,3 +1,4 @@
+var formVld;
 function attachSellerEvents() {
 	// event for agency type select
 	$('#agencyType').on('change',function(){
@@ -33,12 +34,16 @@ function attachSellerEvents() {
 			$('#propertyCountry').val($('#homeCountry').val());
 			// copy the home post code to property town
 			$('#propertyCode').val($('#homeCode').val());
+			if (!$.isEmptyObject(formVld.submitted)) {
+				formVld.form();
+			}
 		} 
 	});
 	// the event for checking the percentage checkbox
 	$('#perc-price-check').on('change',function(){
 		$('#fixed-price-check').prop('checked',false);
 		$('#fixedPrice').prop('readonly',true);
+		$('#fixedPrice').val('');
 		$('#percValue').prop('readonly',false);
 	});
 	// the event for checking the percentage checkbox
@@ -46,6 +51,8 @@ function attachSellerEvents() {
 		$('#perc-price-check').prop('checked',false);
 		$('#fixedPrice').prop('readonly',false);
 		$('#percValue').prop('readonly',true);
+		$('#percValue').val('');
+		$('#percAmount').val('');
 	});
 	// update the price
 	$('#percValue').on('change',function(){
@@ -64,7 +71,7 @@ function attachSellerEvents() {
 		}
 	});
 	// this will validate the form values
-	$("#wizard_example").validate({
+	formVld = $("#wizard_example").validate({
 		rules : {
 			'firstName' : {
 				required : true
@@ -137,14 +144,20 @@ function attachSellerEvents() {
 			'percValue': {
 				required :  function(){return $('#perc-price-check').prop('checked');}
 			},
+		},
+		highlight: function(element, errorClass) {
+			sfw.refresh();
+		},
+		unhighlight: function(element, errorClass) {
+			sfw.refresh();
 		}
 	});
 }
 // this function will handle saving customer data to the localdb
 function handleCustomerData(e) {
-	//if(!$("#wizard_example").valid()) {
-		//e.preventDefault();	
-	//} else {
+	if(!$("#wizard_example").valid()) {
+		e.preventDefault();	
+	} else {
 		// we will insert/update customer record
 		// we will update prices for the bundles 
 		if($('#fixed-price-check').prop('checked')) {
@@ -167,9 +180,14 @@ function handleCustomerData(e) {
 					$th.hide();
 					$('#services-table tbody tr td:nth-child('+ index +')').hide();
 				}
+				else
+				{
+					//$('input[type=checkbox]',$th).prop('checked',true);
+					$('input[type=checkbox]',$th).click();
+				}
 			});
 		}
-	//}
+	}
 }
 function updateBundlePrices(price) {
 	price = parseFloat(price);

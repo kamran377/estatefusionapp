@@ -43,9 +43,14 @@ function handleTermsPage(sfw) {
 		var date = moment().format("DD/MM/YYYY");
 		text = text.replace('{date}',date);
 		$('#termsDiv').html(text);
-		
+		sfw.refresh();
 	} /* from database.js*/);
-	setTimeout(function(){sfw.refresh();},1000);
+	//setTimeout(function(){sfw.refresh();},1000);
+}
+function checkTermsAcceptance(e) {
+	if(!$('#checkbox-term-condition').prop('checked')) {
+		e.preventDefault();
+	}
 }
 
 	
