@@ -305,7 +305,7 @@
 											<label>Joint Agent Name</label>
 										</td>
 										<td>
-											<input name='agencyName' id='agencyName' disbaled='disabled' data-role="none" type='text' class='form-control'/>
+											<input name='agencyName' id='agencyName' disabled='disabled' data-role="none" type='text' class='form-control'/>
 										</td>
 									</tr>
 									<tr>
@@ -314,6 +314,10 @@
 										</td>
 										<td class='' colspan=2>
 											<input name='price' id='price' data-role="none" type='text' class='form-control'/>
+											<div class=" checkbox checkbox-success">
+												<input data-role="none" class="add-vat-checkbox" id="add-vat-check" type="checkbox">
+												<label data-role="none" for="add-vat-check">Add VAT</label>
+											</div>
 										</td>
 									</tr>
 									<tr>
@@ -395,18 +399,24 @@
 					</fieldset>
 					<fieldset>
 						<legend>Digital Signature</legend>
+						<a data-role="none" onclick="resetSignature()"; style='margin: 5px 30px;' class='btn btn-default'>Reset</a>
+								
 						<div id="signatureDiv">
 							<div class="row">
 								<div class="col-lg-12">
 									<div id="signature">&nbsp;</div>
 								</div>
+								<div class="col-lg-12">
+									</div>
+								<div class='clearfix;'></div>
 							</div>
 						</div>
 					</fieldset>
 					<fieldset>
 						<legend>Photos</legend>
-						<div id="photod">
-							<input type="file" capture="camera" accept="image/*;capture=camera" id="takePictureField">
+						<div id="photos">
+							<button class='btn btn-primary' data-role="none"  onclick="capturePhotoWithData();">Capture Photo</button>
+							<img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
 						</div>
 					</fieldset>
 					<fieldset>
@@ -453,8 +463,12 @@
 <script src="js/pages/sale-services.js"></script>
 <!-- Include the pages/sale-seller JS -->
 <script src="js/pages/sale-seller.js"></script>
-<!-- Include the pages/sale-seller JS -->
+<!-- Include the pages/sale-terms JS -->
 <script src="js/pages/sale-terms.js"></script>
+<!-- Include the pages/sale-signature JS -->
+<script src="js/pages/sale-signature.js"></script>
+<!-- Include the pages/sale-photo JS -->
+<script src="js/pages/sale-photo.js"></script>
 <script type='text/javascript'>
 $(document).on('ready',function() {
 	

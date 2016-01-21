@@ -2,6 +2,7 @@
 	* Events - Start - Sale Page
 	*/
 var sfw;
+var $sigdiv;
 $(document).on("pageshow","#salePage",function() {
 	// show loading spinner to load data from server
 	showLoader(/* from utils.js */);
@@ -35,10 +36,8 @@ function applyWizard() {
 			if (to == 3) // for signature div
 			{
 				if(i == 0) {
-					var $sigdiv = $("#signature");
-					$sigdiv.jSignature();
+					addSignaturePlugin(sfw);
 					i++;
-					sfw.refresh();
 				}
 			}
 			if(to == 2) {
@@ -54,16 +53,20 @@ function applyWizard() {
 			handleCustomerData(e,sfw)/* from sale-seller.js*/;
 			sfw.refresh();
 		}
+		// form services page to terms page
 		if(from == 1 && to == 2) {
-			alert(1);
 			// this function will handle saving customer data to the localdb	
 			handleServiceData(e)/* from sale-services.js*/;
 			
 		}
-		if(from == 2) {
+		// from terms page to signature page
+		if(from == 2 && to == 3) {
 			checkTermsAcceptance(e)/* from sale-terms.js*/;	
 		}
-		
+		// from signature page to photo page
+		if(from == 3 && to == 4) {
+			checkSignature(e)/* from sale-signature.js*/;	
+		}
 		//e.preventDefault(); // this you have to call if you need to interrupt transition to next step
 	});
 }
