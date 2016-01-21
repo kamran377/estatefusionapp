@@ -118,3 +118,16 @@ div.sf-step:nth-child(4) {
 .form-control.error {
 	border: 1px solid red;
 }
+
+.ui-header .ui-title, .ui-footer .ui-title {
+	padding:0.2em 0 !important;
+	font-size:28px;
+	font-weight:bold;
+}
+.ui-header, .ui-footer {
+	height:45px;
+}
+.btn-default {
+	color: #333531 !important;
+	font-weight:normal !important;
+}
