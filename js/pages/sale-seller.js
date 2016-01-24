@@ -1,5 +1,28 @@
 var formVld;
+var VAT = 20;
 function attachSellerEvents() {
+	// event for VAT checkbox
+	$('#add-vat-check').on('change',function(){
+		if($(this).prop('checked')) {
+			var value = $('#price').val();
+			if(value) {
+				var _value = parseFloat(value);
+				var perc = _value * VAT / 100;
+				var newValue = _value + perc;
+				newValue = newValue.toFixed(2);
+				$('#price').val(newValue);
+			}
+		} else {
+			var value = $('#price').val();
+			if(value) {
+				var _value = parseFloat(value);
+				var perc = _value * VAT / 100;
+				var newValue = _value - perc;
+				newValue = newValue.toFixed(2);
+				$('#price').val(newValue);
+			}
+		}
+	});
 	// event for agency type select
 	$('#agencyType').on('change',function(){
 		if($(this).val() == 3) {
@@ -73,6 +96,9 @@ function attachSellerEvents() {
 	// this will validate the form values
 	formVld = $("#wizard_example").validate({
 		rules : {
+			'ownership' : {
+				required :true,
+			},
 			'firstName' : {
 				required : true
 			},
@@ -213,4 +239,11 @@ function updateBundlePrices(price) {
 		}
 		
 	});
+}
+// this function will disable changes in price
+function disablePriceChanges() {
+	$('#percValue').prop('disabled',true);
+	$('#perc-price-check').prop('disabled',true);
+	$('#fixedPrice').prop('disabled',true);
+	$('#fixed-price-check').prop('disabled',true);
 }				

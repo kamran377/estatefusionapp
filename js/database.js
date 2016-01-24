@@ -8,6 +8,7 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
+var versionNumber = '24/01/2016';
 $(document).on('ready',function(){
 	window.isphone = false;
     if(document.URL.indexOf("http://") === -1 
@@ -26,13 +27,14 @@ $(document).on('ready',function(){
 function onDeviceReady() {
     // do everything here.
 	prepDB();
-	//emptyLocalDB();
+	emptyLocalDB();
 	createWhosemeTable();
 	createBundlesTable();
 	createServicesTable();
 	createDiscountsTable();
 	createCustomersTable();
 	createTermsTable();
+	$('#footer').text(versionNumber);
 }
 // this is the instance used to deal with lcoal storage
 var estateAppDB = null;
@@ -62,6 +64,7 @@ function emptyLocalDB() {
 				tx.executeSql('DROP TABLE bundles');
 				tx.executeSql('DROP TABLE services');
 				tx.executeSql('DROP TABLE discounts');
+				tx.executeSql('DROP TABLE customers');				
 			});
 		}
 	} catch(e) {
@@ -181,7 +184,10 @@ function createCustomersTable() {
 					property_notes TEXT,\
 					agency_type TEXT,\
 					joint_agency_name TEXT,\
-					asking_price TEXT )',
+					asking_price TEXT,\
+					signature TEXT,\
+					photo_1 TEXT,\
+					photo_2 TEXT)',
 					[],
 					onSuccessExecuteSql,
 					onError
@@ -302,7 +308,7 @@ function insertCustomer(customer) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO customers (first_name_1 ,surname_1 ,first_name_2 ,surname_2 ,home_address_1 ,home_address_2 ,home_address_3 ,home_town ,home_county ,home_post ,home_is_property ,mobile_number ,phone_number ,email_1 ,email_2 ,property_address_1 ,property_address_2 ,property_address_3 ,property_town ,proprty_county ,property_postcode ,property_tenure ,property_notes ,agency_type ,joint_agency_name ,asking_price) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+				tx.executeSql('INSERT INTO customers (first_name_1 ,surname_1 ,first_name_2 ,surname_2 ,home_address_1 ,home_address_2 ,home_address_3 ,home_town ,home_county ,home_post ,home_is_property ,mobile_number ,phone_number ,email_1 ,email_2 ,property_address_1 ,property_address_2 ,property_address_3 ,property_town ,proprty_county ,property_postcode ,property_tenure ,property_notes ,agency_type ,joint_agency_name ,asking_price,signature, photo_1,photo_2) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 				,[
 					customer.firstName,customer.surname,
 					customer.firstName2,customer.surname2, 
@@ -314,7 +320,8 @@ function insertCustomer(customer) {
 					customer.propertyAddress + customer.propertyLine1, customer.propertyLine2, customer.propertyLine3,
 					customer.propertyTown, customer.propertyCountry, customer.propertyCode,
 					customer.tenure, customer.notes,
-					customer.agencyType, customer.agencyName,customer.price
+					customer.agencyType, customer.agencyName,customer.price,
+					customer.signature, customer.photo_1, customer.photo_2
 				],
 				function(tx,results){
 					return true;

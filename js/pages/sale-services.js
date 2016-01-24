@@ -216,6 +216,8 @@ function attachServicesEvents() {
 			var r = confirm('Are you sure you want to confirm this selection, it cannot be reversed');
 			if(r == true) {
 				$('#services-table input[type=checkbox]').prop('disabled',true);
+				// disbale changes in price 
+				disablePriceChanges() /* from sale-seller.js*/;
 			} else {
 				return false;
 			}
