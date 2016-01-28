@@ -1,25 +1,70 @@
 var formVld;
 var VAT = 20;
 function attachSellerEvents() {
+	// event for change in price
+	$('#price').on('change',function(){
+		// get the new price
+		var price = $('#price').val();
+		// check if percentage fee is selected
+		// as only percentage fee is dependent on asking price
+		if($('#perc-price-check').prop('checked')) {
+			// get the percentage fee value
+			var value = $('#percValue').val();
+			//if price is non zero
+			if(price) {
+				price = parseFloat(price);
+			} else { // set the price to zero
+				price = 0;
+			}
+			// calculate the new percentage of price
+			var newprice = (value / 100) * price
+			// round of new price to two decimals
+			newprice = newprice.toFixed(2);
+			// now check if VAT is checked to incorporate VAT as well
+			if($('#add-vat-check').prop('checked')) {
+				// calculate VAT fo new fee
+				var perc = newprice * VAT / 100;
+				// add percantage new fee
+				var newValue = parseFloat(newprice + perc);
+				// round of new price to two decimals
+				newValue = newValue.toFixed(2);
+				// set the new fee in the percentage fee field
+				$('#percAmount').val(newValue);
+			} else {
+				// set the value as it is
+				$('#percAmount').val(newprice);
+			}
+		}
+	});
 	// event for VAT checkbox
 	$('#add-vat-check').on('change',function(){
+		var value = 0;
+		var $field;
+		
+		if($('#perc-price-check').prop('checked')) {
+			$field = $('#percAmount');
+			value = $field.val();
+		} else if($('#fixed-price-check').prop('checked')) {
+			$field = $('#fixedPrice');
+			value = $field.val();
+		}
+		
 		if($(this).prop('checked')) {
-			var value = $('#price').val();
 			if(value) {
 				var _value = parseFloat(value);
 				var perc = _value * VAT / 100;
 				var newValue = _value + perc;
 				newValue = newValue.toFixed(2);
-				$('#price').val(newValue);
+				$field.val(newValue);
 			}
 		} else {
-			var value = $('#price').val();
 			if(value) {
-				var _value = parseFloat(value);
-				var perc = _value * VAT / 100;
-				var newValue = _value - perc;
+				var _value = parseFloat($('#price').val());
+				var perc = $('#percValue').val();
+				var newValue = _value * perc / 100;
+				//var newValue = _value + percValue;
 				newValue = newValue.toFixed(2);
-				$('#price').val(newValue);
+				$field.val(newValue);
 			}
 		}
 	});
@@ -67,15 +112,25 @@ function attachSellerEvents() {
 		$('#fixed-price-check').prop('checked',false);
 		$('#fixedPrice').prop('readonly',true);
 		$('#fixedPrice').val('');
-		$('#percValue').prop('readonly',false);
+		if($(this).prop('checked')) {
+			$('#percValue').prop('readonly',false);
+		} else {
+			$('#percValue').prop('readonly',true);
+		}
+		$('#add-vat-check').prop('checked',false);
 	});
 	// the event for checking the percentage checkbox
 	$('#fixed-price-check').on('change',function(){
 		$('#perc-price-check').prop('checked',false);
-		$('#fixedPrice').prop('readonly',false);
+		if($(this).prop('checked')) {
+			$('#fixedPrice').prop('readonly',false);
+		} else {
+			$('#fixedPrice').prop('readonly',true);
+		}
 		$('#percValue').prop('readonly',true);
 		$('#percValue').val('');
 		$('#percAmount').val('');
+		$('#add-vat-check').prop('checked',false);
 	});
 	// update the price
 	$('#percValue').on('change',function(){
@@ -126,9 +181,7 @@ function attachSellerEvents() {
 			'mobile' : {
 				required : true
 			},
-			'phone' : {
-				required : true
-			},
+			
 			'emailPrimary' : {
 				required : true,
 				email:true

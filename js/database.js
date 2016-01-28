@@ -8,7 +8,7 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
-var versionNumber = '24/01/2016';
+var versionNumber = 'V280116.A';
 $(document).on('ready',function(){
 	window.isphone = false;
     if(document.URL.indexOf("http://") === -1 
@@ -27,14 +27,20 @@ $(document).on('ready',function(){
 function onDeviceReady() {
     // do everything here.
 	prepDB();
-	emptyLocalDB();
+	if(!window.location.hash) {
+		emptyLocalDB();
+	}
 	createWhosemeTable();
 	createBundlesTable();
 	createServicesTable();
 	createDiscountsTable();
 	createCustomersTable();
 	createTermsTable();
+	createPropertiesTable();
+	createBundlesPurchasedTable();
+	createBundlesServicesPurchasedTable();
 	$('#footer').text(versionNumber);
+	$('.versionNumber').text(versionNumber);
 }
 // this is the instance used to deal with lcoal storage
 var estateAppDB = null;
@@ -43,7 +49,7 @@ function prepDB() {
 	if (window.openDatabase) {
 		try {
 			// open database
-			estateAppDB = openDatabase('estatefusion','1.0','A place to store agnet data offline',5 * 1024 * 1024);
+			estateAppDB = openDatabase('estatefusion','1.0','A place to store agnet data offline',50 * 1024 * 1024);
 		}
 		catch (e) {
 			console.log(e);
@@ -64,7 +70,10 @@ function emptyLocalDB() {
 				tx.executeSql('DROP TABLE bundles');
 				tx.executeSql('DROP TABLE services');
 				tx.executeSql('DROP TABLE discounts');
-				tx.executeSql('DROP TABLE customers');				
+				tx.executeSql('DROP TABLE customers');
+				tx.executeSql('DROP TABLE properties');
+				tx.executeSql('DROP TABLE bundles_purchased');
+				tx.executeSql('DROP TABLE bundles_services_purchased');				
 			});
 		}
 	} catch(e) {
@@ -187,11 +196,74 @@ function createCustomersTable() {
 					asking_price TEXT,\
 					signature TEXT,\
 					photo_1 TEXT,\
-					photo_2 TEXT)',
+					photo_2 TEXT,\
+					property_term TEXT)',
 					[],
 					onSuccessExecuteSql,
 					onError
 				);
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function creates the properties table
+function createPropertiesTable() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('CREATE TABLE IF NOT EXISTS properties \
+								(id INTEGER PRIMARY KEY AUTOINCREMENT,\
+								customer_id TEXT NOT NULL,\
+								price TEXT NOT NULL,\
+								property_address_1 TEXT,\
+								property_address_2 TEXT,\
+								property_address_3 TEXT,\
+								property_town TEXT,\
+								proprty_county TEXT,\
+								property_postcode TEXT)');
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function creates the bundles_purchased table
+function createBundlesPurchasedTable() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('CREATE TABLE IF NOT EXISTS bundles_purchased \
+							(id INTEGER PRIMARY KEY AUTOINCREMENT,\
+							customer_id TEXT NOT NULL,\
+							property_id TEXT NOT NULL,\
+							bundle_id TEXT NOT NULL,\
+							status TEXT NOT NULL,\
+							cost TEXT,\
+							total_paid_now TEXT,\
+							total_to_pay_on_sale TEXT,\
+							vat TEXT,\
+							default_bundle TEXT,\
+							discount TEXT,\
+							balance_paid_method TEXT)');
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function creates the bundles_services_purchased table
+function createBundlesServicesPurchasedTable() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('CREATE TABLE IF NOT EXISTS bundles_services_purchased \
+							(id INTEGER PRIMARY KEY AUTOINCREMENT,\
+							customer_id TEXT NOT NULL,\
+							property_id TEXT NOT NULL,\
+							bundle_id TEXT NOT NULL,\
+							service_id TEXT NOT NULL)');
 			});
 		}
 	} catch(e) {
@@ -304,11 +376,11 @@ function insertDiscount(discount) {
 	}
 }
 // this function inserts customer data in the local customers table
-function insertCustomer(customer) {
+function insertCustomer(customer,callback) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO customers (first_name_1 ,surname_1 ,first_name_2 ,surname_2 ,home_address_1 ,home_address_2 ,home_address_3 ,home_town ,home_county ,home_post ,home_is_property ,mobile_number ,phone_number ,email_1 ,email_2 ,property_address_1 ,property_address_2 ,property_address_3 ,property_town ,proprty_county ,property_postcode ,property_tenure ,property_notes ,agency_type ,joint_agency_name ,asking_price,signature, photo_1,photo_2) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+				tx.executeSql('INSERT INTO customers (first_name_1 ,surname_1 ,first_name_2 ,surname_2 ,home_address_1 ,home_address_2 ,home_address_3 ,home_town ,home_county ,home_post ,home_is_property ,mobile_number ,phone_number ,email_1 ,email_2 ,property_address_1 ,property_address_2 ,property_address_3 ,property_town ,proprty_county ,property_postcode ,property_tenure ,property_notes ,agency_type ,joint_agency_name ,asking_price,signature, photo_1,photo_2,property_term) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 				,[
 					customer.firstName,customer.surname,
 					customer.firstName2,customer.surname2, 
@@ -316,19 +388,19 @@ function insertCustomer(customer) {
 					customer.homeTown, customer.homeCountry, customer.homeCode,
 					customer.sameAddress,
 					customer.mobile, customer.phone,
-					customer.emailPrimary, customer.emailSecondary,
+					customer.primaryEmail, customer.secondaryEmail,
 					customer.propertyAddress + customer.propertyLine1, customer.propertyLine2, customer.propertyLine3,
 					customer.propertyTown, customer.propertyCountry, customer.propertyCode,
-					customer.tenure, customer.notes,
+					customer.propertyTenure, customer.notes,
 					customer.agencyType, customer.agencyName,customer.price,
-					customer.signature, customer.photo_1, customer.photo_2
+					customer.signature, customer.photo_1, customer.photo_2,customer.term
 				],
 				function(tx,results){
-					return true;
+					callback(true,results);
 				},
 				function(tx,error){
 					console.log(error.message);
-					return false;
+					callback(false,error);
 				});
 			});
 		}
@@ -345,6 +417,82 @@ function insertTerms(terms) {
 				,[terms.id,terms.terms,],
 				function(tx,results){
 					return true;
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function inserts properties in the local properties table
+function insertProperty(property,callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('INSERT INTO properties (customer_id,price,property_address_1,property_address_2,property_address_3,property_town,proprty_county,property_postcode ) values (?,?,?,?,?,?,?,?)'
+				,[
+					property.customer_id,property.price,
+					property.propertyAddress + property.propertyLine1,
+					property.propertyLine2, property.propertyLine3,
+					property.propertyTown, property.propertyCountry, property.propertyCode
+					
+				],
+				function(tx,results){
+					callback(true,results) ;
+				},
+				function(tx,error){
+					console.log(error.message);
+					callback(false,error) ;
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function inserts purchased bundle in the local bundles_purchased table
+function insertPurchasedBundle(bundle, callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('INSERT INTO bundles_purchased (customer_id,property_id,bundle_id,status,cost,total_paid_now,total_to_pay_on_sale,balance_paid_method,vat,default_bundle,discount) values (?,?,?,?,?,?,?,?,?,?,?)'
+				,[
+					bundle.customer_id,bundle.property_id,
+					bundle.bundle_id , bundle.status,
+					bundle.cost, bundle.payNow,
+					bundle.payLater, bundle.paymentMethod,
+					bundle.vat, bundle.default_bundle,bundle.discount
+				],
+				function(tx,results){
+					callback(true,results);
+				},
+				function(tx,error){
+					console.log(error.message);
+					callback(false,error);
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function inserts purchased bundle service in the local bundles_services_purchased table
+function insertPurchasedBundleService(service, callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('INSERT INTO bundles_services_purchased (customer_id,property_id,bundle_id,service_id) values (?,?,?,?)'
+				,[
+					service.customer_id,service.property_id,
+					service.bundle_id , service.service_id
+					
+				],
+				function(tx,results){
+					callback(true,results);
+				},
+				function(tx,error){
+					console.log(error.message);
+					callback(false,error);
 				});
 			});
 		}
@@ -424,14 +572,14 @@ function emptyDiscountsTable(){
 	}
 }
 //empty the terms table for insertion of new terms data
-function emptyTermsTable(){
+function emptyTermsTable(callback){
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('delete from terms'
 				,[],
 				function(tx,results){
-					return true;
+					callback();
 				});
 			});
 		}
@@ -458,7 +606,7 @@ function getAccessToken(callback) {
 						var access_token = row['access_token'];
 						callback( access_token);
 					} else {
-						return callback("");
+						callback("");
 					}
 				});
 			});
@@ -578,6 +726,28 @@ function getTerms(callback) {
 						callback(row);
 					}
 					
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// This function returns all the customers stored in the local db
+function getCustomers(callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from customers'
+				,[],
+				function(tx,results){
+					var len = results.rows.length;
+					var array = [];
+					for(var i=0; i<len; i++) {
+						var row = results.rows.item(i);
+						array.push(row);
+					}
+					callback(array);
 				});
 			});
 		}

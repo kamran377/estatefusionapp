@@ -177,9 +177,10 @@ function attachServicesEvents() {
 				var _now = $td.closest('tr').attr('data-now');
 				var now = getFloat(_now) /* from utils.js*/;
 				var payNow = discountedTotal * ( now / 100);
-				payNow = payNow.toFixed(2);
 				// get pay later
 				var payLater = discountedTotal - payNow;
+				
+				payNow = payNow.toFixed(2);
 				payLater = payLater.toFixed(2);
 				// update the pay now and later columns
 				$('#services-table .total-price-now .total-now-' + cls + ' span').text(payNow);
@@ -221,6 +222,43 @@ function attachServicesEvents() {
 			} else {
 				return false;
 			}
+		} else {
+			return false;
+		}
+	});
+	
+	// change event for the save draft selection
+	$(document).on('click','.draft-checkbox',function(){
+		
+		// get closest column of checkbox
+		$td = $(this).closest('td');
+		// get the index of column
+		var index = $('#services-table tbody tr td').index($td);
+		// get the index of td in its row
+		index = (index % 4) + 1;
+		// get the row class
+		var cls ='first';
+		if(index == 3) {
+			cls = 'second';
+		} else if(index == 4) {
+			cls = 'third';
+		}
+		// check if the discount offer is selected
+		if($('th.' + cls).hasClass('highlighted')) {
+			// check if discount is selected 
+			if($('.discount-checkbox:checked').length < 1) {
+				return false;
+			}
+			// save the customer draft data in local db
+			saveCustomer(true,function(status){
+				if(status == true) {
+					alert('Customer details saved successfully in db');
+					// take the agent back to welcome screen
+					loadWelcomePage() /* from utils.js*/;
+				}
+			})/* from utils.js */;
+			
+			
 		} else {
 			return false;
 		}
@@ -320,10 +358,10 @@ function displayBundlesData() {
 						$tr = $('#services-table tbody tr:nth-child('+ (k+1) +')');
 						
 						if(service.free == 'true') {
-							var $serviceCheck = $('<div class="checkbox checkbox-success checkbox-circle"><input checked="checked" disabled="disabled" class="service-checkbox" id="checkbox-service-'+colIndex+'-'+k+'" type="checkbox"><label for="checkbox-service-'+colIndex+'-'+k+'">&nbsp;</label></div>');
+							var $serviceCheck = $('<div class="checkbox checkbox-success checkbox-circle"><input checked="checked" disabled="disabled" data-name="'+service['name']+'" class="service-checkbox service-checkbox-free" id="checkbox-service-'+colIndex+'-'+k+'" type="checkbox"><label for="checkbox-service-'+colIndex+'-'+k+'">&nbsp;</label></div>');
 							$('td:nth-child(' + colIndex + ')', $tr).addClass(cls).append($serviceCheck);
 						} else {
-							var $serviceCheck = $('<div class="checkbox checkbox-success checkbox-circle"><input class="service-checkbox" id="checkbox-service-'+colIndex+'-'+k+'" type="checkbox"><label for="checkbox-service-'+colIndex+'-'+k+'">&pound;'+service['price']+'</label></div>');
+							var $serviceCheck = $('<div class="checkbox checkbox-success checkbox-circle"><input class="service-checkbox service-checkbox-paid" data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'"  data-name="'+service['name']+'" id="checkbox-service-'+colIndex+'-'+k+'" type="checkbox"><label for="checkbox-service-'+colIndex+'-'+k+'">&pound;'+service['price']+'</label></div>');
 							$('td:nth-child(' + colIndex + ')', $tr).attr('data-price',service['price']).addClass(cls).append($serviceCheck);	
 						}	
 					}
@@ -387,9 +425,9 @@ function displayBundlesData() {
 					// loop through the services
 					for(var k=0;k<klen;k++) {
 						var service = bundleservices[k];
-						var $optionCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="option-checkbox" id="checkbox-option-1'+k+'" type="checkbox"><label for="checkbox-option-1'+k+'">&pound;'+service['price']+'</label></div>');
-						var $optionCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="option-checkbox" id="checkbox-option-2'+k+'" type="checkbox"><label for="checkbox-option-2'+k+'">&pound;'+service['price']+'</label></div>');
-						var $optionCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="option-checkbox" id="checkbox-option-3'+k+'" type="checkbox"><label for="checkbox-option-3'+k+'">&pound;'+service['price']+'</label></div>');
+						var $optionCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'" data-name="'+service['name']+'" class="option-checkbox" id="checkbox-option-1'+k+'" type="checkbox"><label for="checkbox-option-1'+k+'">&pound;'+service['price']+'</label></div>');
+						var $optionCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'" data-name="'+service['name']+'" class="option-checkbox" id="checkbox-option-2'+k+'" type="checkbox"><label for="checkbox-option-2'+k+'">&pound;'+service['price']+'</label></div>');
+						var $optionCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'" data-name="'+service['name']+'" class="option-checkbox" id="checkbox-option-3'+k+'" type="checkbox"><label for="checkbox-option-3'+k+'">&pound;'+service['price']+'</label></div>');
 							
 						$tr = $('<tr/>').addClass('')
 							.append($('<td/>').addClass('tooltip1 serviceTitle').attr('title',service['info'])
@@ -453,9 +491,9 @@ function displayBundlesData() {
 						var dlen = discounts.length;
 						for(var p = 0; p < dlen; p++) {
 							var discount = discounts[p];
-							var $discountCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-1'+p+'" type="checkbox"><label for="checkbox-discount-1'+p+'">'+discount['percentage']+' %</label></div>');
-							var $discountCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-2'+p+'" type="checkbox"><label for="checkbox-discount-2'+p+'">'+discount['percentage']+' %</label></div>');
-							var $discountCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="discount-checkbox" id="checkbox-discount-3'+p+'" type="checkbox"><label for="checkbox-discount-3'+p+'">'+discount['percentage']+' %</label></div>');
+							var $discountCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-percentage="'+discount['percentage']+'" data-info="'+discount['info']+'" class="discount-checkbox" id="checkbox-discount-1'+p+'" type="checkbox"><label for="checkbox-discount-1'+p+'">'+discount['percentage']+' %</label></div>');
+							var $discountCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-percentage="'+discount['percentage']+'" data-info="'+discount['info']+'" class="discount-checkbox" id="checkbox-discount-2'+p+'" type="checkbox"><label for="checkbox-discount-2'+p+'">'+discount['percentage']+' %</label></div>');
+							var $discountCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-percentage="'+discount['percentage']+'" data-info="'+discount['info']+'" class="discount-checkbox" id="checkbox-discount-3'+p+'" type="checkbox"><label for="checkbox-discount-3'+p+'">'+discount['percentage']+' %</label></div>');
 								
 							$tr = $('<tr/>').addClass('').attr({'data-now':discount['now'],'data-later':discount['later']})
 								.append($('<td/>').addClass('tooltip1 discountTitle').attr('title',discount['info'])
@@ -500,6 +538,18 @@ function displayBundlesData() {
 							.append($('<td/>').addClass('confirm-second').append($confirmCheck2))
 							.append($('<td/>').addClass('confirm-third').append($confirmCheck3));
 						$('#services-table tbody').append($tr);	
+						// add the draft checkbox now
+						var $draftCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="draft-checkbox" id="checkbox-draft-1" type="checkbox"><label for="checkbox-draft-1">Save Draft</label></div>');
+						var $draftCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="draft-checkbox" id="checkbox-draft-2" type="checkbox"><label for="checkbox-draft-2">Save Draft</label></div>');
+						var $draftCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="draft-checkbox" id="checkbox-draft-3" type="checkbox"><label for="checkbox-draft-3">Save Draft</label></div>');
+						$tr = $('<tr/>').addClass('draft-row')
+							.append($('<td/>').addClass('')
+								.text('Save as Draft'))
+							.append($('<td/>').addClass('draft-first').append($draftCheck1))
+							.append($('<td/>').addClass('draft-second').append($draftCheck2))
+							.append($('<td/>').addClass('draft-third').append($draftCheck3));
+						$('#services-table tbody').append($tr);	
+						
 						// attach tooltip
 						$('.tooltip1').tooltipster({'position':'right'});
 						// show the content and apply form wizard
@@ -520,6 +570,39 @@ function handleServiceData(e) {
 	if(!$('.confirm-checkbox:checked').length){
 		e.preventDefault();
 	}
+}
+
+// this function will return the purchased bundle
+function getPurchasedBundle() {
+	$th = $('#services-table thead tr th.highlighted');
+	return $th;
+}
+// this function will return payables object
+function getPayableObject() {
+	var $th = getPurchasedBundle();
+	index = $('#services-table thead tr th').index($th);
+	index = index + 1;
+	var now = $('#services-table tbody tr.total-price-now td:nth-child('+index+') span').text();
+	var later = $('#services-table tbody tr.total-price-later td:nth-child('+index+') span').text();
+	var total = parseFloat(now) + parseFloat(later);
+	total = total.toFixed(2);	
+	return {
+		'payNow':now,
+		'payLater':later,
+		'total':total
+	};
+}
+// this function will return the services purchased in bundle
+function getPurchasedServices() {
+	return $('#services-table td.highlighted .service-checkbox-paid:checked');
+}
+// this function will return the options purchased
+function getPurchasedOptions() {
+	return $('#services-table .option-checkbox:checked');
+}
+// this function will return the discount selected
+function getSelectedDiscount() {
+	return $('#services-table .discount-checkbox:checked');
 }
 /**
 * Functions - End - Sale Page

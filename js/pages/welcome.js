@@ -2,7 +2,7 @@ $(document).on('ready',function() {
 	/**
 	* Events - Start - Welcome Page
 	*/
-	$(document).on("pageshow","#welcomePage",function() { // When entering welcomePage
+	$(document).on("pagebeforecreate","#welcomePage",function() { // When entering welcomePage
 		if(isDeviceOnline() /* from utils.js*/ ) {
 			// show loading spinner to load data from server
 			showLoader(/* from utils.js */);
@@ -13,6 +13,7 @@ $(document).on('ready',function() {
 				if(access_token) {
 					loadBundlesData(access_token);
 					loadTermsData(access_token);
+					loadStoredCustomers();
 				} else {
 					alert('Please login to continue');
 					hideLoader(/* from utils.js */);
@@ -33,12 +34,14 @@ $(document).on('ready',function() {
 function loadTermsData(access_token) {
 	postRequest(TERMS_URL /* from settings.js */,'',access_token, function(obj){
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
-			emptyTermsTable() /* from database.js*/;
-			var terms = obj.result;
-			$.each(terms, function(){
-				var term = this;
-				insertTerms(term); /* from database.js */
-			});
+			emptyTermsTable(function(){
+				var terms = obj.result;
+				$.each(terms, function(){
+					var term = this;
+					insertTerms(term); /* from database.js */
+				});
+			}) /* from database.js*/;
+			
 		}
 	});/* from ajax.js*/
 }
@@ -63,7 +66,25 @@ function loadBundlesData(access_token) {
 		}	
 	});/* from ajax.js*/
 }
-
+// this function will populate the customer table in the page
+function loadStoredCustomers() {
+	getCustomers(function(customers){
+		
+		if(customers.length > 0) {
+			$.each(customers, function(){
+				var customer = this;
+				$tr = $('<tr/>').attr('data-id',customer['id'])
+					.append($('<td/>').text(customer.first_name_1 + ' ' + customer.surname_1))
+					.append($('<td/>').text(customer.home_address_1))
+					.append($('<td/>').css('width','20%').append(
+							$('<a/>').addClass('ui-btn primary-btn').attr({'href':'javascript://','data-id':customer['id']}).text('Continue')
+						));
+				$('#customersTable').append($tr);
+			});
+			$('#customersTableDiv').removeClass('hidden');
+		}
+	})/* from database.js*/;
+}
 // this function load and store bundles data from server to local db
 function loadOptionsData(access_token) {
 	postRequest(OPTIONS_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
@@ -93,7 +114,7 @@ function loadDiscountsData(access_token) {
 			});
 			// load the discounts data from the server
 			hideLoader(/* from utils.js */);
-			alert('Bundles data loaded successfully');
+			//alert('Bundles data loaded successfully');
 			//show the page
 			$('#pageContent').show();
 		}	

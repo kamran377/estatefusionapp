@@ -13,23 +13,39 @@ function handleTermsPage(sfw) {
 		text = text.replace('{seller_details}',sellerDetails);
 		text = text.replace('{price}',$('#price').val());
 		text = text.replace('{tenure}',$('#propertyTenure option:selected').text());
-		var options = '';
-		$.each($('.option-checkbox:checked'),function(){
-			$tr = $(this).closest('tr');
-			var stext = $('td.serviceTitle',$tr).text();
-			options += stext + ',';
+		// get the bundle text 
+		$th = $('#services-table thead tr th.highlighted');
+		var bundleText = $('label', $th).text();
+		// iterate over the free services
+		bundleText += "<h3>Services Included:-</h3>";
+		$('td.highlighted .service-checkbox-free').each(function(){
+			var $check = $(this);	
+			bundleText += '<p class="terms-service">' + $check.attr('data-name') + '</p>';
 		});
-		options = options.replace(/,\s*$/, "");
+		// iterate over the services purchased
+		bundleText += "<h3>Services Purchased:-</h3>";
+		$('td.highlighted .service-checkbox-paid:checked').each(function(){
+			var $check = $(this);	
+			bundleText += '<p class="terms-service">' + $check.attr('data-name') + '<span class="terms-price">-&pound;'+  $check.attr('data-price')+'</span></p>';
+		});
+		// iterate over the options purchased
+		var options = '';
+		$('.option-checkbox:checked').each(function(){
+			var $check = $(this);	
+			options += '<p class="terms-service">' + $check.attr('data-name') + '<span class="terms-price">-&pound;'+ $check.attr('data-price')  +'</span></p>';
+		});
+		
+		//options = options.replace(/,\s*$/, "");
 		var discount = '';
 		$.each($('.discount-checkbox:checked'),function(){
 			$tr = $(this).closest('tr');
 			var stext = $('td.discountTitle',$tr).text();
 			discount += stext;
+			discount += '<p class="terms-service">'+ $(this).attr('data-info')+'</p>';
 		});
-		$th = $('#services-table thead tr th.highlighted');
 		index = $('#services-table thead tr th').index($th);
 		index = index + 1;
-		text = text.replace('{bundle_name}', $('label', $th).text());
+		text = text.replace('{bundle_name}', bundleText);
 		text = text.replace('{options_name}',options);
 		text = text.replace('{discount}',discount);
 		

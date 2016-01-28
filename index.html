@@ -36,7 +36,7 @@
 						<br/>
 						<label for='password'>Password</label>
 						<input class='input-lg' id='password' name="password" type="password" placeholder="Password">
-						<button type='button' name='loginSubmit' id='loginSubmit' class="ui-btn">Login</button>
+						<button type='button' name='loginSubmit' id='loginSubmit' class="ui-btn primary-btn"><i class='fa fa-lock'></i> Login</button>
 				</form>
 				
 			</div>
@@ -52,18 +52,26 @@
 		-->
 		<div id='welcomePage' data-role="page" data-theme="a">
 			<div data-role="header">
+				<a class='btn btn-default ui-btn-left versionNumber' data-role="none">&nbsp;</a>
+				
 				<h1>Estate Fusion</h1>
 				<a class='btn btn-default ui-btn-right logout' data-role="none">Logout</a>
 				<div class='clearfix'></div>
 			</div>
 			<div data-role="content">
 				<div id='pageContent' style='display:none;'>
-					<a href="#salePage" class="ui-btn">Add New Sale</a>
+					<a href="#salePage" class="ui-btn primary-btn"><i class='fa fa-plus'></i> Add New Sale</a>
+					<br/>
+					<div id='customersTableDiv' class='hidden'>
+						<table id='customersTable' class='table table-bordered'>
+							<tbody>
+							
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
-			<div id='footer' data-role="content" data-theme="a">
-					
-			</div>
+			
 		</div>
 		<!---
 		-- Page Welcome End
@@ -73,6 +81,8 @@
 		-->
 		<div id='salePage' data-role="page" data-theme="a">
 			<div data-role="header">
+				<a class='btn btn-default ui-btn-left versionNumber' data-role="none">&nbsp;</a>
+				
 				<h1>Estate Fusion - New Sale</h1>
 				<a class='btn btn-default ui-btn-right logout' data-role="none">Logout</a>
 				<div class='clearfix'></div>
@@ -86,102 +96,76 @@
 							<div class="col-lg-12">
 								<table id='sellerDetailsTable' class='table table-bordered'>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Ownership</label>
-										</td>
-										<td class='' colspan=2>
 											<select name='ownership' id='ownership'  data-role="none" class='form-control'>
 												<option value="">Select Ownership</option>
 												<option value='1'>Single</option>
 												<option value='2'>Double</option>
 											</select>
 										</td>
+										
 									</tr>
 									<tr>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>First Name</label>
-										</td>
-										<td>
 											<input name='firstName' id='firstName' data-role="none" type='text' class='form-control'/>
 										</td>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Surname</label>
-										</td>
-										<td>
 											<input name='surname' id='surname' data-role="none" type='text' class='form-control'/>
 										</td>
 									</tr>
 									<tr id='secondOwner' class='hidden'>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>First Name <br/><span class='text-muted'>(Second Owner)</span></label>
-										</td>
-										<td>
 											<input name='firstName2' id='firstName2' data-role="none" type='text' class='form-control'/>
 										</td>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Surname <br/><span class='text-muted'>(Second Owner)</span></label>
-										</td>
-										<td>
 											<input name='surname2' id='surname2' data-role="none" type='text' class='form-control'/>
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Home Address</label>
-										</td>
-										<td colspan=2>
 											<input name='homeAddress' id='homeAddress' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Line 1</label>
-										</td>
-										<td colspan=2>
 											<input name='homeLine1' id='homeLine1' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Line 2</label>
-										</td>
-										<td colspan=2>
 											<input name='homeLine2' id='homeLine2' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Line 3</label>
-										</td>
-										<td colspan=2>
 											<input name='homeLine3' id='homeLine3' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
 									<tr>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Town</label>
-										</td>
-										<td>
 											<input name='homeTown' id='homeTown' data-role="none" type='text' class='form-control'/>
 										</td>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Country</label>
-										</td>
-										<td>
 											<input name='homeCountry' id='homeCountry' data-role="none" type='text' value='England' class='form-control'/>
 										</td>
 									</tr>
 									<tr>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Post Code</label>
-										</td>
-										<td>
 											<input name='homeCode' id='homeCode' data-role="none" type='text' class='form-control'/>
 										</td>
-										<td class='label'>
-											<label>Property Address</label>
-										</td>
-										<td>
+										<td class='label' colspan=2>
 											<div class=" checkbox checkbox-success">
 												<input data-role="none" class="checkbox-same-checkbox" id="checkbox-same-address" type="checkbox">
 												<label data-role="none" for="checkbox-same-address">This is the property address</label>
@@ -189,90 +173,66 @@
 										</td>
 									</tr>
 									<tr>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Mobile Phone</label>
-										</td>
-										<td>
 											<input name='mobile' id='mobile' data-role="none" type='text' class='form-control'/>
 										</td>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Home Phone</label>
-										</td>
-										<td>
 											<input name='phone' id='phone' data-role="none" type='text' class='form-control'/>
 										</td>
 									</tr>
 									<tr>
-										<td class='label'>
-											<label>Email</label>
-										</td>
-										<td>
+										<td class='label' colspan=2>
+											<label>Email<span class='text-muted'> (Primary)</span></label>
 											<input name='primaryEmail' id='primaryEmail' data-role="none" type='text' class='form-control'/>
 										</td>
-										<td class='label'>
-											<label>Email Secondary</label>
-										</td>
-										<td>
+										<td class='label' colspan=2>
+											<label>Email <span class='text-muted'>(Secondary)</span></label>
 											<input name='secondaryEmail' id='secondaryEmail' data-role="none" type='text' class='form-control'/>
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Property Address</label>
-										</td>
-										<td colspan=2>
 											<input name='propertyAddress' id='propertyAddress' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Line 1</label>
-										</td>
-										<td colspan=2>
 											<input name='propertyLine1' id='propertyLine1' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Line 2</label>
-										</td>
-										<td colspan=2>
 											<input name='propertyLine2' id='propertyLine2' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Line 3</label>
-										</td>
-										<td colspan=2>
 											<input name='propertyLine3' id='propertyLine3' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
 									<tr>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Town</label>
-										</td>
-										<td>
 											<input name='propertyTown' id='propertyTown' data-role="none" type='text' class='form-control'/>
 										</td>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Country</label>
-										</td>
-										<td>
 											<input name='propertyCountry' id='propertyCountry' data-role="none" type='text' value='England' class='form-control'/>
 										</td>
 									</tr>
 									<tr>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Post Code</label>
-										</td>
-										<td>
 											<input name='propertyCode' id='propertyCode' data-role="none" type='text' class='form-control'/>
 										</td>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Property Tenure</label>
-										</td>
-										<td>
 											<select name='propertyTenure' id='propertyTenure'  data-role="none" class='form-control'>
 												<option value="">Property Tenure</option>
 												<option value='1'>Freehold</option
@@ -286,68 +246,77 @@
 									<tr>
 										<td class='label' colspan=2>
 											<label>Notes</label>
-										</td>
-										<td class='' colspan=2>
 											<textarea name='notes' id='notes' class='form-control'></textarea>
+										</td>
+										<td class='label' colspan=2>
+											<label>Term<span class='text-muted'> (No. of Weeks)</span></label>
+											<select name='term' id='term' data-role="none" class='form-control'>
+												<option value=''>Select Term</option>
+												<option value='0'>0</option>
+												<option value='1'>1</option>
+												<option value='2'>2</option>
+												<option value='3'>3</option>
+												<option value='4'>4</option>
+												<option value='5'>5</option>
+												<option value='6'>6</option>
+												<option value='7'>7</option>
+												<option value='8'>8</option>
+												<option value='9'>9</option>
+												<option value='10'>10</option>
+												<option value='11'>11</option>
+												<option value='12'>12</option>
+												<option value='13'>13</option>
+												<option value='14'>14</option>
+												<option value='15'>15</option>
+												<option value='16'>16</option>
+												<option value='17'>17</option>
+												<option value='18'>18</option>
+												<option value='19'>19</option>
+												<option value='20'>20</option>
+												<option value='21'>21</option>
+												<option value='22'>22</option>
+												<option value='23'>23</option>
+												<option value='24'>24</option>
+												<option value='25'>25</option>
+												<option value='26'>26</option>
+											</select>
 										</td>
 									</tr>
 									<tr>
 										<td class='label' colspan=2>
-											<label>Term</label>
-										</td>
-										<td class='' colspan=2>
-											<input name='term' id='term' data-role="none" type='text' class='form-control'/>
-										</td>
-									</tr>
-									<tr>
-										<td class='label'>
 											<label>Agency Type</label>
-										</td>
-										<td>
 											<select name='agencyType' id='agencyType'  data-role="none" class='form-control'>
 												<option value="1">Sole Seller</option>
 												<option value='2'>Sole Agent</option>
 												<option value='3'>Joint Agent </option>
 											</select>
 										</td>
-										<td class='label'>
+										<td class='label' colspan=2>
 											<label>Joint Agent Name</label>
-										</td>
-										<td>
 											<input name='agencyName' id='agencyName' disabled='disabled' data-role="none" type='text' class='form-control'/>
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=2>
+										<td class='label' colspan=4>
 											<label>Asking Price</label>
-										</td>
-										<td class='' colspan=2>
-											<input name='price' id='price' data-role="none" type='text' class='form-control'/>
-											<div class=" checkbox checkbox-success">
-												<input data-role="none" class="add-vat-checkbox" id="add-vat-check" type="checkbox">
-												<label data-role="none" for="add-vat-check">Add VAT</label>
-											</div>
+											<input name='price' id='price' data-role="none" type='text' class='form-control'/>					
 										</td>
 									</tr>
 									<tr>
-										<td class='label' >
+										<td class='label' colspan=2>
 											<div class=" checkbox checkbox-success">
 												<input data-role="none" class="price-check fixed-price-checkbox" id="fixed-price-check" type="checkbox">
 												<label data-role="none" for="fixed-price-check">Fixed Price</label>
 											</div>
-										</td>
-										<td>
 											<label for='fixedPrice'>Amount / Fee</span>
 											<input name='fixedPrice' id='fixedPrice' data-role="none" readonly='readonly' type='text' class='form-control'/>
 											
 										</td>
-										<td class='label' >
+										<td class='label' colspan=2>
 											<div class=" checkbox checkbox-success">
 												<input data-role="none" class="price-check perc-price-checkbox" id="perc-price-check" type="checkbox">
 												<label data-role="none" for="perc-price-check">Percentage</label>
 											</div>
-										</td>
-										<td>
 											<div style='width:30%;float:left;margin-right:5%'>
 												<label for='percValue'>Fee %</label>
 												<input data-role="none" name='percValue' id='percValue' readonly='readonly' type='text' class='form-control'/>
@@ -356,10 +325,17 @@
 												<label for='percAmount'>Amount</label>
 												<input data-role="none" name='percAmount' id='percAmount' readonly='readonly' type='text' class='form-control'/>
 											</div>
+											<div style='padding-bottom:10px;' class='clearfix'></div>
 										</td>
 									</tr>
 									<tr>
-										<td class='label' colspan=4>
+										<td class='label' colspan=2>
+											<div class=" checkbox checkbox-success">
+												<input data-role="none" class="add-vat-checkbox" id="add-vat-check" type="checkbox">
+												<label data-role="none" for="add-vat-check">Add VAT</label>
+											</div>
+										</td>
+										<td class='label' colspan=2>
 											<div class=" checkbox checkbox-success">
 												<input data-role="none" class="default-bundle-checkbox" id="default-bundle-check" type="checkbox">
 												<label data-role="none" for="default-bundle-check">Default Bundle</label>

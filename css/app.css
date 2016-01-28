@@ -112,8 +112,9 @@ div.sf-step:nth-child(4) {
 	vertical-align:middle;
 }
 .error {
-	font-size:.8em !important;
+	font-size:1em !important;
 	color:red;
+	margin-left:10px !important;
 }
 .form-control.error {
 	border: 1px solid red;
@@ -131,4 +132,25 @@ div.sf-step:nth-child(4) {
 .btn-default {
 	color: #333531 !important;
 	font-weight:normal !important;
+}
+.terms-service {
+	margin-left:20px;
+}
+.terms-price {
+	margin-left:30px;
+}
+.checkbox label::after  {
+	margin-left:-18px !important;
+}
+.checkbox-circle.checkbox label::after  {
+	margin-left:-20px !important;
+}
+
+.primary-btn {
+	background: #3388cc !important;
+	color:#fff !important; 
+}
+#customersTable tr td {
+	vertical-align:middle;
+	font-weight:bold;
 }
