@@ -165,7 +165,7 @@ function saveCustomer(isDraft,callback) {
 					// payment method
 					bundle.paymentMethod = "";
 					// vat checkbox checked
-					bundle.vat = $('#add-vat-check').prop('checked');;
+					bundle.vat = 'false';
 					// default_bundle checkbox
 					bundle.default_bundle = defaultBundle;
 					// get the selected discount

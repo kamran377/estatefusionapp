@@ -20,54 +20,13 @@ function attachSellerEvents() {
 			var newprice = (value / 100) * price
 			// round of new price to two decimals
 			newprice = newprice.toFixed(2);
-			// now check if VAT is checked to incorporate VAT as well
-			if($('#add-vat-check').prop('checked')) {
-				// calculate VAT fo new fee
-				var perc = newprice * VAT / 100;
-				// add percantage new fee
-				var newValue = parseFloat(newprice + perc);
-				// round of new price to two decimals
-				newValue = newValue.toFixed(2);
-				// set the new fee in the percentage fee field
-				$('#percAmount').val(newValue);
-			} else {
-				// set the value as it is
-				$('#percAmount').val(newprice);
-			}
+			// set the value as it is
+			$('#percAmount').val(newprice);
+			
 		}
 	});
-	// event for VAT checkbox
-	$('#add-vat-check').on('change',function(){
-		var value = 0;
-		var $field;
-		
-		if($('#perc-price-check').prop('checked')) {
-			$field = $('#percAmount');
-			value = $field.val();
-		} else if($('#fixed-price-check').prop('checked')) {
-			$field = $('#fixedPrice');
-			value = $field.val();
-		}
-		
-		if($(this).prop('checked')) {
-			if(value) {
-				var _value = parseFloat(value);
-				var perc = _value * VAT / 100;
-				var newValue = _value + perc;
-				newValue = newValue.toFixed(2);
-				$field.val(newValue);
-			}
-		} else {
-			if(value) {
-				var _value = parseFloat($('#price').val());
-				var perc = $('#percValue').val();
-				var newValue = _value * perc / 100;
-				//var newValue = _value + percValue;
-				newValue = newValue.toFixed(2);
-				$field.val(newValue);
-			}
-		}
-	});
+	
+	
 	// event for agency type select
 	$('#agencyType').on('change',function(){
 		if($(this).val() == 3) {
@@ -117,7 +76,7 @@ function attachSellerEvents() {
 		} else {
 			$('#percValue').prop('readonly',true);
 		}
-		$('#add-vat-check').prop('checked',false);
+		
 	});
 	// the event for checking the percentage checkbox
 	$('#fixed-price-check').on('change',function(){
@@ -130,7 +89,7 @@ function attachSellerEvents() {
 		$('#percValue').prop('readonly',true);
 		$('#percValue').val('');
 		$('#percAmount').val('');
-		$('#add-vat-check').prop('checked',false);
+		
 	});
 	// update the price
 	$('#percValue').on('change',function(){
@@ -252,10 +211,10 @@ function handleCustomerData(e) {
 				var def = $th.attr('data-default');
 				
 				if(def == 'false') {
-					console.log(def);
+					//console.log(def);
 					var index = $('#services-table thead tr th').index($th);
 					index = index + 1;
-					console.log(index);
+					//console.log(index);
 					$th.hide();
 					$('#services-table tbody tr td:nth-child('+ index +')').hide();
 				}
@@ -264,6 +223,18 @@ function handleCustomerData(e) {
 					//$('input[type=checkbox]',$th).prop('checked',true);
 					$('input[type=checkbox]',$th).click();
 				}
+			});
+		} else {
+			$.each($('#services-table thead tr th'),function(){
+				$th = $(this);
+				var index = $('#services-table thead tr th').index($th);
+				index = index + 1;
+				//console.log(index);
+				$th.show();
+				if($('input[type=checkbox]',$th).prop('checked')) { 
+					$('input[type=checkbox]',$th).click();
+				}
+				$('#services-table tbody tr td:nth-child('+ index +')').show();
 			});
 		}
 	}

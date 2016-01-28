@@ -161,7 +161,7 @@ function attachServicesEvents() {
 			// get double
 			var percentage = getFloat(_percentage) /* from utils.js*/
 			// get the grand total
-			var _total = $('#services-table .total-price .total-' + cls + ' span').text();
+			var _total = $('#services-table .vat-total-price span').text();
 			if(_total == 'Total') {
 				_total = 0;
 			}
@@ -292,8 +292,21 @@ function updateTotals(cls) {
 	var secondprice = getFloat(_secondprice) /* from utils.js*/;
 	// calculate final price
 	var total = firstprice + secondprice;
-	// update the grand total
+	// update the total without VAT
 	$('#services-table .total-price .total-' + cls + ' span').text(total);
+	// calculate the VAT
+	total  = getFloat(total) /* from utils.js*/;
+	var vatTotal = total * VAT / 100;
+	vatTotal = getFloat(vatTotal) /* from utils.js*/;
+	
+	// update the VAT column
+	$('#services-table .vat-price span').text(vatTotal.toFixed(2));
+	// calculate the grand total
+	var grandTotal = total + vatTotal;
+	grandTotal = getFloat(grandTotal) /* from utils.js*/;
+	grandTotal = grandTotal.toFixed(2);
+	// update the grand total column
+	$('#services-table .vat-total-price span').text(grandTotal);
 }
 // this function will fetch services data from local db
 // and display the data in the table
@@ -462,6 +475,34 @@ function displayBundlesData() {
 						.append($('<td/>').addClass('total-second').html('&pound; <span>Total</span>'))
 						.append($('<td/>').addClass('total-third').html('&pound; <span>Total</span>'));
 					$('#services-table tbody').append($tr);
+					//adding empty row
+					$tr = $('<tr/>').addClass('')
+						.append($('<td/>').addClass('')
+							.text(''))
+						.append($('<td/>').html(''))
+						.append($('<td/>').html(''))
+						.append($('<td/>').html(''));
+					$('#services-table tbody').append($tr);
+					// add the VAT price row
+					$tr = $('<tr/>').addClass('vat-price')
+						.append($('<td/>').addClass('price')
+							.text('Total VAT @ 20%'))
+						.append($('<td/>').attr('colspan',3).addClass('vat-price').html('&pound; <span>Total VAT</span>'));
+					$('#services-table tbody').append($tr);
+					//adding empty row
+					$tr = $('<tr/>').addClass('')
+						.append($('<td/>').addClass('')
+							.text(''))
+						.append($('<td/>').html(''))
+						.append($('<td/>').html(''))
+						.append($('<td/>').html(''));
+					$('#services-table tbody').append($tr);
+					// add the total including VAT row
+					$tr = $('<tr/>').addClass('vat-total-price')
+						.append($('<td/>').addClass('price')
+							.text('Total Including VAT'))
+						.append($('<td/>').attr('colspan',3).addClass('vat-total-price').html('&pound; <span>Grand Total</span>'));
+					$('#services-table tbody').append($tr);
 					/**
 					* Display - Options End
 					*/
@@ -477,7 +518,7 @@ function displayBundlesData() {
 						.append($('<td/>').html(''));
 					$('#services-table tbody').append($tr);
 					// add discount options header
-					//apply options header
+					//apply discounts header
 					$tr = $('<tr/>').addClass('')
 					.append($('<td/>').addClass('header')
 						.text('Discount Options'))
