@@ -8,7 +8,7 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
-var versionNumber = 'V280116.B';
+var versionNumber = 'V290116.A';
 $(document).on('ready',function(){
 	window.isphone = false;
     if(document.URL.indexOf("http://") === -1 
