@@ -38,6 +38,7 @@
 						<label for='password'>Password</label>
 						<input class='input-lg' id='password' name="password" type="password" placeholder="Password">
 						<button type='button' name='loginSubmit' id='loginSubmit' class="ui-btn primary-btn"><i class='fa fa-lock'></i> Login</button>
+						<button type='button' name='loginSubmit' id='loginSubmit' class="ui-btn"><i class='fa fa-times'></i> Close App</button>
 				</form>
 				
 			</div>
@@ -399,11 +400,11 @@
 							<table class="table">
 								<tr>
 									<td>
-										<button class='ui-btn primary-btn' data-role="none"  onclick="capturePhotoWithData();">Capture Photo</button>
+										<button class='ui-btn primary-btn' data-role="none"  onclick="capturePhotoWithData();"><i class='fa fa-camera'></i> Capture Photo</button>
 										<img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
 									</td>
 									<td id='secondPhoto' class='hidden'>
-										<button class='ui-btn primary-btn' data-role="none"  onclick="capturePhotoWithData2();">Capture Photo 2</button>
+										<button class='ui-btn primary-btn' data-role="none"  onclick="capturePhotoWithData2();"><i class='fa fa-camera'></i> Capture Photo 2</button>
 										<img style="display:none;width:60px;height:60px;" id="smallImage2" src="" />
 									</td>
 								</tr>

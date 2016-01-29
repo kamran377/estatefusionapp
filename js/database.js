@@ -41,6 +41,11 @@ function onDeviceReady() {
 	createBundlesServicesPurchasedTable();
 	$('#footer').text(versionNumber);
 	$('.versionNumber').text(versionNumber);
+	document.addEventListener("backbutton", onBackKeyDown, false);
+	
+}
+function onBackKeyDown(e) {
+	e.preventDefault();
 }
 // this is the instance used to deal with lcoal storage
 var estateAppDB = null;
