@@ -232,5 +232,8 @@ $(document).on('ready',function(){
 	$('.logout').on('click',function(){
 		window.location.href = 'index.html#';
 	});
+	$('#exitApp').on('click',function(){
+		navigator.app.exitApp(); // To exit the app!
+	});
 });
 
