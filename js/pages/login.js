@@ -71,10 +71,10 @@ function checkOnlineLogin() {
 		}
 	})
 	.fail(function() {
-		alert( "Login Failed" );
+		hideLoader(/* from utils.js */);
 	})
 	.always(function() {
-		$('#spinner').hide();
+		hideLoader(/* from utils.js */);
 	});
 }
 /**

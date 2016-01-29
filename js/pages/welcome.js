@@ -2,7 +2,7 @@ $(document).on('ready',function() {
 	/**
 	* Events - Start - Welcome Page
 	*/
-	$(document).on("pagebeforecreate","#welcomePage",function() { // When entering welcomePage
+	$(document).on("pageshow","#welcomePage",function() { // When entering welcomePage
 		if(isDeviceOnline() /* from utils.js*/ ) {
 			// show loading spinner to load data from server
 			showLoader(/* from utils.js */);

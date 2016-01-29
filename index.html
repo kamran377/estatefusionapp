@@ -396,8 +396,18 @@
 					<fieldset>
 						<legend>Photos</legend>
 						<div id="photos">
-							<button class='btn btn-primary' data-role="none"  onclick="capturePhotoWithData();">Capture Photo</button>
-							<img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+							<table class="table">
+								<tr>
+									<td>
+										<button class='ui-btn primary-btn' data-role="none"  onclick="capturePhotoWithData();">Capture Photo</button>
+										<img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+									</td>
+									<td id='secondPhoto' class='hidden'>
+										<button class='ui-btn primary-btn' data-role="none"  onclick="capturePhotoWithData2();">Capture Photo 2</button>
+										<img style="display:none;width:60px;height:60px;" id="smallImage2" src="" />
+									</td>
+								</tr>
+							</div>
 						</div>
 					</fieldset>
 					<fieldset>
