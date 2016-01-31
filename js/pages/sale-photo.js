@@ -20,6 +20,7 @@ function onFail(message) {
 function onPhotoDataSuccess(imageData) {
   // Get image handle
   //
+  alert(1);
   var smallImage = document.getElementById('smallImage');
   // Unhide image elements
   //
