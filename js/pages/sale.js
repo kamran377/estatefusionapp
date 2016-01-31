@@ -26,6 +26,8 @@ function applyWizard() {
 		height: 'auto',
 		theme:'circle',
 		transition:'slide',
+		nextBtn:$('<a class="next-btn sf-right sf-btn primary-btn" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
+		prevBtn:$('<a class="prev-btn sf-left sf-btn  primary-btn" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		onNext: function(from, data) {
 			if(from == 0) {
 				;
@@ -66,6 +68,9 @@ function applyWizard() {
 		// from signature page to photo page
 		if(from == 3 && to == 4) {
 			checkSignature(e)/* from sale-signature.js*/;	
+			if($('#ownership').val() == 2) {
+				$('#secondPhoto').removeClass('hidden');
+			}
 		}
 		//e.preventDefault(); // this you have to call if you need to interrupt transition to next step
 	});

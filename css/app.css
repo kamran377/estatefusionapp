@@ -154,3 +154,17 @@ div.sf-step:nth-child(4) {
 	vertical-align:middle;
 	font-weight:bold;
 }
+#photos {
+	padding:2% 5%;
+}
+div.photo-cover {
+	width: 415px;
+	height: 515px;
+    margin: 0 auto;
+	    padding: 1%;
+}
+div.photo-cover img {
+	width:100%;
+	border:1px solid #ccc;
+}
+
