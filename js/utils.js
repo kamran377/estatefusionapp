@@ -8,7 +8,13 @@
  * This file contains the general utility methods used in the app
  *
  *************************************************/
-// this function returns whether the device is online or offline
+$( document ).bind( "mobileinit", function() {
+    // Make your jQuery Mobile framework configuration changes here!
+	$.support.cors = true;
+    $.mobile.allowCrossDomainPages = true;
+	
+});
+ // this function returns whether the device is online or offline
 function isDeviceOnline() {
 	return navigator.onLine;
 }
