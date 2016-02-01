@@ -81,6 +81,9 @@ button,
 label {
 	color:#000;
 }
+#sellerDetailsTable tr td {
+	width:25%;
+}
 td.label {
 	background:#efefef;
 	vertical-align: middle;
