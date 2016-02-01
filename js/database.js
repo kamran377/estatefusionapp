@@ -8,7 +8,7 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
-var versionNumber = 'V290116.A';
+var versionNumber = 'V010216.A';
 $(document).on('ready',function(){
 	window.isphone = false;
     if(document.URL.indexOf("http://") === -1 
@@ -28,7 +28,7 @@ function onDeviceReady() {
     // do everything here.
 	prepDB();
 	if(!window.location.hash) {
-		emptyLocalDB();
+		//emptyLocalDB();
 	}
 	createWhosemeTable();
 	createBundlesTable();
