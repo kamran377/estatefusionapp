@@ -1,19 +1,13 @@
-//var sayCheese = new SayCheese('#smallImage', { snapshots: true });
 // this function will capture customer photo
 function capturePhotoWithData() {
 	// Take picture using device camera and retrieve image as base64-encoded string
 	navigator.camera.getPicture(onPhotoDataSuccess, onFail, {sourceType:1, quality: 25,targetWidth: 415,targetHeight: 515,allowEdit : false,  destinationType: Camera.DestinationType.DATA_URL});
-	//var width = 415, height = 515;
-	//sayCheese.takeSnapshot(width, height);
 }
-/*sayCheese.on('snapshot', function(snapshot) {
-  // do something with a snapshot canvas element, when taken
-  console.log(snapshot);
-});*/
+
 // this function will capture customer photo
 function capturePhotoWithData2() {
 	// Take picture using device camera and retrieve image as base64-encoded string
-	navigator.camera.getPicture(onPhotoDataSuccess2, onFail, {sourceType:1, quality: 25,targetWidth: 415,targetHeight: 515 });
+	navigator.camera.getPicture(onPhotoDataSuccess2, onFail, {sourceType:1, quality: 25,targetWidth: 415,targetHeight: 515,allowEdit : false,  destinationType: Camera.DestinationType.DATA_URL});
 }
 // Called if something bad happens.
 // 
