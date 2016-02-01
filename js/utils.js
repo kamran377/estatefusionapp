@@ -241,5 +241,8 @@ $(document).on('ready',function(){
 	$('#exitApp').on('click',function(){
 		navigator.app.exitApp(); // To exit the app!
 	});
+	$('#wizard_example').on('submit',function(){
+		return false;
+	});
 });
 
