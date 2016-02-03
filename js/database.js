@@ -10,6 +10,7 @@
  *************************************************/
 var versionNumber = 'V'+moment().format('DDMMYY')+'.B';
 $(document).on('ready',function(){
+	FastClick.attach(document.body);
 	window.isphone = false;
     if(document.URL.indexOf("http://") === -1 
         && document.URL.indexOf("https://") === -1) {

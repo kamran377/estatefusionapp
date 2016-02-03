@@ -75,6 +75,8 @@ function attachSellerEvents() {
 			$('#percValue').prop('readonly',false);
 		} else {
 			$('#percValue').prop('readonly',true);
+			$('#percValue').val('');
+			$('#percAmount').val('');
 		}
 		
 	});
@@ -85,6 +87,7 @@ function attachSellerEvents() {
 			$('#fixedPrice').prop('readonly',false);
 		} else {
 			$('#fixedPrice').prop('readonly',true);
+			$('#fixedPrice').val('');
 		}
 		$('#percValue').prop('readonly',true);
 		$('#percValue').val('');

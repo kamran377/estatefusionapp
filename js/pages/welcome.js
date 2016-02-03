@@ -81,6 +81,9 @@ function loadStoredCustomers() {
 							$('<a/>').addClass('btn btn-primary continue-draft').attr({'href':'javascript://','data-id':customer['id']}).text('Continue ').append($('<i class="fa fa-arrow-right"></i>'))
 						)
 						.append(
+							$("<div/>").addClass('clearfix visible-xs').css({'height': '10px'})
+						)
+						.append(
 							$('<a/>').addClass('btn btn-danger delete-draft').attr({'href':'javascript://','data-id':customer['id']}).text(' Delete').prepend($('<i class="fa fa-times"></i>'))
 						)
 					);
