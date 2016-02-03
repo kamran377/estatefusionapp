@@ -26,8 +26,8 @@ function applyWizard() {
 		height: 'auto',
 		theme:'circle',
 		transition:'none',
-		nextBtn:$('<a class="next-btn sf-right sf-btn primary-btn" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
-		prevBtn:$('<a class="prev-btn sf-left sf-btn  primary-btn" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
+		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
+		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		onNext: function(from, data) {
 			if(from == 0) {
 				;

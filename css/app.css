@@ -12,17 +12,16 @@ button,
 	font-family: 'Open Sans' !important;
 }
 .logo {
-	margin:0 auto;
+	
 	text-align:center;
-	width:50%;
+	
 }
 
 .logo img {
-
+	    display: inline-block;
 }
 #loginForm {
-	margin:0 auto;
-	width:50%;
+	
 }
 .login form {
 	margin:10% 5%;
@@ -149,9 +148,10 @@ div.sf-step:nth-child(4) {
 	margin-left:-20px !important;
 }
 
-.primary-btn {
+.btn-primary {
 	background: #3388cc !important;
 	color:#fff !important; 
+	border: 1px solid #3388cc !important;
 }
 #customersTable tr td {
 	vertical-align:middle;
@@ -170,4 +170,17 @@ div.photo-cover img {
 	width:100%;
 	border:1px solid #ccc;
 }
-
+.connectionIcon {
+	margin-left:20px;
+}
+.btn.btn-danger,
+.btn.btn-primary {
+	color:#fff !important;
+}
+#startAgain{z-index: 999;}
+.btn-primary.continue-draft {
+	margin-right:10px;
+}
+.btn.new-sale {
+	display:block !important;
+}

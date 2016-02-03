@@ -69,16 +69,21 @@ function loadBundlesData(access_token) {
 // this function will populate the customer table in the page
 function loadStoredCustomers() {
 	getCustomers(function(customers){
-		
+		$('#customersTable tbody').html('');
 		if(customers.length > 0) {
 			$.each(customers, function(){
 				var customer = this;
 				$tr = $('<tr/>').attr('data-id',customer['id'])
 					.append($('<td/>').text(customer.first_name_1 + ' ' + customer.surname_1))
 					.append($('<td/>').text(customer.home_address_1))
-					.append($('<td/>').css('width','20%').append(
-							$('<a/>').addClass('ui-btn primary-btn').attr({'href':'javascript://','data-id':customer['id']}).text('Continue')
-						));
+					.append($('<td/>').css('width','20%')
+						.append(
+							$('<a/>').addClass('btn btn-primary continue-draft').attr({'href':'javascript://','data-id':customer['id']}).text('Continue ').append($('<i class="fa fa-arrow-right"></i>'))
+						)
+						.append(
+							$('<a/>').addClass('btn btn-danger delete-draft').attr({'href':'javascript://','data-id':customer['id']}).text(' Delete').prepend($('<i class="fa fa-times"></i>'))
+						)
+					);
 				$('#customersTable').append($tr);
 			});
 			$('#customersTableDiv').removeClass('hidden');

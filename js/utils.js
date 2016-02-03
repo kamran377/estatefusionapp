@@ -18,6 +18,28 @@ $( document ).bind( "mobileinit", function() {
 function isDeviceOnline() {
 	return navigator.onLine;
 }
+// this function will set the connection icon
+function checkConnection() {
+	//alert(window.isphone);
+	if(window.isphone) {
+		var networkState = navigator.connection.type;
+		var cls = "";
+		if(networkState == Connection.NONE) {
+			cls = "connectionIcon fa fa-ban text-danger";
+		} else if (networkState == Connection.WIFI) {
+			cls = "connectionIcon fa fa-wifi";
+		} else {
+			cls = "connectionIcon fa fa-signal";
+		}
+	} else {
+		if(isDeviceOnline()) {
+			cls = "connectionIcon fa fa-wifi";
+		} else {
+			cls = "connectionIcon fa fa-ban text-danger";
+		}
+	}
+	$('div[data-role=page] h1').append($('<i/>').addClass(cls));
+}
 // this function shows the ajax loader
 function showLoader() {
 	$.mobile.loading( "show");
@@ -229,6 +251,15 @@ function saveCustomer(isDraft,callback) {
 	}) /* from database.js */;
 	
 }
+// this will refresh the page
+function refreshPage(page){
+    // Page refresh
+    $.mobile.changePage(page, {
+        allowSamePageTransition: true,
+        transition: 'none',
+        reloadPage: true
+    });
+}
 // this will take back the agent to welcome page
 function loadWelcomePage() {
 	window.location.href = 'index.html#welcomePage';
@@ -243,6 +274,22 @@ $(document).on('ready',function(){
 	});
 	$('#wizard_example').on('submit',function(){
 		return false;
+	});
+	$(document).on('click','.delete-draft',function(){
+		var id = $(this).attr('data-id');
+		var r= confirm('Are you sure you want to delete the draft');
+		if(r == true) {
+			deleteDraftCustomer(id, function(results){
+				alert('Customer Draft deleted successfully');
+				$('#customersTable tr[data-id='+ id +']').remove();
+			});
+		}
+	});
+	$('#startAgain').on('click',function(){
+		var r= confirm('Are you sure you want to start over again');
+		if(r == true) {
+			refreshPage($('#welcomePage'));
+		}
 	});
 });
 

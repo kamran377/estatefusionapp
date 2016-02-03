@@ -42,11 +42,14 @@ function onDeviceReady() {
 	$('#footer').text(versionNumber);
 	$('.versionNumber').text(versionNumber);
 	document.addEventListener("backbutton", onBackKeyDown, false);
-	
+	//var networkState = navigator.network.connection.type;
+	//alert(networkState);
+	checkConnection();
 }
 function onBackKeyDown(e) {
 	e.preventDefault();
 }
+
 // this is the instance used to deal with lcoal storage
 var estateAppDB = null;
 // this function opens up an instance of local storage for the app
@@ -584,6 +587,29 @@ function emptyTermsTable(callback){
 				tx.executeSql('delete from terms'
 				,[],
 				function(tx,results){
+					callback();
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function will delete the draft customer form the local db
+function deleteDraftCustomer(id, callback) {
+	//var sql1 = "delete c,p, b, s from customers c, properties p, bundles_purchased b, bundles_services_purchased s where p.customer_id = c.id and b.property_id = p.id and s.bundle_id = b.id and c.id = ?"
+	var cid = id + '.0';
+	var sql1 = "delete from customers where id = ?";
+	var sql2 = "delete from properties where customer_id = ?";
+	var sql3 = "delete from bundles_purchased where customer_id = ?";
+	var sql4 = "delete from bundles_services_purchased where customer_id = ?";
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql(sql1,[id]);
+				tx.executeSql(sql2,[cid]);
+				tx.executeSql(sql3,[cid]);
+				tx.executeSql(sql4,[cid],function(){
 					callback();
 				});
 			});

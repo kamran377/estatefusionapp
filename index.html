@@ -1,9 +1,10 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		<meta http-equiv="Content-Security-Policy"/>
 		<title>Estate Fusion</title>
+		<link rel="icon" type="image/png" href="favicon.png">
 		<link href='css/open_sans.css' rel='stylesheet' type='text/css'>
 		
 		<link rel="stylesheet" href="themes/estate-fusion.min.css" />
@@ -13,13 +14,18 @@
 		<link rel="stylesheet" href="css/step-form-wizard-all.css" type="text/css" media="screen, projection">
 		<!-- Include the compiled app CSS -->
 		<link href="css/bootstrap.css" rel="stylesheet">
-		<link href='css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+		<link href='css/font-awesome.css' rel='stylesheet' type='text/css'>
 		<!-- nicer scroll in steps -->
 		<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 		<!-- tooltipster in steps -->
 		<link rel="stylesheet" href="css/tooltipster.css">
 		<!-- Include the custom app CSS -->
 		<link href="css/app.css" rel="stylesheet">
+		<link rel="apple-touch-icon" href="images\web\apple-touch-icon-57x57.png">
+		<link rel="touch-icon-ipad-retina" href="images\web\touch-icon-ipad-retina.png">
+		<link rel="touch-icon-iphone-retina" href="images\web\touch-icon-iphone-retina.png">
+		<link rel="touch-icon-ipad" href="images\web\touch-icon-ipad.png">
+		
 		<script src="phonegap.js"></script>
 	</head>
 	<body data-theme="a">
@@ -57,12 +63,13 @@
 				<a class='btn btn-default ui-btn-left versionNumber' data-role="none">&nbsp;</a>
 				
 				<h1>Estate Fusion</h1>
-				<a class='btn btn-default ui-btn-right logout' data-role="none">Logout</a>
+				
+				<a class='btn btn-default ui-btn-right logout' data-role="none"><i class='fa fa-sign-out'></i> Logout</a>
 				<div class='clearfix'></div>
 			</div>
 			<div data-role="content">
 				<div id='pageContent' style='display:none;'>
-					<a href="#salePage" class="ui-btn primary-btn"><i class='fa fa-plus'></i> Add New Sale</a>
+					<a href="#salePage" class="ui-btn btn btn-primary new-sale"><i class='fa fa-plus'></i> Add New Sale</a>
 					<br/>
 					<div id='customersTableDiv' class='hidden'>
 						<table id='customersTable' class='table table-bordered'>
@@ -85,16 +92,17 @@
 			<div data-role="header">
 				<a class='btn btn-default ui-btn-left versionNumber' data-role="none">&nbsp;</a>
 				
-				<h1>Estate Fusion - New Sale</h1>
-				<a class='btn btn-default ui-btn-right logout' data-role="none">Logout</a>
+				<h1>Estate Fusion</h1>
+				<a class='btn btn-default ui-btn-right logout' data-role="none"><i class='fa fa-sign-out'></i> Logout</a>
 				<div class='clearfix'></div>
 			</div>
 			<div id='saleContent' data-role="content" style='display:none;'>
 				<form id="wizard_example" action="">
-					
+					<a href="javascript://" id='startAgain' class='btn btn-danger ui-btn-right'><i class='fa fa-refresh'></i> Start Again</a>
 					<fieldset>
-						<legend>Seller Details</legend>
+						<legend>Seller Details </legend>
 						<div class="row">
+							
 							<div class="col-lg-12">
 								<table id='sellerDetailsTable' class='table table-bordered'>
 									<tr>
