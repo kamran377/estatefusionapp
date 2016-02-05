@@ -27,6 +27,12 @@ $(document).on('ready',function() {
 			checkOfflineLogin();
 		}
 	});
+	$('#password').on('focus',function(){
+		alert(1);
+		$('html, body').animate({
+			scrollTop: $("#password").offset().top
+		}, 2000);
+	});
 	/**
 	* Events - End - Login Page
 	*/
