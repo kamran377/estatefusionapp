@@ -30,7 +30,7 @@ $(document).on('ready',function() {
 	});
 	$('#password').on('focus',function(){
 		pageHeight = $('#loginPage').height();
-		pageHeight = pageHeight + 390;
+		pageHeight = pageHeight + 150;
 		$('#loginPage').css({'height':pageHeight+'px'});
 		$('html, body').animate({
 			scrollTop: $("#password").offset().top
@@ -38,7 +38,7 @@ $(document).on('ready',function() {
 	});
 	$('#password').on('blur',function(){
 		pageHeight = $('#loginPage').height();
-		pageHeight = pageHeight-390;
+		pageHeight = pageHeight-150;
 		$('#loginPage').css({'height':pageHeight+'px'});
 		$('html, body').animate({
 			scrollTop: $("#loginPage").offset().top
