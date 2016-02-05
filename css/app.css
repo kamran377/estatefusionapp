@@ -187,3 +187,7 @@ div.photo-cover img {
 .btn.new-sale {
 	display:block !important;
 }
+.btn-lg {
+	padding: 16px 16px !important;
+    font-size: 24px !important;
+}

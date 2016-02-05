@@ -1,3 +1,4 @@
+var pageHeight;
 $(document).on('ready',function() {
 	/**
 	* Events - Start - Login Page
@@ -28,9 +29,19 @@ $(document).on('ready',function() {
 		}
 	});
 	$('#password').on('focus',function(){
-		$('#loginPage').css({'height':'100%'});
+		pageHeight = $('#loginPage').height();
+		pageHeight = pageHeight + 390;
+		$('#loginPage').css({'height':pageHeight+'px'});
 		$('html, body').animate({
 			scrollTop: $("#password").offset().top
+		}, 2000);
+	});
+	$('#password').on('blur',function(){
+		pageHeight = $('#loginPage').height();
+		pageHeight = pageHeight-390;
+		$('#loginPage').css({'height':pageHeight+'px'});
+		$('html, body').animate({
+			scrollTop: $("#loginPage").offset().top
 		}, 2000);
 	});
 	/**
