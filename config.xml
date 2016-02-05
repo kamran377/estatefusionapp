@@ -65,7 +65,7 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
-	<plugin name="com.phonegap.plugin.statusbar" />
+	<plugin name="com.phonegap.plugin.statusbar" source="pgb" />
 
 	
     <!-- Third party plugins -->
