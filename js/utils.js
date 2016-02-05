@@ -382,57 +382,7 @@ function populateCustomerDraft(customer,property,bundle, services) {
 	// get the selected discount
 	var $discount = getSelectedDiscount() /* from sale-services.js */ ;
 	bundle.discount = $discount.attr('data-percentage');
-					// insert purchased bundle in local db
-					insertPurchasedBundle(bundle, function(status, results){
-						if(status == true) {
-							// create services objects to enter
-							// get purchased services
-							var $purchasedServices = getPurchasedServices() /* from sale-services.js */ ;
-							// iterate over the services and add them to db
-							$.each($purchasedServices,function(){
-								var $check = $(this);
-								// make the service object 
-								var service = {};
-								// set customer_id
-								service.customer_id = property.customer_id;
-								// set property id
-								service.property_id = property_id;
-								// set bundle id
-								service.bundle_id = $check.attr('data-bundle-id');
-								// set service id
-								service.service_id = $check.attr('data-service-id');
-								// add service to local db
-								insertPurchasedBundleService(service, function(status, results){}) /* from database.js */;
-							});
-							
-							var  $purchasedOptions = getPurchasedOptions() /* from sale-services.js */ ;
-							// iterate over the services and add them to db
-							$.each($purchasedOptions,function(){
-								var $check = $(this);
-								// make the service object 
-								var service = {};
-								// set customer_id
-								service.customer_id = property.customer_id;
-								// set property id
-								service.property_id = property_id;
-								// set bundle id
-								service.bundle_id = $check.attr('data-bundle-id');
-								// set service id
-								service.service_id = $check.attr('data-service-id');
-								// add service to local db
-								insertPurchasedBundleService(service, function(status, results){}) /* from database.js */;
-							});
-							callback(true);
-						}
-					}) /* from database.js */ ;
-				}
-			}) /* from database.js  */;
-		} else {
-			console.log(results.message);
-			
-		}
-	}) /* from database.js */;
-	
+					
 }
 
 // this will handle logout button
