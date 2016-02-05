@@ -133,6 +133,12 @@ function saveCustomer(isDraft,callback) {
 	} else if($('#perc-price-check').prop('checked')) { // if percentage fee is selected
 		fee = $('#percAmount').val();
 	}
+	// conserve if the fixed price checkbox is checked
+	customer.fixed_price_check = $('#fixed-price-check').prop('checked');
+	// conserve if the percentage price checkbox is checked
+	customer.perc_price_check = $('#perc-price-check').prop('checked');
+	// conserve percentage value
+	customer.perc_value = $('#percValue').val();
 	// conserve if VAT is checked
 	var vat = $('#add-vat-check').prop('checked');
 	// conserve if default bundle is selected
@@ -264,6 +270,171 @@ function refreshPage(page){
 function loadWelcomePage() {
 	window.location.href = 'index.html#welcomePage';
 }
+// this will populate the customer draft
+function populateCustomerDraft(customer,property,bundle, services) {
+	// fetch customer data from customer form
+	// customer object to hold customer data 
+	var customer = {};
+	// first customer name
+	$('#firstName').val(customer['first_name_1']);
+	// first customer surname
+	$('#surname').val(customer['surname_1']);
+	// second customer name
+	$('#firstName2').val(customer['first_name_2']);
+	// second customer surname
+	$('#surname2').val(customer['surname_2']);
+	// set authorship select value 
+	if($('#firstName2').val()) {
+		// the property has dual ownership
+		$('#ownership').val(2);
+	} else {
+		// the property has single ownership
+		$('#ownership').val(1);
+	}
+	// we have to separate the home address and home line 1
+	var _homeAddress = customer['home_address_1'];
+	_homeAddressArray =  str.split("|");
+	// set index 0 to home address
+	$('#homeAddress').val(_homeAddressArray[0]);
+	// if we have two parts of address
+	if(_homeAddressArray.length == 2) {
+		// set index 0 to home line 1
+		$('#homeLine1').val(_homeAddressArray[1]);
+	}
+	// customer home Line2
+	$('#homeLine2').val(customer['home_address_2']);
+	// customer home Line3
+	$('#homeLine3').val(customer['home_address_3']);
+	// customer home town
+	$('#homeTown').val(customer['home_town']);
+	// customer home country
+	$('#homeCountry').val(customer['home_county']);
+	// customer home postal code
+	$('#homeCode').val(customer['home_post']);
+	// customer same property address
+	$('#checkbox-same-address').prop('checked',customer['home_is_property']);
+	// customer mobile phone
+	$('#mobile').val(customer['mobile_number']);
+	// customer home phone
+	$('#phone').val(customer['phone_number']);
+	// customer primary email
+	$('#primaryEmail').val(customer['email_1']);
+	// customer secondary email
+	$('#secondaryEmail').val(customer['email_2']);
+	// we have to separate the home address and home line 1
+	var _propertyAddress = customer['property_address_1'];
+	_propertyAddressArray =  str.split("|");
+	// set index 0 to property address
+	$('#propertyAddress').val(_homeAddressArray[0]);
+	// if we have two parts of address
+	if(_homeAddressArray.length == 2) {
+		// set index 0 to property line 1
+		$('#propertyLine1').val(_homeAddressArray[1]);
+	}
+	// customer property Line2
+	$('#propertyLine2').val(customer['property_address_2']);
+	// customer property Line3
+	$('#propertyLine3').val(customer['property_address_3']);
+	// customer property town
+	$('#propertyTown').val(customer['property_town']);
+	// customer property country
+	$('#propertyCountry').val(customer['proprty_county']);
+	// customer property postal code
+	$('#propertyCode').val(customer['property_postcode']);
+	// customer property tenure
+	$('#propertyTenure').val(customer['property_tenure']);
+	// customer property notes
+	$('#notes').val(customer['property_notes']);
+	// customer property term
+	$('#term').val(customer['property_term']);
+	// customer property agency type
+	$('#agencyType').val(customer['agency_type']);
+	// customer property joint agency name
+	$('#agencyName').val(customer['joint_agency_name']);
+	// remove read only from agency name if it is non-empty
+	if($('#agencyName').val()) {
+		$('#agencyName').prop('readonly',false);
+	} else {
+		$('#agencyName').prop('readonly',true)
+	}
+	// customer property price
+	$('#price').val(customer['asking_price']);
+	// fixed price checkbox
+	$('#fixed-price-check').prop('checked',customer['fixed_price_check']);
+	// percentage price checkbox
+	$('#perc-price-check').prop('checked',customer['perc_price_check']);
+	// percentage price
+	$('#percValue').prop('checked',customer['perc_value']);
+	// conserve if default bundle is selected
+	$('#default-bundle-check').prop('checked',bundle['default_bundle']);
+	$('#default-bundle-check').change();
+	// get bundle id
+	var bundle_id = bundle['bundle_id'];
+	// check the bundle and trigger the change event
+	$th = $('#services-table thead tr th.bundle[data-bundle-id='+ bundle_id +']');
+	$th.prop('checked',true);
+	$th.change();
+	var index = $('#services-table thead tr th').index($th);
+	index = index + 1;
+	// set the sub total
+	//$('#services-table tr.sub-price-1 td:nth-child('+index+') span').text($('#price').val());
+	
+	// get the selected discount
+	var $discount = getSelectedDiscount() /* from sale-services.js */ ;
+	bundle.discount = $discount.attr('data-percentage');
+					// insert purchased bundle in local db
+					insertPurchasedBundle(bundle, function(status, results){
+						if(status == true) {
+							// create services objects to enter
+							// get purchased services
+							var $purchasedServices = getPurchasedServices() /* from sale-services.js */ ;
+							// iterate over the services and add them to db
+							$.each($purchasedServices,function(){
+								var $check = $(this);
+								// make the service object 
+								var service = {};
+								// set customer_id
+								service.customer_id = property.customer_id;
+								// set property id
+								service.property_id = property_id;
+								// set bundle id
+								service.bundle_id = $check.attr('data-bundle-id');
+								// set service id
+								service.service_id = $check.attr('data-service-id');
+								// add service to local db
+								insertPurchasedBundleService(service, function(status, results){}) /* from database.js */;
+							});
+							
+							var  $purchasedOptions = getPurchasedOptions() /* from sale-services.js */ ;
+							// iterate over the services and add them to db
+							$.each($purchasedOptions,function(){
+								var $check = $(this);
+								// make the service object 
+								var service = {};
+								// set customer_id
+								service.customer_id = property.customer_id;
+								// set property id
+								service.property_id = property_id;
+								// set bundle id
+								service.bundle_id = $check.attr('data-bundle-id');
+								// set service id
+								service.service_id = $check.attr('data-service-id');
+								// add service to local db
+								insertPurchasedBundleService(service, function(status, results){}) /* from database.js */;
+							});
+							callback(true);
+						}
+					}) /* from database.js */ ;
+				}
+			}) /* from database.js  */;
+		} else {
+			console.log(results.message);
+			
+		}
+	}) /* from database.js */;
+	
+}
+
 // this will handle logout button
 $(document).on('ready',function(){
 	$('.logout').on('click',function(){
@@ -284,6 +455,29 @@ $(document).on('ready',function(){
 				$('#customersTable tr[data-id='+ id +']').remove();
 			});
 		}
+	});
+	$(document).on('click','.continue-draft',function(){
+		// get the id of the customer 
+		var id = $(this).attr('data-id');
+		// retrieve the customer form the local db
+		getSingleCustomer(id, function(customer){
+			if(customer) {
+				// get customer property details
+				getCustomerProperty(id, function(property) {
+					// if property is present
+					if(property) {
+						// get the bundle purchased
+						getCustomerBundlesPurchased(id, function(bundle){
+							// get the services purchased 
+							getCustomerBundlesServicesPurchased(id, function(services){
+								// populate the customer draft
+								populateCustomerDraft(customer, property, bundle,services);
+							})/* from database.js */;
+						}) /* from database.js */;
+					}
+				})/* from database.js */;
+			}
+		}) /* from database.js */;
 	});
 	$('#startAgain').on('click',function(){
 		var r= confirm('Are you sure you want to start over again');

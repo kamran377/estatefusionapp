@@ -207,7 +207,9 @@ function handleCustomerData(e) {
 		} else if($('#perc-price-check').prop('checked')) {
 			var value = $('#percAmount').val();
 			updateBundlePrices(value);
-		}  
+		}  else {
+			updateBundlePrices();
+		}
 		if($('#default-bundle-check').prop('checked')){
 			$.each($('#services-table thead tr th'),function(){
 				$th = $(this);
@@ -243,29 +245,41 @@ function handleCustomerData(e) {
 	}
 }
 function updateBundlePrices(price) {
-	price = parseFloat(price);
-	$tr = $('#services-table tr.sub-price-1');
-	$tds = $('td',$tr);
-	$.each($tds,function(){
-		var $td = $(this);
-		var def = $td.attr('data-default');
-		var newprice = 0;
-		
-		if(def == true) {
-			$('span',$td).text(price);
-			$('#services-table thead tr th[data-default=true]').attr('data-bundle-price',price);
-		} else {
-			var discount = $td.attr('data-discount');
-			discount = parseFloat(discount);
-			newprice = price - (price * discount / 100);
-			newprice = newprice.toFixed(2);
-			$('span',$td).text(newprice);
-			var index = $tds.index($td);
+	// if the user has selected fixed or percentage price checkboxes
+	// we will have price that will be set
+	if(price) {
+		price = parseFloat(price);
+		$tr = $('#services-table tr.sub-price-1');
+		$tds = $('td',$tr);
+		$.each($tds,function(){
+			var $td = $(this);
+			var def = $td.attr('data-default');
+			var newprice = 0;
+			
+			if(def == true) {
+				$('span',$td).text(price);
+				$('#services-table thead tr th[data-default=true]').attr('data-bundle-price',price);
+			} else {
+				var discount = $td.attr('data-discount');
+				discount = parseFloat(discount);
+				newprice = price - (price * discount / 100);
+				newprice = newprice.toFixed(2);
+				$('span',$td).text(newprice);
+				var index = $tds.index($td);
+				index = index + 1;
+				$('#services-table thead tr th:nth-child('+index+')').attr('data-bundle-price',newprice);
+			}	
+		});
+	} else {
+		// we have to fallback to original prices
+		$.each($('#services-table thead tr th.bundle'),function(){
+			var $th = $(this);
+			$th.attr('data-bundle-price',$th.attr('data-original-price'))
+			var index = $('#services-table thead tr th').index($th);
 			index = index + 1;
-			$('#services-table thead tr th:nth-child('+index+')').attr('data-bundle-price',newprice);
-		}
-		
-	});
+			$('#services-table tr.sub-price-1 td:nth-child('+index+') span').text($th.attr('data-original-price'));
+		});
+	}
 }
 // this function will disable changes in price
 function disablePriceChanges() {

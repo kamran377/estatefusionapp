@@ -347,7 +347,7 @@ function displayBundlesData() {
 					//console.log(bundleservices);
 					// show table header
 					var $headerCheck = $('<div class=" checkbox checkbox-success checkbox-circle"><input class="header-checkbox" id="checkbox-header'+i+'" type="checkbox"><label for="checkbox-header'+i+'">'+bundle['name']+'</label></div>');
-					$('#services-table thead tr th:nth-child('+ colIndex +')').attr('data-default',bundle['default_bundle']).attr('data-bundle-price',bundle['price']).attr('data-bundle-id',bundle['id']).append($headerCheck);
+					$('#services-table thead tr th:nth-child('+ colIndex +')').attr('data-default',bundle['default_bundle']).attr('data-original-price',bundle['price']).attr('data-bundle-price',bundle['price']).attr('data-bundle-id',bundle['id']).append($headerCheck);
 					// display services in the first column
 					var klen = 	bundleservices.length;
 					//console.log(klen);

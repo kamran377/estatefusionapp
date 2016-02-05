@@ -40,6 +40,7 @@ function onDeviceReady() {
 	createPropertiesTable();
 	createBundlesPurchasedTable();
 	createBundlesServicesPurchasedTable();
+	updateDbSchema();
 	$('#footer').text(versionNumber);
 	$('.versionNumber').text(versionNumber);
 	document.addEventListener("backbutton", onBackKeyDown, false);
@@ -293,6 +294,20 @@ function createTermsTable() {
 		console.log(e);
 	}
 }
+// this function will add extra columns to the tables in local db
+function updateDbSchema() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('ALTER TABLE customers ADD fixed_price_check TEXT',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE customers ADD perc_price_check TEXT',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE customers ADD perc_value TEXT',[],onSuccessExecuteSql,onError);
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
 function onSuccessExecuteSql( tx, results ){
 	console.log(results);
 }
@@ -389,20 +404,21 @@ function insertCustomer(customer,callback) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO customers (first_name_1 ,surname_1 ,first_name_2 ,surname_2 ,home_address_1 ,home_address_2 ,home_address_3 ,home_town ,home_county ,home_post ,home_is_property ,mobile_number ,phone_number ,email_1 ,email_2 ,property_address_1 ,property_address_2 ,property_address_3 ,property_town ,proprty_county ,property_postcode ,property_tenure ,property_notes ,agency_type ,joint_agency_name ,asking_price,signature, photo_1,photo_2,property_term) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+				tx.executeSql('INSERT INTO customers (first_name_1 ,surname_1 ,first_name_2 ,surname_2 ,home_address_1 ,home_address_2 ,home_address_3 ,home_town ,home_county ,home_post ,home_is_property ,mobile_number ,phone_number ,email_1 ,email_2 ,property_address_1 ,property_address_2 ,property_address_3 ,property_town ,proprty_county ,property_postcode ,property_tenure ,property_notes ,agency_type ,joint_agency_name ,asking_price,signature, photo_1,photo_2,property_term, fixed_price_check, perc_price_check, perc_value) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 				,[
 					customer.firstName,customer.surname,
 					customer.firstName2,customer.surname2, 
-					customer.homeAddress + customer.homeLine1, customer.homeLine2, customer.homeLine3,
+					customer.homeAddress + '|' + customer.homeLine1, customer.homeLine2, customer.homeLine3,
 					customer.homeTown, customer.homeCountry, customer.homeCode,
 					customer.sameAddress,
 					customer.mobile, customer.phone,
 					customer.primaryEmail, customer.secondaryEmail,
-					customer.propertyAddress + customer.propertyLine1, customer.propertyLine2, customer.propertyLine3,
+					customer.propertyAddress + '|' + customer.propertyLine1, customer.propertyLine2, customer.propertyLine3,
 					customer.propertyTown, customer.propertyCountry, customer.propertyCode,
 					customer.propertyTenure, customer.notes,
 					customer.agencyType, customer.agencyName,customer.price,
-					customer.signature, customer.photo_1, customer.photo_2,customer.term
+					customer.signature, customer.photo_1, customer.photo_2,customer.term,
+					customer.fixed_price_check, customer.perc_price_check, customer.perc_value
 				],
 				function(tx,results){
 					callback(true,results);
@@ -441,7 +457,7 @@ function insertProperty(property,callback) {
 				tx.executeSql('INSERT INTO properties (customer_id,price,property_address_1,property_address_2,property_address_3,property_town,proprty_county,property_postcode ) values (?,?,?,?,?,?,?,?)'
 				,[
 					property.customer_id,property.price,
-					property.propertyAddress + property.propertyLine1,
+					property.propertyAddress + '|' + property.propertyLine1,
 					property.propertyLine2, property.propertyLine3,
 					property.propertyTown, property.propertyCountry, property.propertyCode
 					
@@ -780,6 +796,97 @@ function getCustomers(callback) {
 						array.push(row);
 					}
 					callback(array);
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// This function returns the customer for the given id
+function getSingleCustomer(id, callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from customers where id = ?'
+				,[id],
+				function(tx,results){
+					if(results.rows.length > 0) {
+						var row = results.rows.item(0);
+						callback(row);
+					} else {
+						callback("");
+					}
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// This function returns the property for the given id
+function getCustomerProperty(id, callback) {
+	id = id + '.0';
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from properties where customer_id = ?'
+				,[id],
+				function(tx,results){
+					if(results.rows.length > 0) {
+						var row = results.rows.item(0);
+						callback(row);
+					} else {
+						callback("");
+					}
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// This function returns the bundles purchased for the given id
+function getCustomerBundlesPurchased(id, callback) {
+	id = id + '.0';
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from bundles_purchased where customer_id = ?'
+				,[id],
+				function(tx,results){
+					if(results.rows.length > 0) {
+						var row = results.rows.item(0);
+						callback(row);
+					} else {
+						callback("");
+					}
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// This function returns the bundles services purchased for the given id
+function getCustomerBundlesServicesPurchased(id, callback) {
+	id = id + '.0';
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from bundles_services_purchased where customer_id = ?'
+				,[id],
+				function(tx,results){
+					if(results.rows.length > 0) {
+						var array = [];
+						for(var i=0; i<len; i++) {
+							var row = results.rows.item(i);
+							array.push(row);
+						}
+						callback(array);
+					} else {
+						callback("");
+					}
 				});
 			});
 		}
