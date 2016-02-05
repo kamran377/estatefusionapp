@@ -28,7 +28,7 @@ $(document).on('ready',function() {
 		}
 	});
 	$('#password').on('focus',function(){
-		alert(1);
+		$('#loginPage').css({'height':'100%'});
 		$('html, body').animate({
 			scrollTop: $("#password").offset().top
 		}, 2000);
