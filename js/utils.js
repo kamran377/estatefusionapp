@@ -8,7 +8,12 @@
  * This file contains the general utility methods used in the app
  *
  *************************************************/
-$( document ).bind( "mobileinit", function() {
+// these variables will hold the data fro draft customer continue function
+var draftCustomer;
+var draftProperty;
+var draftBundle;
+var draftServices;
+ $( document ).bind( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
 	$.support.cors = true;
     $.mobile.allowCrossDomainPages = true;
@@ -41,8 +46,14 @@ function checkConnection() {
 	$('div[data-role=page] h1').append($('<i/>').addClass(cls));
 }
 // this function shows the ajax loader
-function showLoader() {
-	$.mobile.loading( "show");
+function showLoader(text) {
+	var loadertext = text ? text : "";
+	var textVisible = loadertext ? true : false;
+	$.mobile.loading( "show", {
+		text: loadertext,
+		textVisible: textVisible,
+		html: ""
+	});
 }
 // this function hides the ajax loader
 function hideLoader() {
@@ -139,6 +150,8 @@ function saveCustomer(isDraft,callback) {
 	customer.perc_price_check = $('#perc-price-check').prop('checked');
 	// conserve percentage value
 	customer.perc_value = $('#percValue').val();
+	// conserve the fixed fee
+	customer.agent_fee = fee;
 	// conserve if VAT is checked
 	var vat = $('#add-vat-check').prop('checked');
 	// conserve if default bundle is selected
@@ -273,8 +286,6 @@ function loadWelcomePage() {
 // this will populate the customer draft
 function populateCustomerDraft(customer,property,bundle, services) {
 	// fetch customer data from customer form
-	// customer object to hold customer data 
-	var customer = {};
 	// first customer name
 	$('#firstName').val(customer['first_name_1']);
 	// first customer surname
@@ -293,7 +304,7 @@ function populateCustomerDraft(customer,property,bundle, services) {
 	}
 	// we have to separate the home address and home line 1
 	var _homeAddress = customer['home_address_1'];
-	_homeAddressArray =  str.split("|");
+	_homeAddressArray =  _homeAddress.split("|");
 	// set index 0 to home address
 	$('#homeAddress').val(_homeAddressArray[0]);
 	// if we have two parts of address
@@ -323,7 +334,7 @@ function populateCustomerDraft(customer,property,bundle, services) {
 	$('#secondaryEmail').val(customer['email_2']);
 	// we have to separate the home address and home line 1
 	var _propertyAddress = customer['property_address_1'];
-	_propertyAddressArray =  str.split("|");
+	_propertyAddressArray =  _propertyAddress.split("|");
 	// set index 0 to property address
 	$('#propertyAddress').val(_homeAddressArray[0]);
 	// if we have two parts of address
@@ -358,31 +369,73 @@ function populateCustomerDraft(customer,property,bundle, services) {
 		$('#agencyName').prop('readonly',true)
 	}
 	// customer property price
+	// customer property price
 	$('#price').val(customer['asking_price']);
 	// fixed price checkbox
-	$('#fixed-price-check').prop('checked',customer['fixed_price_check']);
+	if(customer['fixed_price_check'] == "true") {
+		// check the fixed price checkbox
+		$('#fixed-price-check').prop('checked',true);
+		// set the readonly for the fixed price field to false
+		$('#fixedPrice').prop('readonly',false);
+		// set the value of fixed price field
+		$('#fixedPrice').val(customer.agent_fee);
+		// uncheck the percentage fee checkbox
+		$('#perc-price-check').prop('checked',false);
+		// set teh percentage field to readonly
+		$('#percValue').prop('readonly',true);
+		// set the value of percentage field to empty
+		$('#percValue').val('');
+		// set the value of percentage amount field to empty
+		$('#percAmount').val('');
+	} else {
+		// uncheck the fixed price checkbox
+		$('#fixed-price-check').prop('checked',false);
+		// set the readonly for the fixed price field to true
+		$('#fixedPrice').prop('readonly',true);
+		// set the value of fixed amount field to empty
+		$('#fixedPrice').val('');
+	}
 	// percentage price checkbox
-	$('#perc-price-check').prop('checked',customer['perc_price_check']);
-	// percentage price
-	$('#percValue').prop('checked',customer['perc_value']);
-	// conserve if default bundle is selected
-	$('#default-bundle-check').prop('checked',bundle['default_bundle']);
-	$('#default-bundle-check').change();
-	// get bundle id
-	var bundle_id = bundle['bundle_id'];
-	// check the bundle and trigger the change event
-	$th = $('#services-table thead tr th.bundle[data-bundle-id='+ bundle_id +']');
-	$th.prop('checked',true);
-	$th.change();
-	var index = $('#services-table thead tr th').index($th);
-	index = index + 1;
-	// set the sub total
-	//$('#services-table tr.sub-price-1 td:nth-child('+index+') span').text($('#price').val());
+	if(customer['perc_price_check'] == "true") {
+		// check the fixed price checkbox
+		$('#perc-price-check').prop('checked',true);
+		// percentage price
+		$('#percValue').val(customer['perc_value']);
+		// set the readonly for the percentage field field to false
+		$('#percValue').prop('readonly',false);
+		// adjust the percentage price field
+		// get perecnatge value
+		var percentage = $('#percValue').val();
+		// get price
+		var price = $('#price').val();
+		// convert the percentage to float
+		percentage = parseFloat(percentage);
+		price = parseFloat(price);
+		// calculate the perecntage price
+		var percPrice = (percentage / 100) * price;
+		// display the percentage price
+		percPrice = percPrice.toFixed(2);
+		$('#percAmount').val(percPrice);
+		
+	} else {
+		// uncheck the fixed price checkbox
+		$('#perc-price-check').prop('checked',false);
+		// set the readonly for the percentage field field to true
+		$('#perc-price-check').change();
+	}
 	
-	// get the selected discount
-	var $discount = getSelectedDiscount() /* from sale-services.js */ ;
-	bundle.discount = $discount.attr('data-percentage');
-					
+	if(customer['default_bundle'] == "true") {
+		$('#default-bundle-check').prop('checked',true);
+	} else {
+		$('#default-bundle-check').prop('checked',false);
+	}
+	// hide the loader
+	hideLoader()/* from utils.js */;
+	// move to sales Page
+	$.mobile.changePage($('#salePage'), {
+        allowSamePageTransition: true,
+        transition: 'none'
+    });	
 }
 
 // this will handle logout button
@@ -407,20 +460,25 @@ $(document).on('ready',function(){
 		}
 	});
 	$(document).on('click','.continue-draft',function(){
+		showLoader('Loading Customer Data');
 		// get the id of the customer 
 		var id = $(this).attr('data-id');
 		// retrieve the customer form the local db
 		getSingleCustomer(id, function(customer){
 			if(customer) {
+				draftCustomer = customer;
 				// get customer property details
 				getCustomerProperty(id, function(property) {
 					// if property is present
 					if(property) {
+						draftProperty = property;
 						// get the bundle purchased
 						getCustomerBundlesPurchased(id, function(bundle){
+							draftBundle = bundle;
 							// get the services purchased 
 							getCustomerBundlesServicesPurchased(id, function(services){
 								// populate the customer draft
+								draftServices = services;
 								populateCustomerDraft(customer, property, bundle,services);
 							})/* from database.js */;
 						}) /* from database.js */;
@@ -432,7 +490,13 @@ $(document).on('ready',function(){
 	$('#startAgain').on('click',function(){
 		var r= confirm('Are you sure you want to start over again');
 		if(r == true) {
-			refreshPage($('#welcomePage'));
+			// null the draft data 
+			draftCustomer = null;
+			draftProperty = null;
+			draftBundle = null;
+			draftServices = null;
+			location.reload();
+			
 		}
 	});
 });

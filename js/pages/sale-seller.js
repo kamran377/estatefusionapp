@@ -17,7 +17,7 @@ function attachSellerEvents() {
 		pageHeight = pageHeight - 150;
 		$('#salePage').css({'height':pageHeight+'px'});
 		$('html, body').animate({
-			scrollTop: $('#salePage').offset().top
+			scrollTop: $('#price').offset().top
 		}, 2000);
 	});
 	// event for change in price
@@ -87,11 +87,12 @@ function attachSellerEvents() {
 	});
 	// the event for checking the percentage checkbox
 	$('#perc-price-check').on('change',function(){
-		$('#fixed-price-check').prop('checked',false);
-		$('#fixedPrice').prop('readonly',true);
-		$('#fixedPrice').val('');
+		;
 		if($(this).prop('checked')) {
 			$('#percValue').prop('readonly',false);
+			$('#fixed-price-check').prop('checked',false);
+			$('#fixedPrice').prop('readonly',true);
+			$('#fixedPrice').val('')
 		} else {
 			$('#percValue').prop('readonly',true);
 			$('#percValue').val('');
@@ -101,17 +102,17 @@ function attachSellerEvents() {
 	});
 	// the event for checking the percentage checkbox
 	$('#fixed-price-check').on('change',function(){
-		$('#perc-price-check').prop('checked',false);
+		
 		if($(this).prop('checked')) {
 			$('#fixedPrice').prop('readonly',false);
+			$('#perc-price-check').prop('checked',false);
+			$('#percValue').prop('readonly',true);
+			$('#percValue').val('');
+			$('#percAmount').val('');
 		} else {
 			$('#fixedPrice').prop('readonly',true);
 			$('#fixedPrice').val('');
 		}
-		$('#percValue').prop('readonly',true);
-		$('#percValue').val('');
-		$('#percAmount').val('');
-		
 	});
 	// update the price
 	$('#percValue').on('change',function(){
@@ -124,7 +125,7 @@ function attachSellerEvents() {
 			} else {
 				price = 0;
 			}
-			var newprice = (value / 100) * price
+			var newprice = (value / 100) * price;
 			newprice = newprice.toFixed(2);
 			$('#percAmount').val(newprice);
 		}
@@ -235,10 +236,8 @@ function handleCustomerData(e) {
 				var def = $th.attr('data-default');
 				
 				if(def == 'false') {
-					//console.log(def);
 					var index = $('#services-table thead tr th').index($th);
 					index = index + 1;
-					//console.log(index);
 					$th.hide();
 					$('#services-table tbody tr td:nth-child('+ index +')').hide();
 				}
@@ -261,6 +260,37 @@ function handleCustomerData(e) {
 				$('#services-table tbody tr td:nth-child('+ index +')').show();
 			});
 		}
+		//in this part we will update the services page based on the data for customer if present
+		if(draftCustomer) {
+			// get bundle id
+			var bundle_id = draftBundle['bundle_id'];
+			// get bundle header selected by teh draft customer
+			var $th;
+			$.each($('#services-table thead tr th'),function(){
+				if($(this).attr('data-bundle-id') == bundle_id) {
+					$th = $(this);
+				}
+			});
+			// select the bundle for the draft customer
+			$('input[type=checkbox]',$th).click();
+			// get the index of the selected header for next lines
+			var index = $('#services-table thead tr th').index($th);
+			// now we will iterate over the purchased services to check their respective checkboxes
+			$.each(draftServices,function(){
+				var service = this;
+				$tds = $('#services-table tr td input[data-service-id='+service['service_id']+'][data-bundle-id='+service['bundle_id']+']');
+				// for bundle services
+				if($tds.length == 1) {
+					$tds.click();
+				} else { // for option services
+					var td = $tds.eq(index-1);//.prop('checked',true);
+					$(td).click();
+				}
+			});
+		}
+		// now we will select the discount opted by the drat customer
+		var $discountTD = $('#services-table tr td.discounts-col').eq(index-1);
+		$('input',$discountTD).click();
 	}
 }
 function updateBundlePrices(price) {

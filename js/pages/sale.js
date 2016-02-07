@@ -10,9 +10,7 @@ $(document).on("pageshow","#salePage",function() {
 	attachSellerEvents();
 	// attach and call methods for service step
 	attachServicesEvents();
-	
-	//$sigdiv.css({'height':'300px'});
-	
+	//
 });
 /**
 * Events - End - Sale Page

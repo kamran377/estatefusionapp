@@ -302,6 +302,7 @@ function updateDbSchema() {
 				tx.executeSql('ALTER TABLE customers ADD fixed_price_check TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD perc_price_check TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD perc_value TEXT',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE customers ADD agent_fee TEXT',[],onSuccessExecuteSql,onError);
 			});
 		}
 	} catch(e) {
@@ -404,7 +405,7 @@ function insertCustomer(customer,callback) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO customers (first_name_1 ,surname_1 ,first_name_2 ,surname_2 ,home_address_1 ,home_address_2 ,home_address_3 ,home_town ,home_county ,home_post ,home_is_property ,mobile_number ,phone_number ,email_1 ,email_2 ,property_address_1 ,property_address_2 ,property_address_3 ,property_town ,proprty_county ,property_postcode ,property_tenure ,property_notes ,agency_type ,joint_agency_name ,asking_price,signature, photo_1,photo_2,property_term, fixed_price_check, perc_price_check, perc_value) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+				tx.executeSql('INSERT INTO customers (first_name_1 ,surname_1 ,first_name_2 ,surname_2 ,home_address_1 ,home_address_2 ,home_address_3 ,home_town ,home_county ,home_post ,home_is_property ,mobile_number ,phone_number ,email_1 ,email_2 ,property_address_1 ,property_address_2 ,property_address_3 ,property_town ,proprty_county ,property_postcode ,property_tenure ,property_notes ,agency_type ,joint_agency_name ,asking_price,signature, photo_1,photo_2,property_term, fixed_price_check, perc_price_check, perc_value,agent_fee) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 				,[
 					customer.firstName,customer.surname,
 					customer.firstName2,customer.surname2, 
@@ -418,7 +419,7 @@ function insertCustomer(customer,callback) {
 					customer.propertyTenure, customer.notes,
 					customer.agencyType, customer.agencyName,customer.price,
 					customer.signature, customer.photo_1, customer.photo_2,customer.term,
-					customer.fixed_price_check, customer.perc_price_check, customer.perc_value
+					customer.fixed_price_check, customer.perc_price_check, customer.perc_value, customer.agent_fee
 				],
 				function(tx,results){
 					callback(true,results);
@@ -878,6 +879,7 @@ function getCustomerBundlesServicesPurchased(id, callback) {
 				,[id],
 				function(tx,results){
 					if(results.rows.length > 0) {
+						var len = results.rows.length;
 						var array = [];
 						for(var i=0; i<len; i++) {
 							var row = results.rows.item(i);

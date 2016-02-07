@@ -249,6 +249,18 @@ function attachServicesEvents() {
 			if($('.discount-checkbox:checked').length < 1) {
 				return false;
 			}
+			//in this part we will delete the previous draft customer if present
+			if(draftCustomer) {
+				var id = draftCustomer['id'];
+				deleteDraftCustomer(id, function(results){
+				
+				});
+			}
+			draftCustomer = null;
+			draftProperty = null;
+			draftBundle = null;
+			draftServices = null;
+			
 			// save the customer draft data in local db
 			saveCustomer(true,function(status){
 				if(status == true) {
