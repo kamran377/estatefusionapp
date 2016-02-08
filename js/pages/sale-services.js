@@ -326,7 +326,7 @@ function displayBundlesData() {
 	// the column index of the current bundle
 	var colIndex = 2;
 	// empty the services table
-	$('#services-table tbody').html('');
+	$('#services-table').html('');
 	/**
 	* Display - Services Start
 	*/
