@@ -327,6 +327,15 @@ function displayBundlesData() {
 	var colIndex = 2;
 	// empty the services table
 	$('#services-table').html('');
+	$('#services-table').append('<thead/>');
+	$('#services-table thead').append(
+		$('<tr/>')
+			.append($("<th style='width:40%'>Description of Services</th>"))
+			.append($("<th class='bundle first'></th>"))
+			.append($("<th class='bundle second'></th>"))
+			.append($("<th class='bundle third'></th>"))
+	);
+	$('#services-table').append('<tbody/>');
 	/**
 	* Display - Services Start
 	*/
