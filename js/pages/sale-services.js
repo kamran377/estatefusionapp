@@ -325,6 +325,8 @@ function updateTotals(cls) {
 function displayBundlesData() {
 	// the column index of the current bundle
 	var colIndex = 2;
+	// empty the services table
+	$('#services-table tbody').html('');
 	/**
 	* Display - Services Start
 	*/
