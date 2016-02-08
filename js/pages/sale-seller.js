@@ -20,6 +20,7 @@ function attachSellerEvents() {
 			scrollTop: $('#price').offset().top
 		}, 2000);
 	});
+	$('#firstName, #surname,#firstName2, #surname2').upperFirstAll()
 	// event for change in price
 	$('#price').on('change',function(){
 		// get the new price
@@ -164,11 +165,10 @@ function attachSellerEvents() {
 				required : true
 			},
 			
-			'emailPrimary' : {
-				required : true,
+			'primaryEmail' : {
 				email:true
 			},
-			'emailSecondary' : {
+			'secondaryEmail' : {
 				email:true
 			},
 			'propertyAddress' : {
@@ -200,10 +200,12 @@ function attachSellerEvents() {
 				number:true
 			},
 			'fixedPrice' : {
-				required :  function(){return $('#fixed-price-check').prop('checked');}
+				required :  function(){return $('#fixed-price-check').prop('checked');},
+				number:true
 			},
 			'percValue': {
-				required :  function(){return $('#perc-price-check').prop('checked');}
+				required :  function(){return $('#perc-price-check').prop('checked');},
+				number:true
 			},
 		},
 		highlight: function(element, errorClass) {

@@ -506,6 +506,7 @@ $(document).on('ready',function(){
 			draftProperty = null;
 			draftBundle = null;
 			draftServices = null;
+			window.location.href = "index.html#welcomePage"
 			location.reload();
 			
 		}
