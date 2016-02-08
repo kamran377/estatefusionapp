@@ -8,7 +8,8 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
-var versionNumber = 'V'+moment().format('DDMMYY')+'.A';
+var versionNumber = 'V'+moment().format('DDMMYY')+'.C';
+
 $(document).on('ready',function(){
 	FastClick.attach(document.body);
 	window.isphone = false;
@@ -16,7 +17,7 @@ $(document).on('ready',function(){
         && document.URL.indexOf("https://") === -1) {
         window.isphone = true;
     }
-
+	
     if( window.isphone ) {
         document.addEventListener("deviceready", onDeviceReady, false);
     } else {
@@ -47,6 +48,7 @@ function onDeviceReady() {
 	//var networkState = navigator.network.connection.type;
 	//alert(networkState);
 	checkConnection();
+	
 }
 function onBackKeyDown(e) {
 	e.preventDefault();

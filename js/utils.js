@@ -13,11 +13,14 @@ var draftCustomer;
 var draftProperty;
 var draftBundle;
 var draftServices;
- $( document ).bind( "mobileinit", function() {
-    // Make your jQuery Mobile framework configuration changes here!
-	$.support.cors = true;
-    $.mobile.allowCrossDomainPages = true;
-	
+$(document).on('pagehide', function (e) {
+    var page = $(e.target);
+    if (!$.mobile.page.prototype.options.domCache
+        && (!page.attr('data-dom-cache')
+            || page.attr('data-dom-cache') == "false")
+        ) {
+        //page.remove();
+    }
 });
  // this function returns whether the device is online or offline
 function isDeviceOnline() {
@@ -281,6 +284,7 @@ function refreshPage(page){
 }
 // this will take back the agent to welcome page
 function loadWelcomePage() {
+	window.location.reload();
 	window.location.href = 'index.html#welcomePage';
 }
 // this will populate the customer draft
@@ -441,13 +445,20 @@ function populateCustomerDraft(customer,property,bundle, services) {
 // this will handle logout button
 $(document).on('ready',function(){
 	$('.logout').on('click',function(){
-		window.location.href = 'index.html#';
+		
+		window.location.reload();
+		window.location.href = 'index.html';
 	});
 	$('#exitApp').on('click',function(){
 		navigator.app.exitApp(); // To exit the app!
 	});
 	$('#wizard_example').on('submit',function(){
 		return false;
+	});
+	$(document).on('click','#newSaleLink',function(){
+		$.mobile.changePage($('#salePage'), {
+			reloadPage: true
+		});
 	});
 	$(document).on('click','.delete-draft',function(){
 		var id = $(this).attr('data-id');

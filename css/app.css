@@ -52,6 +52,7 @@ label {
 	text-align:center;
 	font-family: 'Open Sans' !important;
 	vertical-align: middle;
+	font-weight: bold;
 }
 
 #services-table tr th.highlighted,
@@ -68,12 +69,13 @@ label {
 
 #services-table thead tr th,
 #services-table tbody tr td.header {
-	background:#78A5F3;
+	background:#3388cc;
 	font-size:16px;
 	font-weight:bold;
+	color:#fff;
 }
 #services-table tbody tr td.price {
-	background:#B4CAF1;
+	background:#84AEF9;
 	font-size:16px;
 	font-weight:bold;
 }
@@ -226,4 +228,11 @@ div.photo-cover img {
 	font-size:20px;
 	color:#1160A9;
 	font-weight:bold;
+}
+.checkbox-success label {
+	font-weight:normal !important;
+}
+.bundle .checkbox-success label {
+	color:#fff !important;
+	font-weight:bold !important;
 }

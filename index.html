@@ -32,7 +32,8 @@
 		<!---
 		-- Page Login Start
 		-->
-		<div id='loginPage' data-role="page" data-theme="a">
+		
+		<div id='loginPage' data-dom-cache="false" data-role="page" data-theme="a">
 			<div data-role="content" data-theme="a">
 				<div class='logo'>
 					<img class='img-responsive' src="images/logo.png" />
@@ -61,7 +62,7 @@
 		<!---
 		-- Page Welcome End
 		-->
-		<div id='welcomePage' data-role="page" data-theme="a">
+		<div id='welcomePage' data-dom-cache="false" data-role="page" data-theme="a">
 			<div data-role="header">
 				<a class='btn btn-default ui-btn-left versionNumber' data-role="none">&nbsp;</a>
 				
@@ -72,7 +73,7 @@
 			</div>
 			<div data-role="content">
 				<div id='pageContent' style='display:none;'>
-					<a href="#salePage" class="btn btn-primary btn-lg btn-block new-sale"><i class='fa fa-plus'></i> Add New Sale</a>
+					<a id="newSaleLink" href="javascript://" class="btn btn-primary btn-lg btn-block new-sale"><i class='fa fa-plus'></i> Add New Sale</a>
 					<br/>
 					<div id='customersTableDiv' class='hidden'>
 						<table id='customersTable' class='table table-bordered'>
@@ -94,7 +95,7 @@
 		<!---
 		-- Page Sale Start
 		-->
-		<div id='salePage' data-role="page" data-theme="a">
+		<div id='salePage' data-dom-cache="false" data-role="page" data-theme="a">
 			<div data-role="header">
 				<a class='btn btn-default ui-btn-left versionNumber' data-role="none">&nbsp;</a>
 				
@@ -435,7 +436,16 @@
 	</body>
 </html>
 <script src="js/vendor/jquery-1.11.1.min.js"></script>
+<script type='text/javascript'>
+	$(document).on( "mobileinit", function() {
+		// Make your jQuery Mobile framework configuration changes here!
+		$.support.cors = true;
+		$.mobile.allowCrossDomainPages = true;
+		$.mobile.page.prototype.options.domCache = false;
+	});
+</script>
 <script src="js/vendor/jquery.mobile-1.4.5.min.js"></script>
+
 <!-- Include the compiled Step Form Wizard JS -->
 <script src="js/vendor/jquery.validate.min.js"></script>
 <!-- Include the compiled Step Form Wizard JS -->

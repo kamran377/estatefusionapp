@@ -91,21 +91,25 @@ function attachServicesEvents() {
 	});
 	// change event for the options selection
 	$(document).on('click','.option-checkbox',function(){
+		
 		// get closest column of checkbox
 		$td = $(this).closest('td');
 		// get the index of column
-		var index = $('#services-table tbody tr td').index($td);
+		var index = $('#services-table tbody tr td.options-col').index($td);
+		
 		// get the index of td in its row
-		index = (index % 4) + 1;
+		index = (index % 3) + 1;
 		// get the row class
-		var cls ='first';
-		if(index == 3) {
+		var cls ='';
+		if(index == 1) {
+			cls = 'first';
+		} else if(index == 2) {
 			cls = 'second';
-		} else if(index == 4) {
+		} else if(index == 3) {
 			cls = 'third';
 		}
 		// check if the bundle is selected
-		if($('th.' + cls).hasClass('highlighted')) {
+		if(cls && $('th.' + cls).hasClass('highlighted')) {
 			// sub-total class
 			var totalcls = "option-" + cls;
 			// get the price
@@ -143,18 +147,20 @@ function attachServicesEvents() {
 		// get closest column of checkbox
 		$td = $(this).closest('td');
 		// get the index of column
-		var index = $('#services-table tbody tr td').index($td);
+		var index = $('#services-table tbody tr td.discounts-col').index($td);
 		// get the index of td in its row
-		index = (index % 4) + 1;
+		index = (index % 3) + 1;
 		// get the row class
-		var cls ='first';
-		if(index == 3) {
+		var cls ='';
+		if(index == 1) {
+			cls = 'first';
+		} else if(index == 2) {
 			cls = 'second';
-		} else if(index == 4) {
+		} else if(index == 3) {
 			cls = 'third';
 		}
 		// check if the discount offer is selected
-		if($('th.' + cls).hasClass('highlighted')) {
+		if(cls && $('th.' + cls).hasClass('highlighted')) {
 			// uncheck all discount checkboxes
 			$('.discount-checkbox').not(this).prop('checked',false);
 			var _percentage = $td.attr('data-percentage');
@@ -198,18 +204,20 @@ function attachServicesEvents() {
 		// get closest column of checkbox
 		$td = $(this).closest('td');
 		// get the index of column
-		var index = $('#services-table tbody tr td').index($td);
+		var index = $('#services-table tbody tr td.confirm-td').index($td);
 		// get the index of td in its row
-		index = (index % 4) + 1;
+		index = (index % 3) + 1;
 		// get the row class
-		var cls ='first';
-		if(index == 3) {
+		var cls ='';
+		if(index == 1) {
+			cls = 'first';
+		} else if(index == 2) {
 			cls = 'second';
-		} else if(index == 4) {
+		} else if(index == 3) {
 			cls = 'third';
 		}
 		// check if the discount offer is selected
-		if($('th.' + cls).hasClass('highlighted')) {
+		if(cls && $('th.' + cls).hasClass('highlighted')) {
 			// check if discount is selected 
 			if($('.discount-checkbox:checked').length < 1) {
 				return false;
@@ -233,18 +241,20 @@ function attachServicesEvents() {
 		// get closest column of checkbox
 		$td = $(this).closest('td');
 		// get the index of column
-		var index = $('#services-table tbody tr td').index($td);
+		var index = $('#services-table tbody tr td.draft-td ').index($td);
 		// get the index of td in its row
-		index = (index % 4) + 1;
+		index = (index % 3) + 1;
 		// get the row class
-		var cls ='first';
-		if(index == 3) {
+		var cls ='';
+		if(index == 1) {
+			cls = 'first';
+		} else if(index == 2) {
 			cls = 'second';
-		} else if(index == 4) {
+		} else if(index == 3) {
 			cls = 'third';
 		}
 		// check if the discount offer is selected
-		if($('th.' + cls).hasClass('highlighted')) {
+		if(cls && $('th.' + cls).hasClass('highlighted')) {
 			// check if discount is selected 
 			if($('.discount-checkbox:checked').length < 1) {
 				return false;
@@ -440,19 +450,13 @@ function displayBundlesData() {
 					}
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').addClass('')
-							.text(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''));
+						.append($('<td/>').attr('colspan',4).html(''));
 					$('#services-table tbody').append($tr);
 					//apply options header
 					$tr = $('<tr/>').addClass('')
 					.append($('<td/>').addClass('header')
 						.text('Options'))
-					.append($('<td/>').addClass('').html(''))
-					.append($('<td/>').addClass('').html(''))
-					.append($('<td/>').addClass('').html(''));
+					.append($('<td/>').attr('colspan',3).addClass('').html(''));
 					$('#services-table tbody').append($tr);			
 					
 					// display the actual options now
@@ -484,11 +488,7 @@ function displayBundlesData() {
 					$('#services-table tbody').append($tr);	
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').addClass('')
-							.text(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''));
+						.append($('<td/>').attr('colspan',4).html(''));
 					$('#services-table tbody').append($tr);
 					// add the total price
 					$tr = $('<tr/>').addClass('total-price')
@@ -500,11 +500,7 @@ function displayBundlesData() {
 					$('#services-table tbody').append($tr);
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').addClass('')
-							.text(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''));
+						.append($('<td/>').attr('colspan',4).html(''));
 					$('#services-table tbody').append($tr);
 					// add the VAT price row
 					$tr = $('<tr/>').addClass('vat-price')
@@ -514,11 +510,7 @@ function displayBundlesData() {
 					$('#services-table tbody').append($tr);
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').addClass('')
-							.text(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''));
+						.append($('<td/>').attr('colspan',4).html(''));
 					$('#services-table tbody').append($tr);
 					// add the total including VAT row
 					$tr = $('<tr/>').addClass('vat-total-price')
@@ -534,20 +526,14 @@ function displayBundlesData() {
 					*/
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').addClass('')
-							.text(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''))
-						.append($('<td/>').html(''));
+						.append($('<td/>').attr('colspan',4).html(''));
 					$('#services-table tbody').append($tr);
 					// add discount options header
 					//apply discounts header
 					$tr = $('<tr/>').addClass('')
 					.append($('<td/>').addClass('header')
 						.text('Discount Options'))
-					.append($('<td/>').addClass('').html(''))
-					.append($('<td/>').addClass('').html(''))
-					.append($('<td/>').addClass('').html(''));
+					.append($('<td/>').addClass('').attr('colspan',3).html(''));
 					$('#services-table tbody').append($tr);			
 					
 					getAllDiscounts(function(discounts){
@@ -569,11 +555,7 @@ function displayBundlesData() {
 						}
 						//adding empty row
 						$tr = $('<tr/>').addClass('')
-							.append($('<td/>').addClass('')
-								.text(''))
-							.append($('<td/>').html(''))
-							.append($('<td/>').html(''))
-							.append($('<td/>').html(''));
+							.append($('<td/>').attr('colspan',4).html(''));
 						$('#services-table tbody').append($tr);
 						// add the total due now
 						$tr = $('<tr/>').addClass('total-price-now')
@@ -598,9 +580,9 @@ function displayBundlesData() {
 						$tr = $('<tr/>').addClass('confirm-row')
 							.append($('<td/>').addClass('')
 								.text('Confirm Selection'))
-							.append($('<td/>').addClass('confirm-first').append($confirmCheck1))
-							.append($('<td/>').addClass('confirm-second').append($confirmCheck2))
-							.append($('<td/>').addClass('confirm-third').append($confirmCheck3));
+							.append($('<td/>').addClass('confirm-td confirm-first').append($confirmCheck1))
+							.append($('<td/>').addClass('confirm-td confirm-second').append($confirmCheck2))
+							.append($('<td/>').addClass('confirm-td confirm-third').append($confirmCheck3));
 						$('#services-table tbody').append($tr);	
 						// add the draft checkbox now
 						var $draftCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="draft-checkbox" id="checkbox-draft-1" type="checkbox"><label for="checkbox-draft-1">Save Draft</label></div>');
@@ -609,9 +591,9 @@ function displayBundlesData() {
 						$tr = $('<tr/>').addClass('draft-row')
 							.append($('<td/>').addClass('')
 								.text('Save as Draft'))
-							.append($('<td/>').addClass('draft-first').append($draftCheck1))
-							.append($('<td/>').addClass('draft-second').append($draftCheck2))
-							.append($('<td/>').addClass('draft-third').append($draftCheck3));
+							.append($('<td/>').addClass('draft-td draft-first').append($draftCheck1))
+							.append($('<td/>').addClass('draft-td draft-second').append($draftCheck2))
+							.append($('<td/>').addClass('draft-td draft-third').append($draftCheck3));
 						$('#services-table tbody').append($tr);	
 						
 						// attach tooltip
