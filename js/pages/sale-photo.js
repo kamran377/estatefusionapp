@@ -19,7 +19,8 @@ function onFail(message) {
 function onPhotoDataSuccess(imageData) {
 	// Get image handle
 	//
-	var smallImage = document.getElementById('smallImage');
+	var type = $('#photoType1').val();
+	var smallImage = document.getElementById('smallImage-' + type);
 	// Unhide image elements
 	//
 	smallImage.style.display = 'block';
@@ -35,7 +36,8 @@ function onPhotoDataSuccess(imageData) {
 function onPhotoDataSuccess2(imageData) {
   // Get image handle
   //
-  var smallImage = document.getElementById('smallImage2');
+  var type = $('#photoType2').val();
+  var smallImage = document.getElementById('smallImage2-'+ type);
   // Unhide image elements
   //
   smallImage.style.display = 'block';

@@ -252,11 +252,11 @@
 											<label>Property Tenure</label>
 											<select name='propertyTenure' id='propertyTenure'  data-role="none" class='form-control'>
 												<option value="">Property Tenure</option>
-												<option value='1'>Freehold</option
+												<option value='1'>Freehold</option>
 												<option value='2'>Leasehold</option>
-												<option value='3'>Share of reehold</option>
+												<option value='3'>Share of Freehold</option>
 												<option value='4'>Commonhold</option>
-												<option value='5'>Feudal</option>
+												
 											</select>
 										</td>
 									</tr>
@@ -406,15 +406,47 @@
 								<tr>
 									<td>
 										<div class='photo-cover'>
-											<img src="images/placeholder.png" style="" id="smallImage" alt="" />				
+											<div class='cover'>
+												<img src="images/placeholder.png" style="" id="smallImage-1" alt="" />	
+												<p>ID</p>
+											</div>
+											<div class='cover'>
+												<img src="images/placeholder.png" style="" id="smallImage-2" alt="" />
+												<p>Driver's License</p>
+											</div>
+											<div class='cover'>
+												<img src="images/placeholder.png" style="" id="smallImage-3" alt="" />			
+												<p>Utility Bill</p>
+											</div>
 										</div>
-										<button id='firstPhotoButton' class='ui-btn primary-btn' data-role="none"  onclick="capturePhotoWithData();"><i class='fa fa-camera'></i> Capture Photo</button>
+										<button id='firstPhotoButton' class='ui-btn btn btn-primary btn-block' data-role="none"  onclick="capturePhotoWithData();"><i class='fa fa-camera'></i> Capture Photo</button>
+										<select id='photoType1' class='form-control'  data-role="none">
+											<option value="1">ID</option>
+											<option value="2">Driver's License</option>
+											<option value="3">Utility Bill</option>
+										</select>
 									</td>
 									<td id='secondPhoto' class='hidden'>
 										<div class='photo-cover'>
-											<img style="" src="images/placeholder.png" id="smallImage2" src="" />
+											<div class='cover'>
+												<img src="images/placeholder.png" style="" id="smallImage2-1" alt="" />	
+												<p>ID</p>
+											</div>
+											<div class='cover'>
+												<img src="images/placeholder.png" style="" id="smallImage2-2" alt="" />
+												<p>Driver's License</p>
+											</div>
+											<div class='cover'>
+												<img src="images/placeholder.png" style="" id="smallImage2-3" alt="" />			
+												<p>Utility Bill</p>
+											</div>
 										</div>
-										<button class='ui-btn primary-btn' data-role="none"  onclick="capturePhotoWithData2();"><i class='fa fa-camera'></i> Capture Photo 2</button>
+										<button class='ui-btn btn btn-primary btn-block' data-role="none"  onclick="capturePhotoWithData2();"><i class='fa fa-camera'></i> Capture Photo 2</button>
+										<select id='photoType2' class='form-control'  data-role="none">
+											<option value="1">ID</option>
+											<option value="2">Driver's License</option>
+											<option value="3">Utility Bill</option>
+										</select>
 									</td>
 								</tr>
 							</table>
