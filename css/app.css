@@ -102,9 +102,7 @@ td.label label {
 div.terms {
 	color:#000;
 }
-div.sf-step:nth-child(4) {
-	height:480px !important;
-}
+
 #signature{
 	border: 1px dotted #000;
 	color :#000;
@@ -251,4 +249,16 @@ div.photo-cover .cover p {
 .bundle .checkbox-success label {
 	color:#fff !important;
 	font-weight:bold !important;
+}
+.form-container {
+	width: 500px;
+    margin: 15px auto;
+}
+#totalPaymentCheckout {
+	text-align:center;
+	margin:10px;
+	color:#3388cc;
+	font-weight:bold;
+	font-size:32px;
+	
 }

@@ -2,7 +2,7 @@ var $sigdiv;
 function addSignaturePlugin(sfw) {
 	$sigdiv = $("#signature");
 	$sigdiv.jSignature();
-	sfw.refresh();
+	
 }
 function resetSignature() {
 	$sigdiv.jSignature("reset");

@@ -454,7 +454,25 @@
 					</fieldset>
 					<fieldset>
 						<legend>Payment</legend>
-						<div id="books"></div>
+						<div id="payment">
+							<h2 id="totalPaymentCheckout"></h2>
+							<div class="card-wrapper"></div>
+								<div class="form-container active">
+									<div class="form-group">
+										<input data-role='none' class='form-control' placeholder="Card number" type="text" name="number">
+									</div>
+									<div class="form-group">	
+										<input data-role='none' class='form-control' placeholder="Full name" type="text" name="name">
+									</div>
+									<div class="form-group">	
+										<input data-role='none' class='form-control' placeholder="MM/YY" type="text" name="expiry">
+									</div>
+									<div class="form-group">	
+										<input data-role='none' class='form-control' placeholder="CVC" type="text" name="cvc">
+									</div>
+								</div>
+							</div>
+						</div>
 					</fieldset>	
 				</form>
 			</div>
@@ -496,6 +514,8 @@
 <script src="js/vendor/jquery.nicescroll.js"></script>
 <!-- Include the compiled nicescroll JS -->
 <script src="js/vendor/capitalize.js"></script>
+<!-- Include the compiled card JS -->
+<script src="js/vendor/jquery.card.js"></script>
 <!-- Include the settings JS -->
 <script src="js/settings.js"></script>
 <!-- Include the database JS -->

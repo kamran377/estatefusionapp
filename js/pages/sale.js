@@ -10,11 +10,21 @@ $(document).on("pageshow","#salePage",function() {
 	attachSellerEvents();
 	// attach and call methods for service step
 	attachServicesEvents();
-	//
+	// attach card event to card
+	applyCardEvent();
 });
 /**
 * Events - End - Sale Page
 */
+function applyCardEvent() {
+	$('.form-container').card({
+		// a selector or DOM element for the container
+		// where you want the card to appear
+		container: '.card-wrapper', // *required*
+
+		// all of the other options from above
+	});
+}
 function applyWizard() {
 	// show loading spinner to load data from server
 	hideLoader(/* from utils.js*/);
@@ -26,6 +36,7 @@ function applyWizard() {
 		transition:'none',
 		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
 		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
+		finishBtn:$('<a class="finish-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-stop"></i> FINISH</a>'),
 		onNext: function(from, data) {
 			if(from == 0) {
 				;
@@ -43,7 +54,8 @@ function applyWizard() {
 			if(to == 2) {
 				handleTermsPage(sfw);
 			}
-				
+			
+			
 		}
 	});
 	$("#wizard_example").on('sf-step-before', function(e, from, to, data) {
@@ -69,6 +81,15 @@ function applyWizard() {
 			if($('#ownership').val() == 2) {
 				$('#secondPhoto').removeClass('hidden');
 			}
+			sfw.refresh();
+		}
+		if(from == 4 && to == 3) {
+			sfw.refresh();
+		}
+		// from photo page to payment page
+		if(from == 4 && to == 5) {
+			var payable = getPayableObject() /* from sale-service.js*/;
+			$('#totalPaymentCheckout').html('Total Payment : &pound;' + payable.payNow);
 		}
 		//e.preventDefault(); // this you have to call if you need to interrupt transition to next step
 	});
