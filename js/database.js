@@ -24,7 +24,9 @@ $(document).on('ready',function(){
         onDeviceReady();
     }
 	
-	
+	// stripe key token
+	Stripe.setPublishableKey('pk_test_v2DTosStxmJG8SnaKs4tDnfe');
+
 });
 function onDeviceReady() {
     // do everything here.
@@ -41,6 +43,7 @@ function onDeviceReady() {
 	createPropertiesTable();
 	createBundlesPurchasedTable();
 	createBundlesServicesPurchasedTable();
+	createCustomerPhotosTable();
 	updateDbSchema();
 	$('#footer').text(versionNumber);
 	$('.versionNumber').text(versionNumber);
@@ -276,6 +279,22 @@ function createBundlesServicesPurchasedTable() {
 							property_id TEXT NOT NULL,\
 							bundle_id TEXT NOT NULL,\
 							service_id TEXT NOT NULL)');
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+function createCustomerPhotosTable() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('CREATE TABLE IF NOT EXISTS customer_photos \
+							(id INTEGER PRIMARY KEY AUTOINCREMENT,\
+							customer_id TEXT NOT NULL,\
+							photo_type_id TEXT NOT NULL,\
+							photo TEXT NOT NULL,\
+							owner TEXT NOT NULL)');
 			});
 		}
 	} catch(e) {

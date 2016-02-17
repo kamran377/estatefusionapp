@@ -457,21 +457,26 @@
 						<div id="payment">
 							<h2 id="totalPaymentCheckout"></h2>
 							<div class="card-wrapper"></div>
-								<div class="form-container active">
-									<div class="form-group">
-										<input data-role='none' class='form-control' placeholder="Card number" type="text" name="number">
-									</div>
-									<div class="form-group">	
-										<input data-role='none' class='form-control' placeholder="Full name" type="text" name="name">
-									</div>
-									<div class="form-group">	
-										<input data-role='none' class='form-control' placeholder="MM/YY" type="text" name="expiry">
-									</div>
-									<div class="form-group">	
-										<input data-role='none' class='form-control' placeholder="CVC" type="text" name="cvc">
-									</div>
+							<div id='paymentFrom' class="form-container active">
+								<label class="alert alert-danger hidden"></label>
+								<div class="form-group">
+									<input id='ccnumber' data-role='none' class='form-control' data-stripe="number" placeholder="Card number" type="text" name="number">
 								</div>
+								<div class="form-group">	
+									<input data-role='none' class='form-control' placeholder="Full name" type="text" name="name">
+								</div>
+								<div class="form-group">	
+									
+									<input id='ccexp' data-role='none' class='form-control' data-stripe="exp" type="text" name="expiry">
+								</div>
+								<div class="form-group">	
+									<input id='cccvc' data-role='none' class='form-control' data-stripe="cvc" placeholder="CVC" type="text" name="cvc">
+								</div>
+								
+								<button id="payNow" class='btn btn-primary btn-block btn-lg'><i class='fa fa-cc'></i> Pay</button>
+								
 							</div>
+							
 						</div>
 					</fieldset>	
 				</form>
@@ -516,6 +521,10 @@
 <script src="js/vendor/capitalize.js"></script>
 <!-- Include the compiled card JS -->
 <script src="js/vendor/jquery.card.js"></script>
+<!-- Include the compiled masked input JS -->
+<script src="js/vendor/jquery.maskedinput.min.js"></script>
+<!-- Include the compiled stripe JS -->
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <!-- Include the settings JS -->
 <script src="js/settings.js"></script>
 <!-- Include the database JS -->
@@ -540,11 +549,5 @@
 <script src="js/pages/sale-signature.js"></script>
 <!-- Include the pages/sale-photo JS -->
 <script src="js/pages/sale-photo.js"></script>
-<script type='text/javascript'>
-$(document).on('ready',function() {
-	
-	
-	
-});
-
-</script>
+<!-- Include the pages/sale-photo JS -->
+<script src="js/pages/sale-payment.js"></script>
