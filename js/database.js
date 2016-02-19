@@ -25,8 +25,9 @@ $(document).on('ready',function(){
     }
 	
 	// stripe key token
-	Stripe.setPublishableKey('pk_test_v2DTosStxmJG8SnaKs4tDnfe');
-
+	if(typeof Stripe != 'undefined') {
+		Stripe.setPublishableKey('pk_test_v2DTosStxmJG8SnaKs4tDnfe');
+	}
 });
 function onDeviceReady() {
     // do everything here.
@@ -547,6 +548,30 @@ function insertPurchasedBundleService(service, callback) {
 		console.log(e);
 	}
 }
+// this function inserts purchased bundle service in the local bundles_services_purchased table
+function insertCustomerPhoto(customerPhoto, callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('INSERT INTO customer_photos (customer_id,photo_type_id,photo,owner) values (?,?,?,?)'
+				,[
+					customerPhoto.customer_id,customerPhoto.photo_type_id,
+					customerPhoto.photo , customerPhoto.owner
+					
+				],
+				function(tx,results){
+					callback(true,results);
+				},
+				function(tx,error){
+					console.log(error.message);
+					callback(false,error);
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
 /****************************************************************
  * 
  * Table Cleaning scripts
@@ -804,7 +829,12 @@ function getTerms(callback) {
 	}
 }
 // This function returns all the customers stored in the local db
-function getCustomers(callback) {
+function getCustomers(isDraft, callback) {
+	if(isDraft) {
+		var sql = 'select * from customers where signature is null';
+	} else {
+		var sql = 'select * from customers where signature is not null';
+	}
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {

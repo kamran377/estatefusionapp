@@ -1,4 +1,23 @@
 $(document).on('ready',function(){
+	// event for softkeyboard
+	$('#cccvc, #ccexp').on('focus',function(){
+		var $field = $(this);
+		pageHeight = $('#salePage').height();
+		pageHeight = pageHeight + 150;
+		$('#salePage').css({'height':pageHeight+'px'});
+		$('html, body').animate({
+			scrollTop: $field.offset().top
+		}, 2000);
+	});
+	$('#cccvc, #ccexp').on('blur',function(){
+		var $field = $(this);
+		pageHeight = $('#salePage').height();
+		pageHeight = pageHeight - 150;
+		$('#salePage').css({'height':pageHeight+'px'});
+		$('html, body').animate({
+			scrollTop: $('#ccname').offset().top
+		}, 2000);
+	});
 	$('#payNow').on('click',function(){
 		$('#payNow').prop('disabled', true);
 		$('#payNow i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
@@ -23,6 +42,7 @@ function stripeResponseHandler(status, response) {
 		//$form.append($('<input type="hidden" name="stripeToken" />').val(token));
 		// and submit
 		//$form.get(0).submit();
+		//var data = 
 		$('#payNow').prop('disabled', false);
 		$('#payNow i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
 		

@@ -8,14 +8,21 @@
  * This file contains the general / global settings of app
  *
  *************************************************/
-var API_BASE_URL 		= 'http://www.estate-fusion.net/api/v1/';
+var API_BASE_URL 		= '/api/v1/';
+//var API_BASE_URL 		= 'http://localhost:8080/estatefusionapi/v1/';
 var LOGIN_URL 			= API_BASE_URL + 'users/login';
 var SIMPLE_BUNDLES_URL	= API_BASE_URL + 'bundles/all';
 var OPTIONS_BUNDLES_URL	= API_BASE_URL + 'bundles/options';
 var DISCOUNTS_URL		= API_BASE_URL + 'bundles/discounts';
 var TERMS_URL			= API_BASE_URL + 'bundles/terms';
+var PAYMENT_URL			= API_BASE_URL + 'payment/chargeUser';
 var SIMPLE_BUNDLE_TYPE 	= "SIM";
 var OPTIONS_BUNDLE_TYPE = "OPT";
+var CUSTOMER_PHOTO_ID   = "1";
+var CUSTOMER_PHOTO_LICENSE   = "2";
+var CUSTOMER_PHOTO_BILL   = "3";
+var CUSTOMER_OWNER_FIRST  = "First";
+var CUSTOMER_OWNER_SECOND  = "Second";
 var STATUS_SUCCESS 		= 'succes';
 var STATUS_ERROR 		= 'error';
 var AJAX_POST 			= 'POST';
