@@ -8,7 +8,7 @@
  * This file contains the general / global settings of app
  *
  *************************************************/
-var API_BASE_URL 		= '/api/v1/';
+var API_BASE_URL 		= 'http://estate-fusion.net/api/v1/';
 //var API_BASE_URL 		= 'http://localhost:8080/estatefusionapi/v1/';
 var LOGIN_URL 			= API_BASE_URL + 'users/login';
 var SIMPLE_BUNDLES_URL	= API_BASE_URL + 'bundles/all';
