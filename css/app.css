@@ -274,3 +274,8 @@ div.sale-success p.text-success.icon {
 div.sale-success p.text-success.text {
 	font-size:4em;
 }
+h2.sales-table-heading {
+	border-bottom: 5px solid #aaa;
+    padding-bottom: 5px;
+    font-weight: bold;
+}

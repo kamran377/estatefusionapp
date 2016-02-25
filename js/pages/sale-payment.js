@@ -45,7 +45,21 @@ function stripeResponseHandler(status, response) {
 		//var data = 
 		$('#payNow').prop('disabled', false);
 		$('#payNow i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
-		
-		alert(token);
+		getAccessToken(function(access_token){
+			var payable = getPayableObject() /* from sale-services.js*/;
+			var data = {
+				'ccToken' : token,
+				'amount':payable.payNow
+			};
+			postRequest(PAYMENT_URL /* from settings.js */,data,access_token, function(obj){
+				if(obj.status == 'success') {
+					alert('Payment received successfully');
+					gotoFinalStep()/* from sale.js*/;
+				} else {
+					alert(obj.message);
+				}	
+			}) /* from ajax.js*/;
+		});
+				
   }
 }

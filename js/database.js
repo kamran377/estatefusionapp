@@ -831,14 +831,15 @@ function getTerms(callback) {
 // This function returns all the customers stored in the local db
 function getCustomers(isDraft, callback) {
 	if(isDraft) {
-		var sql = 'select * from customers where signature is null';
+		var sql = "select * from customers where signature = '' ";
 	} else {
-		var sql = 'select * from customers where signature is not null';
+		var sql = "select * from customers where signature <> '' ";
 	}
+	//alert(sql);
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('select * from customers'
+				tx.executeSql(sql
 				,[],
 				function(tx,results){
 					var len = results.rows.length;

@@ -1,4 +1,4 @@
-/**
+ /**
 	* Events - Start - Sale Page
 	*/
 var sfw;
@@ -92,7 +92,7 @@ function applyWizard() {
 		if(from == 4 && to == 5) {
 			if(isDeviceOnline() == true) {
 				var payable = getPayableObject() /* from sale-service.js*/;
-				$('#totalPaymentCheckout').html('Total Payment : &pound;' + payable.payNow);
+				$('#totalPaymentCheckout').html('Total Payment Due: &pound;' + payable.payNow);
 			} else {
 				//sfw.activeStep(6);
 				sfw.disableStep(5);
@@ -109,4 +109,7 @@ function applyWizard() {
 		}
 		//e.preventDefault(); // this you have to call if you need to interrupt transition to next step
 	});
+}
+function gotoFinalStep() {
+	$("#wizard_example").goTo(6);
 }
