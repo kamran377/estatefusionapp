@@ -34,6 +34,9 @@ function stripeResponseHandler(status, response) {
 	if (response.error) {
 		// Show the errors on the form
 		$form.find('.payment-errors').text(response.error.message);
+		$('#payNow').prop('disabled', false);
+		$('#payNow i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
+		
 		//$form.find('button').prop('disabled', false);
 	} else {
 		// response contains id and card, which contains additional card details
@@ -43,20 +46,23 @@ function stripeResponseHandler(status, response) {
 		// and submit
 		//$form.get(0).submit();
 		//var data = 
-		$('#payNow').prop('disabled', false);
-		$('#payNow i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
 		getAccessToken(function(access_token){
 			var payable = getPayableObject() /* from sale-services.js*/;
 			var data = {
 				'ccToken' : token,
-				'amount':payable.payNow
+				//'amount':payable.payNow
+				amount:45
 			};
 			postRequest(PAYMENT_URL /* from settings.js */,data,access_token, function(obj){
-				if(obj.status == 'success') {
+				$('#payNow').prop('disabled', false);
+				$('#payNow i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
+		
+				var res = obj.result;
+				if(res.status == 'success') {
 					alert('Payment received successfully');
 					gotoFinalStep()/* from sale.js*/;
 				} else {
-					alert(obj.message);
+					alert(res.message);
 				}	
 			}) /* from ajax.js*/;
 		});

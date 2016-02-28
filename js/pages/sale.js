@@ -26,6 +26,7 @@ function applyCardEvent() {
 	});
 	  $("#ccexp").mask("99/99",{placeholder:"MM/YY"});
 }
+
 function applyWizard() {
 	// show loading spinner to load data from server
 	hideLoader(/* from utils.js*/);
@@ -35,7 +36,7 @@ function applyWizard() {
 		height: 'auto',
 		theme:'circle',
 		transition:'none',
-		//startStep: 4,
+		startStep: 6,
 		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
 		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		finishBtn:$('<a class="finish-btn sf-right sf-btn  btn btn-primary" href="#"><i class="fa fa-stop"></i> FINISH</a>'),
@@ -111,5 +112,6 @@ function applyWizard() {
 	});
 }
 function gotoFinalStep() {
-	$("#wizard_example").goTo(6);
+	// this will show the final step
+	sfw.goTo(6);
 }
