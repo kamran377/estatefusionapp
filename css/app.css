@@ -196,10 +196,12 @@ div.photo-cover .cover p {
 	color:#fff !important;
 	margin-bottom: 10px !important;
 }
-#wizard_example {
+#wizard_example,
+#wizard_exampleOther {
 	position:relative;
 }
-#startAgain {
+#startAgain,
+#startAgainOther {
 	z-index: 999;    
 	position: absolute;
     top: 30px;
@@ -250,11 +252,13 @@ div.photo-cover .cover p {
 	color:#fff !important;
 	font-weight:bold !important;
 }
-.form-container {
+.form-container,
+.form-containerOther {
 	width: 500px;
     margin: 15px auto;
 }
-#totalPaymentCheckout {
+#totalPaymentCheckout,
+#totalPaymentCheckoutOther {
 	text-align:center;
 	margin:10px;
 	color:#3388cc;

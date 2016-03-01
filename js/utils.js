@@ -504,7 +504,78 @@ function populateCustomerDraft(customer,property,bundle, services) {
         transition: 'none'
     });	
 }
-
+// this function will return the customer object for uploading
+function makeCustomerObject() {
+	// fetch customer data from customer form
+	// customer object to hold customer data 
+	var customer = {};
+	// ownership
+	customer.ownership = $('#ownership').val();
+	// first customer name
+	customer.firstName = $('#firstName').val();
+	// first customer surname
+	customer.surname = $('#surname').val();
+	// second customer name
+	customer.firstName2 = $('#firstName2').val();
+	// second customer surname
+	customer.surname2 = $('#surname2').val();
+	// customer home address
+	customer.homeAddress = $('#homeAddress').val();
+	// customer home Line1
+	customer.homeLine1 = $('#homeLine1').val();
+	// customer home Line2
+	customer.homeLine2 = $('#homeLine2').val();
+	// customer home Line3
+	customer.homeLine3 = $('#homeLine3').val();
+	// customer home town
+	customer.homeTown = $('#homeTown').val();
+	// customer home country
+	customer.homeCountry = $('#homeCountry').val();
+	// customer home postal code
+	customer.homeCode = $('#homeCode').val();
+	// customer same property address
+	customer.sameAddress = $('#checkbox-same-address').prop('checked');
+	// customer mobile phone
+	customer.mobile = $('#mobile').val();
+	// customer home phone
+	customer.phone = $('#phone').val();
+	// customer primary email
+	customer.primaryEmail = $('#primaryEmail').val();
+	// customer secondary email
+	customer.secondaryEmail = $('#secondaryEmail').val();
+	// customer property address
+	customer.propertyAddress = $('#propertyAddress').val();
+	// customer property Line1
+	customer.propertyLine1 = $('#propertyLine1').val();
+	// customer property Line2
+	customer.propertyLine2 = $('#propertyLine2').val();
+	// customer property Line3
+	customer.propertyLine3 = $('#propertyLine3').val();
+	// customer property town
+	customer.propertyTown = $('#propertyTown').val();
+	// customer property country
+	customer.propertyCountry = $('#propertyCountry').val();
+	// customer property postal code
+	customer.propertyCode = $('#propertyCode').val();
+	// customer property tenure
+	customer.propertyTenure = $('#propertyTenure').val();
+	// customer property notes
+	customer.notes = $('#notes').val();
+	// customer property term
+	customer.term = $('#term').val();
+	// customer property agency type
+	customer.agencyType = $('#agencyType').val();
+	// customer property joint agency name
+	customer.agencyName = $('#agencyName').val();
+	// customer property price
+	customer.price = $('#price').val();
+	// we don't have signature, photo for the draft customer
+	// get the customer signature
+	var sig = $("#signature").jSignature("getData","base30");
+	// set the customer signature
+	customer.signature = sig[1];
+	return customer;
+}
 // this will handle logout button
 $(document).on('ready',function(){
 	$('.logout').on('click',function(){
@@ -518,10 +589,35 @@ $(document).on('ready',function(){
 	$('#wizard_example').on('submit',function(){
 		return false;
 	});
+	$('#wizard_exampleOther').on('submit',function(){
+		return false;
+	});
 	$(document).on('click','#newSaleLink',function(){
 		$.mobile.changePage($('#salePage'), {
 			reloadPage: true
 		});
+	});
+	$(document).on('click','#deleteAllData',function(){
+		var r= confirm('Are you sure you want to delete all the sales data from device');
+		if(r == true) {
+			deleteSalesData(function(results){
+				alert('All sales data deleted successfully');
+				$('#customersTable tbody').html('');
+				$('#customersFinishedTable tbody').html('');
+			}) /* from database.js */;
+		}
+	});
+	
+	$(document).on('click','.continue-payment',function(){
+		var id = $(this).attr('data-id');
+		getCustomerBundlesPurchased(id, function(bundle){
+			var payNow = bundle['total_paid_now'];
+			//alert(payNow);
+			$('#totalPaymentCheckoutOther').html('Total Payment Due: &pound;' + payNow);
+			$('otherCustomerID').val(id);
+			$('#otherPaymentDue').val(payNow);
+			$.mobile.changePage($('#paymentPage'));
+		}) /* from database.js */;
 	});
 	$(document).on('click','.delete-draft',function(){
 		var id = $(this).attr('data-id');
@@ -569,6 +665,17 @@ $(document).on('ready',function(){
 			draftProperty = null;
 			draftBundle = null;
 			draftServices = null;
+			window.location.href = "index.html#welcomePage"
+			location.reload();
+			
+		}
+	});
+	$('#startAgainOther').on('click',function(){
+		var r= confirm('Are you sure you want to cancel the process');
+		if(r == true) {
+			// null the draft data 
+			$('otherCustomerID').val('');
+			$('#otherPaymentDue').val('');
 			window.location.href = "index.html#welcomePage"
 			location.reload();
 			

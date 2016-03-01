@@ -8,4 +8,7 @@ $(document).on('ready',function(){
 			}
 		});
 	});
+	$('#uploadCustomer').on('click',function(){
+		var customer = makeCustomerObject()/* from utils.js*/;
+	});
 });

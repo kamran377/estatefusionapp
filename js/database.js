@@ -96,6 +96,23 @@ function emptyLocalDB() {
 		console.log(e);
 	}
 }
+
+function deleteSalesData(callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('delete from customers');
+				tx.executeSql('delete from properties');
+				tx.executeSql('delete from  bundles_purchased');
+				tx.executeSql('delete from  bundles_services_purchased');	
+				tx.executeSql('delete from  customer_photos');	
+				callback(true);				
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
 /****************************************************************
  * 
  * Table Creation scripts

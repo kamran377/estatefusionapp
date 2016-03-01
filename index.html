@@ -75,6 +75,8 @@
 				<div id='pageContent' style='display:none;'>
 					<a id="newSaleLink" href="javascript://" class="btn btn-primary btn-lg btn-block new-sale"><i class='fa fa-plus'></i> Add New Sale</a>
 					<br/>
+					<a id="deleteAllData" href="javascript://" class="btn btn-danger btn-lg btn-block new-sale"><i class='fa fa-times'></i> Delete Sales Data</a>
+					<br/>
 					<h2 class="sales-table-heading">Draft Sales</h2>
 					<div id='customersTableDiv' class='hidden'>
 						<table id='customersTable' class='table table-bordered'>
@@ -104,6 +106,67 @@
 		</div>
 		<!---
 		-- Page Welcome End
+		-->
+		<!---
+		-- Page Payment Start
+		-->
+		<div id='paymentPage' data-dom-cache="false" data-role="page" data-theme="a">
+			<div data-role="header">
+				<a class='btn btn-default ui-btn-left versionNumber' data-role="none">&nbsp;</a>
+				
+				<h1>Estate Fusion</h1>
+				<a class='btn btn-default ui-btn-right logout' data-role="none"><i class='fa fa-sign-out'></i> Logout</a>
+				<div class='clearfix'></div>
+			</div>
+			<div id='' data-role="content">
+				<form id="wizard_exampleOther" action="">
+					<input type='hidden' id='otherCustomerID' />
+					<input type='hidden' id='otherPaymentDue' />
+					<a href="javascript://" id='startAgainOther' class='btn btn-danger ui-btn-right'><i class='fa fa-refresh'></i> Back</a>
+					<fieldset>
+						<legend>Payment</legend>
+						<div id="paymentOther">
+							
+							<h2 id="totalPaymentCheckoutOther"></h2>
+							<div class="card-wrapperOther"></div>
+							<div id='paymentFormOther' class="form-containerOther active">
+								<label class="alert alert-danger hidden"></label>
+								<div class="form-group">
+									<input id='ccnumberOther' data-role='none' class='form-control' data-stripe="number" placeholder="Card number" type="text" name="number">
+								</div>
+								<div class="form-group">	
+									<input id='ccnameOther' data-role='none' class='form-control' placeholder="Full name" type="text" name="name">
+								</div>
+								<div class="form-group">	
+									<input id='ccexpOther' data-role='none' class='form-control' data-stripe="exp" type="text" name="expiry">
+								</div>
+								<div class="form-group">	
+									<input id='cccvcOther' data-role='none' class='form-control' data-stripe="cvc" placeholder="CVC" type="text" name="cvc">
+								</div>
+								
+								<button id="payNowOther" class='btn btn-primary btn-block btn-lg'><i class='fa fa-cc'></i> Pay</button>
+								
+							</div>
+							
+						</div>
+					</fieldset>	
+					<fieldset>
+						<legend>Finish</legend>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class='sale-success'>
+									<p class='text-success icon'><i class='fa fa-check-circle-o'></i></p>
+									<p class='text-success text'>Completed Sale</p>
+									<button id='uploadCustomerOther' class='btn btn-primary btn-lg hidden'><i class='fa fa-upload'></i> Upload Customer</button>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		<!---
+		-- Page Payment End
 		-->
 		<!---
 		-- Page Sale Start
@@ -579,3 +642,5 @@
 <script src="js/pages/sale-payment.js"></script>
 <!-- Include the pages/sale-finish page JS -->
 <script src="js/pages/sale-finish.js"></script>
+<!-- Include the pages/sale-finish page JS -->
+<script src="js/pages/payment.js"></script>

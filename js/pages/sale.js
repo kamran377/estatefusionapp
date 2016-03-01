@@ -36,7 +36,7 @@ function applyWizard() {
 		height: 'auto',
 		theme:'circle',
 		transition:'none',
-		startStep: 6,
+		//startStep: 6,
 		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
 		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		finishBtn:$('<a class="finish-btn sf-right sf-btn  btn btn-primary" href="#"><i class="fa fa-stop"></i> FINISH</a>'),
@@ -91,6 +91,7 @@ function applyWizard() {
 		}
 		// from photo page to payment page
 		if(from == 4 && to == 5) {
+			alert(isDeviceOnline());
 			if(isDeviceOnline() == true) {
 				var payable = getPayableObject() /* from sale-service.js*/;
 				$('#totalPaymentCheckout').html('Total Payment Due: &pound;' + payable.payNow);
@@ -103,7 +104,7 @@ function applyWizard() {
 				
 			}
 		}
-		// from photo payment to finish page
+		// from payment to finish page
 		if(from == 5 && to == 6) {
 			$('#saveLocalCustomer').addClass('hidden');
 			$('#uploadCustomer').removeClass('hidden');

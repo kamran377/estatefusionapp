@@ -61,9 +61,7 @@ function loadStoredCustomers() {
 						.append(
 							$("<div/>").addClass('clearfix visible-xs').css({'height': '10px'})
 						)
-						.append(
-							$('<a/>').addClass('btn btn-danger delete-draft').attr({'href':'javascript://','data-id':customer['id']}).text(' Upload Customer').prepend($('<i class="fa fa-upload"></i>'))
-						)
+						
 					);
 				$('#customersFinishedTable').append($tr);
 			});
