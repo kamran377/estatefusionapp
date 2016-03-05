@@ -16,6 +16,7 @@ var OPTIONS_BUNDLES_URL	= API_BASE_URL + 'bundles/options';
 var DISCOUNTS_URL		= API_BASE_URL + 'bundles/discounts';
 var TERMS_URL			= API_BASE_URL + 'bundles/terms';
 var PAYMENT_URL			= API_BASE_URL + 'payment/chargeUser';
+var ADD_CUSTOMER_URL	= API_BASE_URL + 'customers/add';
 var SIMPLE_BUNDLE_TYPE 	= "SIM";
 var OPTIONS_BUNDLE_TYPE = "OPT";
 var CUSTOMER_PHOTO_ID   = "1";

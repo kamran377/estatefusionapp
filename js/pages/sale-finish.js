@@ -9,6 +9,31 @@ $(document).on('ready',function(){
 		});
 	});
 	$('#uploadCustomer').on('click',function(){
-		var customer = makeCustomerObject()/* from utils.js*/;
+		$('#saveLocalCustomer').prop('disabled', true);
+		$('#saveLocalCustomer i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
+		
+		var Customer 	= makeCustomerObject()/* from utils.js*/;
+		var Bundle 		= makeCustomerBundleObject()/* from utils.js*/;
+		var Services 	= makeCustomerBundleServicesObject()/* from utils.js*/;
+		var data = {
+			'Customer' : Customer,
+			'Bundle' : Bundle,
+			'Services': Services
+		};
+		getAccessToken(function(access_token){
+			postRequest(ADD_CUSTOMER_URL /* from settings.js */,data,access_token, function(obj){
+				$('#saveLocalCustomer').prop('disabled', false);
+				$('#saveLocalCustomer i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
+				
+				var res = obj.result;
+				if(res.status == 'success') {
+					alert('Customer uploaded successfully');
+					// take the agent back to welcome screen
+					loadWelcomePage() /* from utils.js*/;
+				} else {
+					alert(res.message);
+				}	
+			}) /* from ajax.js*/;
+		})/* from database.js*/;
 	});
 });

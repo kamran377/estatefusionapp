@@ -166,7 +166,8 @@ function attachSellerEvents() {
 			},
 			
 			'primaryEmail' : {
-				email:true
+				email:true,
+				required:true
 			},
 			'secondaryEmail' : {
 				email:true

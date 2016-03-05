@@ -508,73 +508,126 @@ function populateCustomerDraft(customer,property,bundle, services) {
 function makeCustomerObject() {
 	// fetch customer data from customer form
 	// customer object to hold customer data 
-	var customer = {};
+	var Customer = {};
 	// ownership
-	customer.ownership = $('#ownership').val();
+	Customer.ownership = $('#ownership').val();
 	// first customer name
-	customer.firstName = $('#firstName').val();
+	Customer.first_name_1 = $('#firstName').val();
 	// first customer surname
-	customer.surname = $('#surname').val();
+	Customer.surname_1 = $('#surname').val();
 	// second customer name
-	customer.firstName2 = $('#firstName2').val();
+	Customer.first_name_2 = $('#firstName2').val();
 	// second customer surname
-	customer.surname2 = $('#surname2').val();
+	Customer.surname_2 = $('#surname2').val();
 	// customer home address
-	customer.homeAddress = $('#homeAddress').val();
+	Customer.home_address_1 = $('#homeAddress').val();
 	// customer home Line1
-	customer.homeLine1 = $('#homeLine1').val();
+	Customer.home_address_1 += " " + $('#homeLine1').val();
 	// customer home Line2
-	customer.homeLine2 = $('#homeLine2').val();
+	Customer.home_address_2 = $('#homeLine2').val();
 	// customer home Line3
-	customer.homeLine3 = $('#homeLine3').val();
+	Customer.home_address_3 = $('#homeLine3').val();
 	// customer home town
-	customer.homeTown = $('#homeTown').val();
+	Customer.home_town = $('#homeTown').val();
 	// customer home country
-	customer.homeCountry = $('#homeCountry').val();
+	Customer.home_county = $('#homeCountry').val();
 	// customer home postal code
-	customer.homeCode = $('#homeCode').val();
+	Customer.home_post = $('#homeCode').val();
 	// customer same property address
-	customer.sameAddress = $('#checkbox-same-address').prop('checked');
+	Customer.home_is_property = $('#checkbox-same-address').prop('checked');
 	// customer mobile phone
-	customer.mobile = $('#mobile').val();
+	Customer.mobile_number = $('#mobile').val();
 	// customer home phone
-	customer.phone = $('#phone').val();
+	Customer.phone_number = $('#phone').val();
 	// customer primary email
-	customer.primaryEmail = $('#primaryEmail').val();
+	Customer.email_1 = $('#primaryEmail').val();
 	// customer secondary email
-	customer.secondaryEmail = $('#secondaryEmail').val();
+	Customer.email_2 = $('#secondaryEmail').val();
 	// customer property address
-	customer.propertyAddress = $('#propertyAddress').val();
+	Customer.property_address_1 = $('#propertyAddress').val();
 	// customer property Line1
-	customer.propertyLine1 = $('#propertyLine1').val();
+	Customer.property_address_1 += " " + $('#propertyLine1').val();
 	// customer property Line2
-	customer.propertyLine2 = $('#propertyLine2').val();
+	Customer.property_address_2 = $('#propertyLine2').val();
 	// customer property Line3
-	customer.propertyLine3 = $('#propertyLine3').val();
+	Customer.property_address_3 = $('#propertyLine3').val();
 	// customer property town
-	customer.propertyTown = $('#propertyTown').val();
+	Customer.property_town = $('#propertyTown').val();
 	// customer property country
-	customer.propertyCountry = $('#propertyCountry').val();
+	Customer.property_county = $('#propertyCountry').val();
 	// customer property postal code
-	customer.propertyCode = $('#propertyCode').val();
+	Customer.property_postcode = $('#propertyCode').val();
 	// customer property tenure
-	customer.propertyTenure = $('#propertyTenure').val();
+	Customer.property_tenure = $('#propertyTenure').val();
 	// customer property notes
-	customer.notes = $('#notes').val();
+	Customer.property_notes = $('#notes').val();
 	// customer property term
-	customer.term = $('#term').val();
+	Customer.property_term = $('#term').val();
 	// customer property agency type
-	customer.agencyType = $('#agencyType').val();
+	Customer.agency_type = $('#agencyType').val();
 	// customer property joint agency name
-	customer.agencyName = $('#agencyName').val();
+	Customer.joint_agency_name = $('#agencyName').val();
 	// customer property price
-	customer.price = $('#price').val();
+	Customer.asking_price = $('#price').val();
 	// we don't have signature, photo for the draft customer
 	// get the customer signature
 	var sig = $("#signature").jSignature("getData","base30");
 	// set the customer signature
-	customer.signature = sig[1];
-	return customer;
+	Customer.signature = sig[1];
+	return Customer;
+}
+// this function will return the customer Bundle object for uploading
+function makeCustomerBundleObject() {
+	// prepare the bundle object to hold bundle purchased information
+	var Bundle = {};
+	// get bundle data
+	var $th = getPurchasedBundle() /* from sale-services.js */;
+	// bundle_id
+	Bundle.bundle_id = $th.attr('data-bundle-id');
+	// bundle status
+	Bundle.status = 'paid';
+	// get payables object
+	var payable = getPayableObject() /* from sale-services.js */ ;
+	// pay now
+	Bundle.total_paid_now = payable.payNow;
+	// pay later
+	Bundle.total_to_pay_on_sale = payable.payLater;
+	// bundle fee
+	Bundle.cost = payable.total;
+	// return bundle
+	return Bundle;
+}
+// this function will return the customer Bundle services array for uploading
+function makeCustomerBundleServicesObject() {
+	var Services = [];
+	
+	var $purchasedServices = getPurchasedServices() /* from sale-services.js */ ;
+	// iterate over the services and add them to db
+	$.each($purchasedServices,function(){
+		var $check = $(this);
+		// make the service object 
+		var service = {};
+		// set customer_id
+		// set bundle id
+		service.bundle_id = $check.attr('data-bundle-id');
+		// set service id
+		service.service_id = $check.attr('data-service-id');
+		Services.push(service);
+	});
+	
+	var  $purchasedOptions = getPurchasedOptions() /* from sale-services.js */ ;
+	// iterate over the services and add them to db
+	$.each($purchasedOptions,function(){
+		var $check = $(this);
+		// make the service object 
+		var service = {};
+		// set bundle id
+		service.bundle_id = $check.attr('data-bundle-id');
+		// set service id
+		service.service_id = $check.attr('data-service-id');
+		Services.push(service);
+	});
+	return Services;
 }
 // this will handle logout button
 $(document).on('ready',function(){

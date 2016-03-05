@@ -110,7 +110,7 @@ function stripeResponseHandlerOther(status, response) {
 				'ccToken' : token,
 				'amount':payNow
 			};
-			alert(PAYMENT_URL);
+			//alert(PAYMENT_URL);
 			postRequest(PAYMENT_URL /* from settings.js */,data,access_token, function(obj){
 				$('#payNowOther').prop('disabled', false);
 				$('#payNowOther i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');

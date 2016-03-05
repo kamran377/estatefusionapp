@@ -91,7 +91,6 @@ function applyWizard() {
 		}
 		// from photo page to payment page
 		if(from == 4 && to == 5) {
-			alert(isDeviceOnline());
 			if(isDeviceOnline() == true) {
 				var payable = getPayableObject() /* from sale-service.js*/;
 				$('#totalPaymentCheckout').html('Total Payment Due: &pound;' + payable.payNow);
