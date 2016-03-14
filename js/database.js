@@ -684,6 +684,7 @@ function deleteDraftCustomer(id, callback) {
 	var sql2 = "delete from properties where customer_id = ?";
 	var sql3 = "delete from bundles_purchased where customer_id = ?";
 	var sql4 = "delete from bundles_services_purchased where customer_id = ?";
+	var sql5 = "delete from customer_photos where customer_id = ?";
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
@@ -691,6 +692,7 @@ function deleteDraftCustomer(id, callback) {
 				tx.executeSql(sql2,[cid]);
 				tx.executeSql(sql3,[cid]);
 				tx.executeSql(sql4,[cid],function(){
+					tx.executeSql(sql5,[cid]);
 					callback();
 				});
 			});
@@ -945,6 +947,33 @@ function getCustomerBundlesServicesPurchased(id, callback) {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('select * from bundles_services_purchased where customer_id = ?'
+				,[id],
+				function(tx,results){
+					if(results.rows.length > 0) {
+						var len = results.rows.length;
+						var array = [];
+						for(var i=0; i<len; i++) {
+							var row = results.rows.item(i);
+							array.push(row);
+						}
+						callback(array);
+					} else {
+						callback("");
+					}
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// This function returns the photos for the given customer id
+function getCustomerPhotos(id, callback) {
+	id = id + '.0';
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from customer_photos where customer_id = ?'
 				,[id],
 				function(tx,results){
 					if(results.rows.length > 0) {

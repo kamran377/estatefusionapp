@@ -9,21 +9,24 @@ $(document).on('ready',function(){
 		});
 	});
 	$('#uploadCustomer').on('click',function(){
-		$('#saveLocalCustomer').prop('disabled', true);
-		$('#saveLocalCustomer i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
+		$('#uploadCustomer').prop('disabled', true);
+		$('#uploadCustomer i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
 		
 		var Customer 	= makeCustomerObject()/* from utils.js*/;
 		var Bundle 		= makeCustomerBundleObject()/* from utils.js*/;
 		var Services 	= makeCustomerBundleServicesObject()/* from utils.js*/;
+		var CustomerPhotos 	= makeCustomerPhotosObject()/* from utils.js*/;
+		console.log(CustomerPhotos);
 		var data = {
 			'Customer' : Customer,
 			'Bundle' : Bundle,
-			'Services': Services
+			'Services': Services,
+			'CustomerPhotos': CustomerPhotos,
 		};
 		getAccessToken(function(access_token){
 			postRequest(ADD_CUSTOMER_URL /* from settings.js */,data,access_token, function(obj){
-				$('#saveLocalCustomer').prop('disabled', false);
-				$('#saveLocalCustomer i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
+				$('#uploadCustomer').prop('disabled', false);
+				$('#uploadCustomer i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
 				
 				var res = obj.result;
 				if(res.status == 'success') {

@@ -26,13 +26,13 @@ function handleTermsPage(sfw) {
 		bundleText += "<h3>Services Purchased:-</h3>";
 		$('td.highlighted .service-checkbox-paid:checked').each(function(){
 			var $check = $(this);	
-			bundleText += '<p class="terms-service">' + $check.attr('data-name') + '<span class="terms-price">-&pound;'+  $check.attr('data-price')+'</span></p>';
+			bundleText += '<p class="terms-service">' + $check.attr('data-name') + '<span class="terms-price">&pound;'+  $check.attr('data-price')+'</span></p>';
 		});
 		// iterate over the options purchased
 		var options = '';
 		$('.option-checkbox:checked').each(function(){
 			var $check = $(this);	
-			options += '<p class="terms-service">' + $check.attr('data-name') + '<span class="terms-price">-&pound;'+ $check.attr('data-price')  +'</span></p>';
+			options += '<p class="terms-service">' + $check.attr('data-name') + '<span class="terms-price">&pound;'+ $check.attr('data-price')  +'</span></p>';
 		});
 		
 		//options = options.replace(/,\s*$/, "");

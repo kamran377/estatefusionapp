@@ -504,6 +504,129 @@ function populateCustomerDraft(customer,property,bundle, services) {
         transition: 'none'
     });	
 }
+// this function will return the customer object for uploading from local storage
+function makeCustomerObjectFromDB(callback) {
+	// fetch customer data from customer form
+	var id = $('#otherCustomerID').val();
+	getSingleCustomer(id, function(dbCustomer){
+		if(dbCustomer) {
+			// customer object to hold customer data 
+			var Customer = {};
+			// first customer name
+			Customer.first_name_1 = dbCustomer['first_name_1'];
+			// first customer surname
+			Customer.surname_1 = dbCustomer['surname_1'];
+			// second customer name
+			Customer.first_name_2 = dbCustomer['first_name_2'];
+			// second customer surname
+			Customer.surname_2 = dbCustomer['surname_2'];
+			if(Customer.first_name_2) {
+			// the property has dual ownership
+				Customer.ownership = 2;
+			} else {
+				// the property has single ownership
+				Customer.ownership = 1;
+			}
+			// customer home address
+			var home_address_1 = dbCustomer['home_address_1'];
+			Customer.home_address_1 = home_address_1.replace("|",' ');
+			// customer home Line2
+			Customer.home_address_2 = dbCustomer['home_address_2'];
+			// customer home Line3
+			Customer.home_address_3 = dbCustomer['home_address_3'];
+			// customer home town
+			Customer.home_town = dbCustomer['home_town'];
+			// customer home country
+			Customer.home_county = dbCustomer['home_county'];
+			// customer home postal code
+			Customer.home_post = dbCustomer['home_post'];
+			// customer same property address
+			Customer.home_is_property = dbCustomer['home_is_property'];
+			// customer mobile phone
+			Customer.mobile_number = dbCustomer['mobile_number'];
+			// customer home phone
+			Customer.phone_number = dbCustomer['phone_number'];
+			// customer primary email
+			Customer.email_1 =dbCustomer['email_1'];
+			// customer secondary email
+			Customer.email_2 = dbCustomer['email_2'];
+			// customer property address
+			var property_address_1 = dbCustomer['property_address_1'];
+			// customer property Line1
+			Customer.property_address_1 = property_address_1.replace("|",' ');
+			// customer property Line2
+			Customer.property_address_2 = dbCustomer['property_address_2'];
+			// customer property Line3
+			Customer.property_address_3 = dbCustomer['property_address_3'];
+			// customer property town
+			Customer.property_town = dbCustomer['property_town'];
+			// customer property country
+			Customer.property_county = dbCustomer['proprty_county'];
+			// customer property postal code
+			Customer.property_postcode = dbCustomer['property_postcode'];
+			// customer property tenure
+			Customer.property_tenure = dbCustomer['property_tenure'];
+			// customer property notes
+			Customer.property_notes = dbCustomer['property_notes'];
+			// customer property term
+			Customer.property_term = dbCustomer['property_term'];
+			// customer property agency type
+			Customer.agency_type = dbCustomer['agency_type'];
+			// customer property joint agency name
+			Customer.joint_agency_name = dbCustomer['joint_agency_name'];
+			// customer property price
+			Customer.asking_price = dbCustomer['asking_price'];
+			// we don't have signature, photo for the draft customer
+			// set the customer signature
+			Customer.signature = dbCustomer['signature'];
+			
+			// get the bundles purchased
+			getCustomerBundlesPurchased(id, function(bundle){
+				var Bundle = {};
+				Bundle.bundle_id = bundle['bundle_id'];Bundle.status = 'paid';
+				// bundle status
+				Bundle.status = 'paid';
+				// pay now
+				Bundle.total_paid_now = bundle['total_paid_now'];
+				// pay later
+				Bundle.total_to_pay_on_sale = bundle['total_to_pay_on_sale'];
+				// bundle fee
+				Bundle.cost = bundle['cost'];
+				
+				var Services = [];
+				getCustomerBundlesServicesPurchased(id, function(services){
+					$.each(services, function(){
+						var s = this;
+						var Service = {};
+						// set bundle id
+						service.bundle_id = s['bundle_id'];
+						// set service id
+						service.service_id = s['service_id'];
+						Services.push(service);
+					});
+					var CustomerPhotos = [];
+					getCustomerPhotos(id, function(photos){
+						$.each(photos, function(){
+							var p = this;
+							var Photo = {};
+							Photo.photo_type_id = p['photo_type_id']; /* from settings.js*/;
+							// set photo 
+							Photo.photo = p['photo'];;
+							// set photo type id
+							Photo.owner = p['owner']; /* from settings.js*/;
+							CustomerPhotos.push(Photo);
+						});
+						return callback(Customer, Bundle, Services, CustomerPhotos);
+					});
+				})/* from database.js */;
+			});
+			
+		} // if(customer) {
+	
+	}); /* from database.js*/
+	
+}
+
 // this function will return the customer object for uploading
 function makeCustomerObject() {
 	// fetch customer data from customer form
@@ -629,6 +752,61 @@ function makeCustomerBundleServicesObject() {
 	});
 	return Services;
 }
+function makeCustomerPhotosObject()
+{
+	var CustomerPhotos = [];
+	// get first owner pictures
+	var customerPhoto = {};
+	// set photo type id
+	customerPhoto.photo_type_id = CUSTOMER_PHOTO_ID /* from settings.js*/;
+	// set photo 
+	customerPhoto.photo = $('#smallImage-1').attr('src');
+	// set photo type id
+	customerPhoto.owner = CUSTOMER_OWNER_FIRST /* from settings.js*/;
+	// insert ID photo
+	CustomerPhotos.push(customerPhoto);
+	// now insert the Driver's License Photo
+	// set photo type id
+	customerPhoto.photo_type_id = CUSTOMER_PHOTO_LICENSE /* from settings.js*/;
+	// set photo 
+	customerPhoto.photo = $('#smallImage-2').attr('src');
+	// insert License photo
+	CustomerPhotos.push(customerPhoto);
+	// now insert the Utility Bill Photo
+	// set photo type id
+	customerPhoto.photo_type_id = CUSTOMER_PHOTO_BILL /* from settings.js*/;
+	// set photo 
+	customerPhoto.photo = $('#smallImage-3').attr('src');
+	// insert Bill photo
+	CustomerPhotos.push(customerPhoto);
+	// now check if have second owner as well
+	if($('#ownership').val() == 2) {
+		// set photo owner
+		customerPhoto.owner = CUSTOMER_OWNER_SECOND /* from settings.js*/;
+		// set photo 
+		customerPhoto.photo = $('#smallImage2-1').attr('src');
+		// set photo type id
+		customerPhoto.photo_type_id = CUSTOMER_PHOTO_ID /* from settings.js*/;
+		// insert ID photo
+		CustomerPhotos.push(customerPhoto);
+		// now insert the Driver's License Photo
+		// set photo type id
+		customerPhoto.photo_type_id = CUSTOMER_PHOTO_LICENSE /* from settings.js*/;
+		// set photo 
+		customerPhoto.photo = $('#smallImage2-2').attr('src');
+		// insert License photo
+		CustomerPhotos.push(customerPhoto);
+		// now insert the Utility Bill Photo
+		// set photo type id
+		customerPhoto.photo_type_id = CUSTOMER_PHOTO_BILL /* from settings.js*/;
+		// set photo 
+		customerPhoto.photo = $('#smallImage2-3').attr('src');
+		// insert License photo
+		CustomerPhotos.push(customerPhoto);
+		
+	}
+	return CustomerPhotos;
+}
 // this will handle logout button
 $(document).on('ready',function(){
 	$('.logout').on('click',function(){
@@ -667,7 +845,7 @@ $(document).on('ready',function(){
 			var payNow = bundle['total_paid_now'];
 			//alert(payNow);
 			$('#totalPaymentCheckoutOther').html('Total Payment Due: &pound;' + payNow);
-			$('otherCustomerID').val(id);
+			$('#otherCustomerID').val(id);
 			$('#otherPaymentDue').val(payNow);
 			$.mobile.changePage($('#paymentPage'));
 		}) /* from database.js */;
