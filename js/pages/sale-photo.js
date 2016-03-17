@@ -46,3 +46,30 @@ function onPhotoDataSuccess2(imageData) {
   //
   smallImage.src = "data:image/jpeg;base64," + imageData;
 }
+
+function handlePhotoPage(e) {
+	if($('#smallImage-1').attr('src') == 'images/placeholder.png') {
+		e.preventDefault();
+	}
+	if($('#smallImage-2').attr('src') == 'images/placeholder.png') {
+		e.preventDefault();
+	}
+	if($('#smallImage-3').attr('src') == 'images/placeholder.png') {
+		e.preventDefault();
+	}
+	if($('#ownership').val() == 2) {
+		
+		console.log($('#smallImage2-1').attr('src'));
+		console.log($('#smallImage2-2').attr('src'));
+		console.log($('#smallImage2-3').attr('src'));
+		if($('#smallImage2-1').attr('src') == 'images/placeholder.png') {
+			e.preventDefault();
+		}
+		if($('#smallImage2-2').attr('src') == 'images/placeholder.png') {
+			e.preventDefault();
+		}
+		if($('#smallImage2-3').attr('src') == 'images/placeholder.png') {
+			e.preventDefault();
+		}
+	}
+}
