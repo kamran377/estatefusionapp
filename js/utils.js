@@ -353,6 +353,7 @@ function loadWelcomePage() {
 // this will populate the customer draft
 function populateCustomerDraft(customer,property,bundle, services) {
 	// fetch customer data from customer form
+	$('#customerIDHidden').val(customer['id']);
 	// first customer name
 	$('#firstName').val(customer['first_name_1']);
 	// first customer surname
