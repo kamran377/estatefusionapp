@@ -24,9 +24,10 @@ function loadStoredCustomers() {
 		if(customers.length > 0) {
 			$.each(customers, function(){
 				var customer = this;
+				
 				$tr = $('<tr/>').attr('data-id',customer['id'])
-					.append($('<td/>').text(customer.first_name_1 + ' ' + customer.surname_1))
-					.append($('<td/>').text(customer.home_address_1))
+					.append($('<td/>').css('width','30%').text(customer.first_name_1 + ' ' + customer.surname_1))
+					.append($('<td/>').addClass('second').text(customer.home_address_1.replace('|',' ')))
 					.append($('<td/>').css('width','20%')
 						.append(
 							$('<a/>').addClass('btn btn-primary continue-draft').attr({'href':'javascript://','data-id':customer['id']}).text('Continue ').append($('<i class="fa fa-arrow-right"></i>'))
@@ -52,8 +53,8 @@ function loadStoredCustomers() {
 			$.each(customers, function(){
 				var customer = this;
 				$tr = $('<tr/>').attr('data-id',customer['id'])
-					.append($('<td/>').text(customer.first_name_1 + ' ' + customer.surname_1))
-					.append($('<td/>').text(customer.home_address_1))
+					.append($('<td/>').css('width','30%').text(customer.first_name_1 + ' ' + customer.surname_1))
+					.append($('<td/>').text(customer.home_address_1.replace('|',' ')))
 					.append($('<td/>').css('width','20%')
 						.append(
 							$('<a/>').addClass('btn btn-primary continue-payment').attr({'href':'javascript://','data-id':customer['id']}).text(' Process Payment ').prepend($('<i class="fa fa-cc"></i>'))

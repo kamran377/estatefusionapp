@@ -156,7 +156,8 @@ div.terms {
 	color:#fff !important; 
 	border: 1px solid #3388cc !important;
 }
-#customersTable tr td {
+#customersTable tr td,
+#customersFinishedTable tr td {
 	vertical-align:middle;
 	font-weight:bold;
 }

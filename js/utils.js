@@ -366,6 +366,7 @@ function populateCustomerDraft(customer,property,bundle, services) {
 	if($('#firstName2').val()) {
 		// the property has dual ownership
 		$('#ownership').val(2);
+		$('#secondOwner').removeClass('hidden');
 	} else {
 		// the property has single ownership
 		$('#ownership').val(1);
