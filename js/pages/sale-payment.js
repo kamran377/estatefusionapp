@@ -1,4 +1,5 @@
 $(document).on('ready',function(){
+	
 	// event for softkeyboard
 	$('#cccvc, #ccexp').on('focus',function(){
 		var $field = $(this);
@@ -19,6 +20,8 @@ $(document).on('ready',function(){
 		}, 2000);
 	});
 	$('#payNow').on('click',function(){
+		
+				
 		$('#payNow').prop('disabled', true);
 		$('#payNow i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
 		Stripe.card.createToken({
@@ -33,7 +36,7 @@ function stripeResponseHandler(status, response) {
 	var $form = $('#paymentFrom');
 	if (response.error) {
 		// Show the errors on the form
-		$form.find('.payment-errors').text(response.error.message);
+		alert(response.error.message);
 		$('#payNow').prop('disabled', false);
 		$('#payNow i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
 		
@@ -50,8 +53,8 @@ function stripeResponseHandler(status, response) {
 			var payable = getPayableObject() /* from sale-services.js*/;
 			var data = {
 				'ccToken' : token,
-				//'amount':payable.payNow
-				amount:45
+				'amount':payable.payNow
+				//amount:45
 			};
 			postRequest(PAYMENT_URL /* from settings.js */,data,access_token, function(obj){
 				$('#payNow').prop('disabled', false);
@@ -60,6 +63,7 @@ function stripeResponseHandler(status, response) {
 				var res = obj.result;
 				if(res.status == 'success') {
 					alert('Payment received successfully');
+					$('#paymentFlag').val('T')
 					gotoFinalStep()/* from sale.js*/;
 				} else {
 					alert(res.message);

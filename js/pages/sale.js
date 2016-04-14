@@ -36,7 +36,7 @@ function applyWizard() {
 		height: 'auto',
 		theme:'circle',
 		transition:'none',
-		//startStep: 4,
+		//startStep: 5,
 		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
 		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		finishBtn:$('<a class="finish-btn sf-right sf-btn  btn btn-primary" href="#"><i class="fa fa-stop"></i> FINISH</a>'),
@@ -106,13 +106,22 @@ function applyWizard() {
 		}
 		// from payment to finish page
 		if(from == 5 && to == 6) {
-			$('#saveLocalCustomer').addClass('hidden');
-			$('#uploadCustomer').removeClass('hidden');
+			if($('#paymentFlag').val() == 'F') {
+				e.preventDefault();
+			}
+			else {
+				$('#saveLocalCustomer').addClass('hidden');
+				$('#uploadCustomer').removeClass('hidden');
+			}
 		}
 		//e.preventDefault(); // this you have to call if you need to interrupt transition to next step
 	});
 }
 function gotoFinalStep() {
+	// this will show the final step
+	sfw.goTo(6);
+}
+function gotoFinalStepFromPayment() {
 	// this will show the final step
 	sfw.goTo(6);
 }

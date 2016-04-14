@@ -398,6 +398,10 @@ function insertBundle(bundle, type) {
 				,[bundle.id,bundle.name,type,bundle.price,bundle.def,bundle.discount],
 				function(tx,results){
 					return true;
+				},
+				function(tx,error){
+					console.log(error.message);
+					
 				});
 			});
 		}
