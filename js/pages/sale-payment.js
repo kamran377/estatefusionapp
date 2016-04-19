@@ -31,6 +31,9 @@ $(document).on('ready',function(){
 		}, stripeResponseHandler);
 		
 	});
+	$('#processLaterBtn').on('click',function(){
+		gotoFinalStep()/* from sale.js*/;
+	});
 });
 function stripeResponseHandler(status, response) {
 	var $form = $('#paymentFrom');
@@ -63,10 +66,12 @@ function stripeResponseHandler(status, response) {
 				var res = obj.result;
 				if(res.status == 'success') {
 					alert('Payment received successfully');
-					$('#paymentFlag').val('T')
+					$('#paymentFlag').val('T');
 					gotoFinalStep()/* from sale.js*/;
 				} else {
 					alert(res.message);
+					$('#processLaterBtn').remoceClass('hidden');
+					$('#paymentFlag').val('I')
 				}	
 			}) /* from ajax.js*/;
 		});

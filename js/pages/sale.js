@@ -109,6 +109,10 @@ function applyWizard() {
 			if($('#paymentFlag').val() == 'F') {
 				e.preventDefault();
 			}
+			else if($('#paymentFlag').val() == 'I'){
+				$('#saveLocalCustomer').removeClass('hidden');
+				$('#uploadCustomer').addClass('hidden');
+			}
 			else {
 				$('#saveLocalCustomer').addClass('hidden');
 				$('#uploadCustomer').removeClass('hidden');

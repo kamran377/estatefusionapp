@@ -164,7 +164,7 @@ function saveCustomer(isDraft,callback) {
 	var vat = $('#add-vat-check').prop('checked');
 	// conserve if default bundle is selected
 	var defaultBundle = $('#default-bundle-check').prop('checked');
-
+	customer.default_bundle = defaultBundle;
 	// insert customer in local db
 	insertCustomer(customer, function(status, results){
 		if(status == true) {
@@ -492,7 +492,8 @@ function populateCustomerDraft(customer,property,bundle, services) {
 		// set the readonly for the percentage field field to true
 		$('#perc-price-check').change();
 	}
-	
+	console.log(1);
+	console.log(customer);
 	if(customer['default_bundle'] == "true") {
 		$('#default-bundle-check').prop('checked',true);
 	} else {
