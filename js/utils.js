@@ -164,6 +164,7 @@ function saveCustomer(isDraft,callback) {
 	var vat = $('#add-vat-check').prop('checked');
 	// conserve if default bundle is selected
 	var defaultBundle = $('#default-bundle-check').prop('checked');
+	
 	customer.default_bundle = defaultBundle;
 	// insert customer in local db
 	insertCustomer(customer, function(status, results){

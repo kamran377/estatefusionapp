@@ -42,7 +42,9 @@ function stripeResponseHandler(status, response) {
 		alert(response.error.message);
 		$('#payNow').prop('disabled', false);
 		$('#payNow i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
-		
+		$('#processLaterBtn').removeClass('hidden');
+		$('#paymentFlag').val('I');
+		refreshStep()/* from sale.js*/;
 		//$form.find('button').prop('disabled', false);
 	} else {
 		// response contains id and card, which contains additional card details
@@ -70,8 +72,9 @@ function stripeResponseHandler(status, response) {
 					gotoFinalStep()/* from sale.js*/;
 				} else {
 					alert(res.message);
-					$('#processLaterBtn').remoceClass('hidden');
-					$('#paymentFlag').val('I')
+					$('#processLaterBtn').removeClass('hidden');
+					$('#paymentFlag').val('I');
+					refreshStep()/* from sale.js*/;
 				}	
 			}) /* from ajax.js*/;
 		});

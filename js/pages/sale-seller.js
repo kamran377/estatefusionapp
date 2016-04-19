@@ -219,6 +219,7 @@ function attachSellerEvents() {
 }
 // this function will handle saving customer data to the localdb
 function handleCustomerData(e) {
+	//alert(1);
 	if(!$("#wizard_example").valid()) {
 		e.preventDefault();	
 	} else {
@@ -233,6 +234,7 @@ function handleCustomerData(e) {
 		}  else {
 			updateBundlePrices();
 		}
+		//alert($('#default-bundle-check').prop('checked'));
 		if($('#default-bundle-check').prop('checked')){
 			$.each($('#services-table thead tr th'),function(){
 				$th = $(this);
@@ -244,7 +246,7 @@ function handleCustomerData(e) {
 					$th.hide();
 					$('#services-table tbody tr td:nth-child('+ index +')').hide();
 				}
-				else
+				else if(def == true)
 				{
 					//$('input[type=checkbox]',$th).prop('checked',true);
 					$('input[type=checkbox]',$th).click();
