@@ -21,14 +21,20 @@ $(document).on('ready',function(){
 	});
 	$('#payNow').on('click',function(){
 		
-				
-		$('#payNow').prop('disabled', true);
-		$('#payNow i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
-		Stripe.card.createToken({
-			cvc: $('#cccvc').val(),
-			number: $('#ccnumber').val(),
-			exp: $('#ccexp').val()
-		}, stripeResponseHandler);
+		var ccnumber = $('#ccnumber').val();
+		var ccname = $('#ccname').val();
+		var ccexp = $('#ccexp').val();
+		var cccvc = $('#cccvc').val();
+
+		if(ccnumber && ccname && ccexp && cccvc) {
+			$('#payNow').prop('disabled', true);
+			$('#payNow i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
+			Stripe.card.createToken({
+				cvc: $('#cccvc').val(),
+				number: $('#ccnumber').val(),
+				exp: $('#ccexp').val()
+			}, stripeResponseHandler);
+		}
 		
 	});
 	$('#processLaterBtn').on('click',function(){

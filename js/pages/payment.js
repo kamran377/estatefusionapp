@@ -29,13 +29,20 @@ $(document).on("pageshow","#paymentPage",function() {
 		}, 2000);
 	});
 	$('#payNowOther').on('click',function(){
-		$('#payNowOther').prop('disabled', true);
-		$('#payNowOther i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
-		Stripe.card.createToken({
-			cvc: $('#cccvcOther').val(),
-			number: $('#ccnumberOther').val(),
-			exp: $('#ccexpOther').val()
-		}, stripeResponseHandlerOther);
+		var ccnumber = $('#ccnumber').val();
+		var ccname = $('#ccname').val();
+		var ccexp = $('#ccexp').val();
+		var cccvc = $('#cccvc').val();
+
+		if(ccnumber && ccname && ccexp && cccvc) {
+			$('#payNowOther').prop('disabled', true);
+			$('#payNowOther i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
+			Stripe.card.createToken({
+				cvc: $('#cccvcOther').val(),
+				number: $('#ccnumberOther').val(),
+				exp: $('#ccexpOther').val()
+			}, stripeResponseHandlerOther);
+		}
 		
 	});
 	$('#uploadCustomerOther').on('click',function(){
