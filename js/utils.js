@@ -13,15 +13,7 @@ var draftCustomer;
 var draftProperty;
 var draftBundle;
 var draftServices;
-$(document).on('pagehide', function (e) {
-    var page = $(e.target);
-    if (!$.mobile.page.prototype.options.domCache
-        && (!page.attr('data-dom-cache')
-            || page.attr('data-dom-cache') == "false")
-        ) {
-        //page.remove();
-    }
-});
+
  // this function returns whether the device is online or offline
 function isDeviceOnline() {
 	return navigator.onLine;

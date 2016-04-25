@@ -30,7 +30,8 @@ $(document).on('ready',function(){
 	}
 });
 function onDeviceReady() {
-    // do everything here.
+    
+	// do everything here.
 	prepDB();
 	if(!window.location.hash) {
 		//emptyLocalDB();

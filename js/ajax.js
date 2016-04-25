@@ -26,7 +26,8 @@ function ajaxRequest(url, data,access_token, type, callback) {
 		url  	: url,
 		data 	: data,
 		headers : headers,
-		type 	: type
+		type 	: type,
+		crossDomain: true,
 	})
 	.done(function(res){
 		var obj = {
