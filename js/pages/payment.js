@@ -29,10 +29,10 @@ $(document).on("pageshow","#paymentPage",function() {
 		}, 2000);
 	});
 	$('#payNowOther').on('click',function(){
-		var ccnumber = $('#ccnumber').val();
-		var ccname = $('#ccname').val();
-		var ccexp = $('#ccexp').val();
-		var cccvc = $('#cccvc').val();
+		var ccnumber = $('#ccnumberOther').val();
+		var ccname = $('#ccnameOther').val();
+		var ccexp = $('#ccexpOther').val();
+		var cccvc = $('#cccvcOther').val();
 
 		if(ccnumber && ccname && ccexp && cccvc) {
 			$('#payNowOther').prop('disabled', true);
@@ -116,6 +116,12 @@ function applyWizardOther() {
 	
 	$("#wizard_exampleOther").on('sf-step-before', function(e, from, to, data) {
 		sfwOther.refresh();
+		// from payment to finish page
+		if(from == 0 && to == 1) {
+			if($('#paymentOtherFlag').val() == 'F') {
+				e.preventDefault();
+			}
+		}
 		//e.preventDefault(); // this you have to call if you need to interrupt transition to next step
 	});
 }
@@ -144,6 +150,8 @@ function stripeResponseHandlerOther(status, response) {
 				var res = obj.result;
 				if(res.status == 'success') {
 					alert('Payment received successfully');
+					
+					$('#paymentOtherFlag').val('T');
 					gotoFinalStepOther()/* from sale.js*/;
 				} else {
 					alert(res.message);

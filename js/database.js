@@ -26,7 +26,7 @@ $(document).on('ready',function(){
 	
 	// stripe key token
 	if(typeof Stripe != 'undefined') {
-		Stripe.setPublishableKey('pk_live_mcPiiCv0DPHtTY73cw83BHwX');
+		Stripe.setPublishableKey('pk_test_UTPtoJhL9PHHassAMqzLVs7p');
 	}
 });
 function onDeviceReady() {

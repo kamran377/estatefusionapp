@@ -261,6 +261,8 @@ function saveCustomer(isDraft,callback) {
 							});
 							// save customer photos 
 							if(!isDraft) {
+								//alert(1);
+								//alert(customer_id);
 								// get first owner pictures
 								var customerPhoto = {};
 								// set customer id for customer photo
@@ -593,7 +595,7 @@ function makeCustomerObjectFromDB(callback) {
 				getCustomerBundlesServicesPurchased(id, function(services){
 					$.each(services, function(){
 						var s = this;
-						var Service = {};
+						var service = {};
 						// set bundle id
 						service.bundle_id = s['bundle_id'];
 						// set service id
