@@ -7,6 +7,8 @@ function attachServicesEvents() {
 	/**
 	* This section holds the event handlers for different elements on the page
 	*/
+	var numberArray = ['first','second','third','fourth','fifth','sixth','seventh','eighth','ninth','tenth'];
+			
 	// change event for the bundle selection
 	$(document).on('click','.header-checkbox',function(){
 		// uncheck all other bundles
@@ -14,15 +16,12 @@ function attachServicesEvents() {
 		$th = $(this).closest('th');
 		// get index of column
 		var index = $('#services-table thead tr th').index($th);
+		// we have the array as 0 based index, so we need to minus 1
+		index = index - 1;
 		// add 1 to overcome index start from 0 property
-		index = index + 1;
+		//index = index + 1;
 		// get column class
-		var cls ='first';
-		if(index == 3) {
-			cls = 'second';
-		} else if(index == 4) {
-			cls = 'third';
-		}
+		var cls = numberArray[index];;
 		// uncheck all checkboxes
 		$('#services-table td.highlighted input[type=checkbox]:not(:disabled)').prop('checked',false);
 		// uncheck all option checkboxed
@@ -33,9 +32,12 @@ function attachServicesEvents() {
 		//remove highlighted from all columns
 		$('#services-table th,td').removeClass('highlighted');
 		// reset price columns
-		$('#services-table tr.sub-price-1 td.first span').text($('#services-table th.first').attr('data-bundle-price'));
-		$('#services-table tr.sub-price-1 td.second span').text($('#services-table th.second').attr('data-bundle-price'));
-		$('#services-table tr.sub-price-1 td.third span').text($('#services-table th.third').attr('data-bundle-price'));
+		// check for total number of bundles
+		var bundlesLength = $('#services-table thead tr th').length - 1;
+		for (var t=0;t<bundlesLength; t++) {
+			var clz = numberArray[t];
+			$('#services-table tr.sub-price-1 td.'+ clz +' span').text($('#services-table th.'+ clz).attr('data-bundle-price'));
+		}
 		// clear the total field if the bundle is unchecked
 		clearTotal();
 		// if current chekbox is checked
@@ -54,16 +56,8 @@ function attachServicesEvents() {
 	$(document).on('click','.service-checkbox',function(){
 		$td = $(this).closest('td');
 		// get the index of column
-		var index = $('#services-table tbody tr td').index($td);
-		// get the index of td in its row
-		index = (index % 4) + 1;
-		// get the row class
-		var cls ='first';
-		if(index == 3) {
-			cls = 'second';
-		} else if(index == 4) {
-			cls = 'third';
-		}
+		
+		var cls = $td.attr('data-class');
 		if($td.hasClass('highlighted')) {
 			// get the price
 			var _price = $td.attr('data-price'); 
@@ -94,20 +88,9 @@ function attachServicesEvents() {
 		
 		// get closest column of checkbox
 		$td = $(this).closest('td');
-		// get the index of column
-		var index = $('#services-table tbody tr td.options-col').index($td);
+		// get the class of column
+		var cls = $td.attr('data-class');
 		
-		// get the index of td in its row
-		index = (index % 3) + 1;
-		// get the row class
-		var cls ='';
-		if(index == 1) {
-			cls = 'first';
-		} else if(index == 2) {
-			cls = 'second';
-		} else if(index == 3) {
-			cls = 'third';
-		}
 		// check if the bundle is selected
 		if(cls && $('th.' + cls).hasClass('highlighted')) {
 			// sub-total class
@@ -146,19 +129,9 @@ function attachServicesEvents() {
 	$(document).on('click','.discount-checkbox',function(){
 		// get closest column of checkbox
 		$td = $(this).closest('td');
-		// get the index of column
-		var index = $('#services-table tbody tr td.discounts-col').index($td);
-		// get the index of td in its row
-		index = (index % 3) + 1;
-		// get the row class
-		var cls ='';
-		if(index == 1) {
-			cls = 'first';
-		} else if(index == 2) {
-			cls = 'second';
-		} else if(index == 3) {
-			cls = 'third';
-		}
+		// get the class of column
+		var cls = $td.attr('data-class');
+		
 		// check if the discount offer is selected
 		if(cls && $('th.' + cls).hasClass('highlighted')) {
 			// uncheck all discount checkboxes
@@ -203,19 +176,9 @@ function attachServicesEvents() {
 		
 		// get closest column of checkbox
 		$td = $(this).closest('td');
-		// get the index of column
-		var index = $('#services-table tbody tr td.confirm-td').index($td);
-		// get the index of td in its row
-		index = (index % 3) + 1;
-		// get the row class
-		var cls ='';
-		if(index == 1) {
-			cls = 'first';
-		} else if(index == 2) {
-			cls = 'second';
-		} else if(index == 3) {
-			cls = 'third';
-		}
+		// get the class of column
+		var cls = $td.attr('data-class');
+		
 		// check if the discount offer is selected
 		if(cls && $('th.' + cls).hasClass('highlighted')) {
 			// check if discount is selected 
@@ -240,19 +203,9 @@ function attachServicesEvents() {
 		
 		// get closest column of checkbox
 		$td = $(this).closest('td');
-		// get the index of column
-		var index = $('#services-table tbody tr td.draft-td ').index($td);
-		// get the index of td in its row
-		index = (index % 3) + 1;
-		// get the row class
-		var cls ='';
-		if(index == 1) {
-			cls = 'first';
-		} else if(index == 2) {
-			cls = 'second';
-		} else if(index == 3) {
-			cls = 'third';
-		}
+		// get the class of column
+		var cls = $td.attr('data-class');
+		
 		// check if the discount offer is selected
 		if(cls && $('th.' + cls).hasClass('highlighted')) {
 			// check if discount is selected 
@@ -297,6 +250,10 @@ function clearTotal() {
 	$('#services-table .total-price-now  span').text('Total');
 	// clear the pay later total
 	$('#services-table .total-price-later  span').text('Total');
+	//  clear the VAT column
+	$('#services-table .vat-price  span').text('Total VAT');
+	//  clear the VAT column
+	$('#services-table .vat-total-price  span').text('Grand Total');
 }
 // this function updates the total based on subtotals 
 function updateTotals(cls) {	
@@ -341,9 +298,9 @@ function displayBundlesData() {
 	$('#services-table thead').append(
 		$('<tr/>')
 			.append($("<th style='width:40%'>Description of Services</th>"))
-			.append($("<th class='bundle first'></th>"))
-			.append($("<th class='bundle second'></th>"))
-			.append($("<th class='bundle third'></th>"))
+			//.append($("<th class='bundle first'></th>"))
+			//.append($("<th class='bundle second'></th>"))
+			//.append($("<th class='bundle third'></th>"))
 	);
 	$('#services-table').append('<tbody/>');
 	/**
@@ -352,6 +309,13 @@ function displayBundlesData() {
 	// get all simple bundles
 	getSimpleBundles(function(bundles){
 		if(bundles.length > 0) {
+			//add bundle headers
+			var numberArray = ['first','second','third','fourth','fifth','sixth','seventh','eighth','ninth','tenth'];
+			var emptyColSpan = bundles.length + 1;
+			for(var t = 0; t<bundles.length;t++) {
+				$('#services-table thead tr').append($("<th class='bundle "+ numberArray[t] +"'></th>"));
+			}			
+			console.log('Bundles Length ' + bundles.length);
 			// load all services from local table
 			// services for each bundle will be separated later
 			getAllServices(function(services){
@@ -363,21 +327,13 @@ function displayBundlesData() {
 					var bundleid = bundle['id'];
 					var bundleservices = [];
 					// class to applied to different columns
-					var cls ='first';
-					if(colIndex == 3) {
-						cls = 'second';
-					} else if(colIndex == 4) {
-						cls = 'third';
-					}
-					
-					//console.log(services);
+					var cls = numberArray[i];
 					// get the services for the current bundle
 					for(var j=0;j<slen;j++) {
 						if(services[j]['bundle_id'] == bundleid) {
 							bundleservices.push(services[j]);
 						}
 					}
-					//console.log(bundleservices);
 					// show table header
 					var $headerCheck = $('<div class=" checkbox checkbox-success checkbox-circle"><input class="header-checkbox" id="checkbox-header'+i+'" type="checkbox"><label for="checkbox-header'+i+'">'+bundle['name']+'</label></div>');
 					$('#services-table thead tr th:nth-child('+ colIndex +')').attr('data-default',bundle['default_bundle']).attr('data-original-price',bundle['price']).attr('data-bundle-price',bundle['price']).attr('data-bundle-id',bundle['id']).append($headerCheck);
@@ -393,11 +349,12 @@ function displayBundlesData() {
 								.append($('<td/>')
 									.addClass('tooltip1')
 									.attr({'title':service['info']})
-									.text(service['name']))
-								.append($('<td/>'))
-								.append($('<td/>'))
-								.append($('<td/>'));
-							// add row to the table
+									.text(service['name']));
+							// add empty columns as per the number of bundles
+							for(var t = 0; t<bundles.length;t++) {
+								$tr.append($('<td/>').addClass(numberArray[t]).attr('data-class',numberArray[t]));
+							}
+							// add row to the table							
 							$('#services-table tbody').append($tr);
 							
 						}
@@ -417,11 +374,12 @@ function displayBundlesData() {
 				// add the price row
 				$tr = $('<tr/>').addClass('sub-price-1')
 					.append($('<td/>').addClass('price')
-						.text('Price'))
-					.append($('<td/>').addClass('first').html('&pound; <span>Sub Total</span>'))
-					.append($('<td/>').addClass('second').html('&pound; <span>Sub Total</span>'))
-					.append($('<td/>').addClass('third').html('&pound; <span>Sub Total</span>'));
+						.text('Price'));
+				
 				$('#services-table tbody').append($tr);			
+				for(var t = 0; t<bundles.length;t++) {
+					$tr.append($('<td/>').addClass(numberArray[t]).html('&pound; <span>Sub Total</span>'));
+				}
 				// update prices 
 				for(var i=0;i<len;i++) {
 					$('td:nth-child(' + (i+2) + ')').attr('data-default',bundles[i]['default_bundle']);
@@ -450,13 +408,13 @@ function displayBundlesData() {
 					}
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').attr('colspan',4).html(''));
+						.append($('<td/>').attr('colspan',emptyColSpan).html(''));
 					$('#services-table tbody').append($tr);
 					//apply options header
 					$tr = $('<tr/>').addClass('')
 					.append($('<td/>').addClass('header')
 						.text('Options'))
-					.append($('<td/>').attr('colspan',3).addClass('').html(''));
+					.append($('<td/>').attr('colspan', (emptyColSpan -1 )).addClass('').html(''));
 					$('#services-table tbody').append($tr);			
 					
 					// display the actual options now
@@ -465,58 +423,62 @@ function displayBundlesData() {
 					// loop through the services
 					for(var k=0;k<klen;k++) {
 						var service = bundleservices[k];
-						var $optionCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'" data-name="'+service['name']+'" class="option-checkbox" id="checkbox-option-1'+k+'" type="checkbox"><label for="checkbox-option-1'+k+'">&pound;'+service['price']+'</label></div>');
-						var $optionCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'" data-name="'+service['name']+'" class="option-checkbox" id="checkbox-option-2'+k+'" type="checkbox"><label for="checkbox-option-2'+k+'">&pound;'+service['price']+'</label></div>');
-						var $optionCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'" data-name="'+service['name']+'" class="option-checkbox" id="checkbox-option-3'+k+'" type="checkbox"><label for="checkbox-option-3'+k+'">&pound;'+service['price']+'</label></div>');
 							
 						$tr = $('<tr/>').addClass('')
 							.append($('<td/>').addClass('tooltip1 serviceTitle').attr('title',service['info'])
-								.text(service['name']))
-							.append($('<td/>').addClass('options-col').attr('data-price',service['price']).append($optionCheck1))
-							.append($('<td/>').addClass('options-col').attr('data-price',service['price']).append($optionCheck2))
-							.append($('<td/>').addClass('options-col').attr('data-price',service['price']).append($optionCheck3));
+								.text(service['name']));
+						// add option columns as per the number of bundles
+						for(var t = 0; t < bundles.length;t++) {
+							$tr.append(
+								$('<td/>').addClass('options-col').attr('data-class',numberArray[t]).attr('data-price',service['price']).append(
+									$('<div class="checkbox checkbox-success checkbox-circle"><input data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'" data-name="'+service['name']+'" class="option-checkbox" id="checkbox-option-'+(t+1)+k+'" type="checkbox"><label for="checkbox-option-'+(t+1)+k+'">&pound;'+service['price']+'</label></div>')
+								)
+							);
+						}
 						$('#services-table tbody').append($tr);
 					}
 					// add the options sub total
 					// add the price row
 					$tr = $('<tr/>').addClass('sub-price-2')
 						.append($('<td/>').addClass('price')
-							.text('Options Price'))
-						.append($('<td/>').addClass('option-first').html('&pound; <span>Sub Total</span>'))
-						.append($('<td/>').addClass('option-second').html('&pound; <span>Sub Total</span>'))
-						.append($('<td/>').addClass('option-third').html('&pound; <span>Sub Total</span>'));
+							.text('Options Price'));
+						
+					for(var t = 0; t<bundles.length;t++) {
+						$tr.append($('<td/>').addClass('option-' + numberArray[t]).html('&pound; <span>Sub Total</span>'));
+					}
 					$('#services-table tbody').append($tr);	
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').attr('colspan',4).html(''));
+						.append($('<td/>').addClass('empty').attr('colspan',emptyColSpan).html(''));
 					$('#services-table tbody').append($tr);
 					// add the total price
 					$tr = $('<tr/>').addClass('total-price')
 						.append($('<td/>').addClass('price')
-							.text('Total Price'))
-						.append($('<td/>').addClass('total-first').html('&pound; <span>Total</span>'))
-						.append($('<td/>').addClass('total-second').html('&pound; <span>Total</span>'))
-						.append($('<td/>').addClass('total-third').html('&pound; <span>Total</span>'));
+							.text('Total Price'));
+						
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').addClass('total-' + numberArray[t]).html('&pound; <span>Total</span>'));
+						}
 					$('#services-table tbody').append($tr);
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').attr('colspan',4).html(''));
+						.append($('<td/>').attr('colspan',emptyColSpan).html(''));
 					$('#services-table tbody').append($tr);
 					// add the VAT price row
 					$tr = $('<tr/>').addClass('vat-price')
 						.append($('<td/>').addClass('price')
 							.text('Total VAT @ 20%'))
-						.append($('<td/>').attr('colspan',3).addClass('vat-price').html('&pound; <span>Total VAT</span>'));
+						.append($('<td/>').attr('colspan',(emptyColSpan -1 )).addClass('vat-price').html('&pound; <span>Total VAT</span>'));
 					$('#services-table tbody').append($tr);
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').attr('colspan',4).html(''));
+						.append($('<td/>').attr('colspan',emptyColSpan).html(''));
 					$('#services-table tbody').append($tr);
 					// add the total including VAT row
 					$tr = $('<tr/>').addClass('vat-total-price')
 						.append($('<td/>').addClass('price')
 							.text('Total Including VAT'))
-						.append($('<td/>').attr('colspan',3).addClass('vat-total-price').html('&pound; <span>Grand Total</span>'));
+						.append($('<td/>').attr('colspan',(emptyColSpan - 1)).addClass('vat-total-price').html('&pound; <span>Grand Total</span>'));
 					$('#services-table tbody').append($tr);
 					/**
 					* Display - Options End
@@ -526,14 +488,14 @@ function displayBundlesData() {
 					*/
 					//adding empty row
 					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').attr('colspan',4).html(''));
+						.append($('<td/>').attr('colspan',emptyColSpan).html(''));
 					$('#services-table tbody').append($tr);
 					// add discount options header
 					//apply discounts header
 					$tr = $('<tr/>').addClass('')
 					.append($('<td/>').addClass('header')
 						.text('Discount Options'))
-					.append($('<td/>').addClass('').attr('colspan',3).html(''));
+					.append($('<td/>').addClass('').attr('colspan',(emptyColSpan - 1)).html(''));
 					$('#services-table tbody').append($tr);			
 					
 					getAllDiscounts(function(discounts){
@@ -541,59 +503,61 @@ function displayBundlesData() {
 						var dlen = discounts.length;
 						for(var p = 0; p < dlen; p++) {
 							var discount = discounts[p];
-							var $discountCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-percentage="'+discount['percentage']+'" data-info="'+discount['info']+'" class="discount-checkbox" id="checkbox-discount-1'+p+'" type="checkbox"><label for="checkbox-discount-1'+p+'">'+discount['percentage']+' %</label></div>');
-							var $discountCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-percentage="'+discount['percentage']+'" data-info="'+discount['info']+'" class="discount-checkbox" id="checkbox-discount-2'+p+'" type="checkbox"><label for="checkbox-discount-2'+p+'">'+discount['percentage']+' %</label></div>');
-							var $discountCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input data-percentage="'+discount['percentage']+'" data-info="'+discount['info']+'" class="discount-checkbox" id="checkbox-discount-3'+p+'" type="checkbox"><label for="checkbox-discount-3'+p+'">'+discount['percentage']+' %</label></div>');
 								
 							$tr = $('<tr/>').addClass('').attr({'data-now':discount['now'],'data-later':discount['later']})
 								.append($('<td/>').addClass('tooltip1 discountTitle').attr('title',discount['info'])
-									.text(discount['name']))
-								.append($('<td/>').addClass('discounts-col').attr('data-percentage',discount['percentage']).append($discountCheck1))
-								.append($('<td/>').addClass('discounts-col').attr('data-percentage',discount['percentage']).append($discountCheck2))
-								.append($('<td/>').addClass('discounts-col').attr('data-percentage',discount['percentage']).append($discountCheck3));
+									.text(discount['name']));
+									
+							for(var t = 0; t<bundles.length;t++) {
+								$tr.append(
+									$('<td/>').attr('data-class',numberArray[t]).addClass('options-col').attr('data-percentage',discount['percentage']).append(
+										$('<div class="checkbox checkbox-success checkbox-circle"><input data-percentage="'+discount['percentage']+'" data-info="'+discount['info']+'" class="discount-checkbox" id="checkbox-discount-'+(t+1)+p+'" type="checkbox"><label for="checkbox-discount-'+(t+1)+p+'">'+discount['percentage']+' %</label></div>')
+									)
+								);
+							}
 							$('#services-table tbody').append($tr);
 						}
 						//adding empty row
 						$tr = $('<tr/>').addClass('')
-							.append($('<td/>').attr('colspan',4).html(''));
+							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
 						$('#services-table tbody').append($tr);
 						// add the total due now
 						$tr = $('<tr/>').addClass('total-price-now')
 							.append($('<td/>').addClass('price')
-								.text('Total Due Now'))
-							.append($('<td/>').addClass('total-now-first').html('&pound; <span>Total</span>'))
-							.append($('<td/>').addClass('total-now-second').html('&pound; <span>Total</span>'))
-							.append($('<td/>').addClass('total-now-third').html('&pound; <span>Total</span>'));
+								.text('Total Due Now'));
+							
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').addClass('total-now-' + numberArray[t]).html('&pound; <span>Total</span>'));
+						}
 						$('#services-table tbody').append($tr);
 						// add the total due later
 						$tr = $('<tr/>').addClass('total-price-later')
 							.append($('<td/>').addClass('price')
-								.text('Total Due On Sale'))
-							.append($('<td/>').addClass('total-later-first').html('&pound; <span>Total</span>'))
-							.append($('<td/>').addClass('total-later-second').html('&pound; <span>Total</span>'))
-							.append($('<td/>').addClass('total-later-third').html('&pound; <span>Total</span>'));
+								.text('Total Due On Sale'));
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').addClass('total-later-' + numberArray[t]).html('&pound; <span>Total</span>'));
+						}
 						$('#services-table tbody').append($tr);
 						// add the confirm checkbox now
-						var $confirmCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="confirm-checkbox" id="checkbox-confirm-1" type="checkbox"><label for="checkbox-confirm-1">Confirm</label></div>');
-						var $confirmCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="confirm-checkbox" id="checkbox-confirm-2" type="checkbox"><label for="checkbox-confirm-2">Confirm</label></div>');
-						var $confirmCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="confirm-checkbox" id="checkbox-confirm-3" type="checkbox"><label for="checkbox-confirm-3">Confirm</label></div>');
 						$tr = $('<tr/>').addClass('confirm-row')
 							.append($('<td/>').addClass('')
-								.text('Confirm Selection'))
-							.append($('<td/>').addClass('confirm-td confirm-first').append($confirmCheck1))
-							.append($('<td/>').addClass('confirm-td confirm-second').append($confirmCheck2))
-							.append($('<td/>').addClass('confirm-td confirm-third').append($confirmCheck3));
+								.text('Confirm Selection'));
+							
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').attr('data-class',numberArray[t]).addClass('confirm-td confirm-first').append(
+								$('<div class="checkbox checkbox-success checkbox-circle"><input class="confirm-checkbox" id="checkbox-confirm-'+(t+1)+'" type="checkbox"><label for="checkbox-confirm-'+(t+1)+'">Confirm</label></div>')
+							));
+						}
 						$('#services-table tbody').append($tr);	
 						// add the draft checkbox now
-						var $draftCheck1 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="draft-checkbox" id="checkbox-draft-1" type="checkbox"><label for="checkbox-draft-1">Save Draft</label></div>');
-						var $draftCheck2 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="draft-checkbox" id="checkbox-draft-2" type="checkbox"><label for="checkbox-draft-2">Save Draft</label></div>');
-						var $draftCheck3 = $('<div class="checkbox checkbox-success checkbox-circle"><input class="draft-checkbox" id="checkbox-draft-3" type="checkbox"><label for="checkbox-draft-3">Save Draft</label></div>');
 						$tr = $('<tr/>').addClass('draft-row')
 							.append($('<td/>').addClass('')
-								.text('Save as Draft'))
-							.append($('<td/>').addClass('draft-td draft-first').append($draftCheck1))
-							.append($('<td/>').addClass('draft-td draft-second').append($draftCheck2))
-							.append($('<td/>').addClass('draft-td draft-third').append($draftCheck3));
+								.text('Save as Draft'));
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').attr('data-class',numberArray[t]).addClass('draft-td draft-' + numberArray[t]).append(
+								$('<div class="checkbox checkbox-success checkbox-circle"><input class="draft-checkbox" id="checkbox-draft-'+(t+1)+'" type="checkbox"><label for="checkbox-draft-'+(t+1)+'">Save Draft</label></div>')
+							));
+						}
 						$('#services-table tbody').append($tr);	
 						
 						// attach tooltip

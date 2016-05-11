@@ -2,7 +2,7 @@
 // this function will handle showing terms and conditions to the user
 function handleTermsPage(sfw) {
 	getTerms(function(terms){
-		console.log(terms);
+		
 		var text = terms.terms;
 		var propertyAddress = $('#propertyAddress').val();
 		var sellerDetails = $('#firstName').val() + ' ' + $('#surname').val(); 
