@@ -94,7 +94,15 @@ function applyWizard() {
 			handlePhotoPage(e) /* from sale-photo.js */;
 			if(isDeviceOnline() == true) {
 				var payable = getPayableObject() /* from sale-service.js*/;
-				$('#totalPaymentCheckout').html('Total Payment Due: &pound;' + payable.payNow);
+				var payNow = getFloat(payable.payNow)
+				if(payNow > 0) {
+					$('#totalPaymentCheckout').html('Total Payment Due: &pound;' + payable.payNow);
+				} else {
+					sfw.disableStep(5);
+					sfw.removeAnimating();
+					var res = sfw.goTo(6);
+					e.preventDefault();
+				}
 			} else {
 				//sfw.activeStep(6);
 				sfw.disableStep(5);
