@@ -95,11 +95,17 @@ function applyWizardOther() {
 	// show loading spinner to load data from server
 	hideLoader(/* from utils.js*/);
 	var i = 0;
+	var payNow = $('#otherPaymentDue').val();
+	payNow = getFloat(payNow);
+	var startStep = 1;
+	if (payNow > 0) {
+		startStep = 0;
+	}
 	sfwOther = $("#wizard_exampleOther").stepFormWizard({
 		height: 'auto',
 		theme:'circle',
 		transition:'none',
-		//startStep: 6,
+		startStep: startStep,
 		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary hidden" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
 		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary hidden" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		finishBtn:$('<a class="finish-btn sf-right sf-btn  btn btn-primary hidden" href="#"><i class="fa fa-stop"></i> FINISH</a>'),

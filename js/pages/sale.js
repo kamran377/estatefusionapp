@@ -98,10 +98,13 @@ function applyWizard() {
 				if(payNow > 0) {
 					$('#totalPaymentCheckout').html('Total Payment Due: &pound;' + payable.payNow);
 				} else {
+					$('#saveLocalCustomer').addClass('hidden');
+					$('#uploadCustomer').removeClass('hidden');
 					sfw.disableStep(5);
 					sfw.removeAnimating();
 					var res = sfw.goTo(6);
 					e.preventDefault();
+					
 				}
 			} else {
 				//sfw.activeStep(6);
