@@ -344,6 +344,7 @@ function updateDbSchema() {
 				tx.executeSql('ALTER TABLE customers ADD perc_value TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD agent_fee TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD default_bundle TEXT',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE bundles ADD position int',[],onSuccessExecuteSql,onError);
 			});
 		}
 	} catch(e) {
@@ -396,8 +397,8 @@ function insertBundle(bundle, type) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO bundles (id,name,type,price,default_bundle,discount) values (?,?,?,?,?,?)'
-				,[bundle.id,bundle.name,type,bundle.price,bundle.def,bundle.discount],
+				tx.executeSql('INSERT INTO bundles (id,name,type,price,default_bundle,discount,position) values (?,?,?,?,?,?,?)'
+				,[bundle.id,bundle.name,type,bundle.price,bundle.def,bundle.discount,bundle.position],
 				function(tx,results){
 					return true;
 				},
@@ -735,6 +736,8 @@ function getAccessToken(callback) {
 		console.log(e);
 	}
 }
+
+
 // This function will return options bundles form local data
 function getOptionsBundles(callback) {
 	getBundles(OPTIONS_BUNDLE_TYPE /* from settings.js*/,callback);
@@ -748,7 +751,7 @@ function getBundles(type, callback) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('select * from bundles where type = ?'
+				tx.executeSql('select * from bundles where type = ? order by position'
 				,[type],
 				function(tx,results){
 					var len = results.rows.length;
