@@ -487,8 +487,6 @@ function populateCustomerDraft(customer,property,bundle, services) {
 		// set the readonly for the percentage field field to true
 		$('#perc-price-check').change();
 	}
-	console.log(1);
-	console.log(customer);
 	if(customer['default_bundle'] == "true") {
 		$('#default-bundle-check').prop('checked',true);
 	} else {
