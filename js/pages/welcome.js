@@ -5,7 +5,7 @@ $(document).on('ready',function() {
 	$(document).on("pageshow","#welcomePage",function() { // When entering welcomePage
 		$('#pageContent').show();
 		// show loader
-		showLoader('Loading Draft Customers')/* from utils.js */;
+		showLoader('Loading Draft / Completed Sales')/* from utils.js */;
 		// show stored customers
 		loadStoredCustomers();
 	});

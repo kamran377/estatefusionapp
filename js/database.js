@@ -345,6 +345,8 @@ function updateDbSchema() {
 				tx.executeSql('ALTER TABLE customers ADD agent_fee TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD default_bundle TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE bundles ADD position int',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE services ADD row int',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE services ADD upfront TEXT',[],onSuccessExecuteSql,onError);
 			});
 		}
 	} catch(e) {
@@ -418,8 +420,8 @@ function insertService(service) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO services (id,name,price,bundle_id,free,info) values (?,?,?,?,?,?)'
-				,[service.id, service.name, service.cost, service.bundle, service.free,service.info],
+				tx.executeSql('INSERT INTO services (id,name,price,bundle_id,free,info,row,upfront) values (?,?,?,?,?,?,?,?)'
+				,[service.id, service.name, service.cost, service.bundle, service.free,service.info,service.row,service.upfront],
 				function(tx,results){
 					return true;
 				});
@@ -560,6 +562,7 @@ function insertPurchasedBundleService(service, callback) {
 					
 				],
 				function(tx,results){
+					console.log(results);
 					callback(true,results);
 				},
 				function(tx,error){
@@ -773,7 +776,7 @@ function getAllServices(callback) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('select * from services order by bundle_id'
+				tx.executeSql('select * from services order by bundle_id, row '
 				,[],
 				function(tx,results){
 					var len = results.rows.length;

@@ -278,6 +278,8 @@ function handleCustomerData(e) {
 			});
 			// select the bundle for the draft customer
 			$('input[type=checkbox]',$th).click();
+			// get the highlighted th class
+			var thClass = $th.attr('data-class');
 			// get the index of the selected header for next lines
 			var index = $('#services-table thead tr th.bundle').index($th);
 			// now we will iterate over the purchased services to check their respective checkboxes
@@ -293,7 +295,10 @@ function handleCustomerData(e) {
 				}
 			});
 			// now we will select the discount opted by the drat customer
-			var $discountTD = $('#services-table tr td.discounts-col[data-percentage="'+draftBundle['discount']+'"]').eq(index);
+			console.log(thClass);
+			
+			var $discountTD = $('#services-table tr td.discount-'+ thClass +'[data-percentage="'+draftBundle['discount']+'"]');
+			console.log($discountTD.length);
 			$('input',$discountTD).click();
 		}
 		
