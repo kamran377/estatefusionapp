@@ -8,7 +8,7 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
-var versionNumber = 'V250416.A';
+var versionNumber = 'V260416.A';
 
 $(document).on('ready',function(){
 	FastClick.attach(document.body);
@@ -26,7 +26,8 @@ $(document).on('ready',function(){
 	
 	// stripe key token
 	if(typeof Stripe != 'undefined') {
-		Stripe.setPublishableKey('pk_test_UTPtoJhL9PHHassAMqzLVs7p');
+		Stripe.setPublishableKey('pk_test_UTPtoJhL9PHHassAMqzLVs7p');  //for frost and co
+		//Stripe.setPublishableKey('pk_test_v2DTosStxmJG8SnaKs4tDnfe'); // for dev account
 	}
 });
 function onDeviceReady() {

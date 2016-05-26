@@ -588,7 +588,9 @@ function makeCustomerObjectFromDB(callback) {
 				Bundle.total_to_pay_on_sale = bundle['total_to_pay_on_sale'];
 				// bundle fee
 				Bundle.cost = bundle['cost'];
-				
+				// bundle discount
+				Bundle.discount = bundle['discount'];
+	
 				var Services = [];
 				getCustomerBundlesServicesPurchased(id, function(services){
 					$.each(services, function(){
@@ -713,6 +715,9 @@ function makeCustomerBundleObject() {
 	Bundle.total_to_pay_on_sale = payable.payLater;
 	// bundle fee
 	Bundle.cost = payable.total;
+	// bundle discount
+	var $discount = getSelectedDiscount() /* from sale-services.js */ ;
+	Bundle.discount = $discount.attr('data-percentage');
 	// return bundle
 	return Bundle;
 }
