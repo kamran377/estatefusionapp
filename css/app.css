@@ -103,11 +103,13 @@ div.terms {
 	color:#000;
 }
 
-#signature{
+#signature,
+#signature2{
 	border: 1px dotted #000;
 	color :#000;
 }
-#signature canvas{
+#signature canvas,
+#signature2 canvas{
 	
 	color :#000;
 }
@@ -283,4 +285,10 @@ h2.sales-table-heading {
 	border-bottom: 5px solid #aaa;
     padding-bottom: 5px;
     font-weight: bold;
+}
+h3.signature-heading {
+	color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
 }

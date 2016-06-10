@@ -423,7 +423,7 @@ function displayBundlesData() {
 			for(var t = 0; t<bundles.length;t++) {
 				$('#services-table thead tr').append($("<th data-class='" + numberArray[t] + "' class='bundle "+ numberArray[t] +"'></th>"));
 			}			
-			console.log('Bundles Length ' + bundles.length);
+			//console.log('Bundles Length ' + bundles.length);
 			// load all services from local table
 			// services for each bundle will be separated later
 			getAllServices(function(services){

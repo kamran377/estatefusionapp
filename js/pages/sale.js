@@ -36,7 +36,7 @@ function applyWizard() {
 		height: 'auto',
 		theme:'circle',
 		transition:'none',
-		//startStep: 1,
+		//startStep: 3,
 		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
 		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		finishBtn:$('<a class="finish-btn sf-right sf-btn  btn btn-primary hidden" href="#"><i class="fa fa-stop"></i> FINISH</a>'),
@@ -77,6 +77,11 @@ function applyWizard() {
 		// from terms page to signature page
 		if(from == 2 && to == 3) {
 			checkTermsAcceptance(e)/* from sale-terms.js*/;	
+			$('#sigFirstOwner').html(getFirstCustomerName() /* from sale-seller.js */ + ' &mdash; <b>Signature</b>');
+			if($('#ownership').val() == 2) {
+				$('#sigSecondOwnerDiv').removeClass('hidden');
+				$('#sigSecondOwner').html(getSecondCustomerName() /* from sale-seller.js */ + ' &mdash; <b>Signature</b>');
+			}
 		}
 		// from signature page to photo page
 		if(from == 3 && to == 4) {

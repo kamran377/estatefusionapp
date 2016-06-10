@@ -125,6 +125,8 @@ function saveCustomer(isDraft,callback) {
 	if(isDraft) {
 		// set empty signature
 		customer.signature = "";
+		// set empty signature
+		customer.signature2 = "";
 		// set empty photo 1
 		customer.photo_1 = "";
 		// set empty photo 2
@@ -134,6 +136,10 @@ function saveCustomer(isDraft,callback) {
 		var sig = $("#signature").jSignature("getData","base30");
 		// set the customer signature
 		customer.signature = sig[1];
+		// get the customer signature
+		sig = $("#signature2").jSignature("getData","base30");
+		// set the customer signature
+		customer.signature2 = sig[1];
 	}
 	// set empty 
 	// fee to be collected from user
@@ -575,6 +581,8 @@ function makeCustomerObjectFromDB(callback) {
 			// we don't have signature, photo for the draft customer
 			// set the customer signature
 			Customer.signature = dbCustomer['signature'];
+			// set the customer signature
+			Customer.signature2 = dbCustomer['signature2'];
 			
 			// get the bundles purchased
 			getCustomerBundlesPurchased(id, function(bundle){
@@ -695,6 +703,10 @@ function makeCustomerObject() {
 	var sig = $("#signature").jSignature("getData","base30");
 	// set the customer signature
 	Customer.signature = sig[1];
+	// get the customer signature
+	var sig2 = $("#signature2").jSignature("getData","base30");
+	// set the customer signature
+	Customer.signature2 = sig2[1];
 	return Customer;
 }
 // this function will return the customer Bundle object for uploading

@@ -347,4 +347,13 @@ function disablePriceChanges() {
 	$('#perc-price-check').prop('disabled',true);
 	$('#fixedPrice').prop('disabled',true);
 	$('#fixed-price-check').prop('disabled',true);
-}				
+}	
+function getFirstCustomerName() {
+	return $('#firstName').val() + ' ' + $('#surname').val();
+}
+function getSecondCustomerName() {
+	return $('#firstName2').val() + ' ' + $('#surname2').val();
+}
+function getOwners() {
+	return $('#ownership').val();
+}			
