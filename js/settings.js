@@ -9,8 +9,8 @@
  *
  *************************************************/
 //var API_BASE_URL 		= '/api/v1/';
-//var API_BASE_URL 		= 'http://frost-and-co-lite.estate-fusion.com/api/v1/';
-var API_BASE_URL 		= 'http://localhost:8080/estatefusionapi/v1/';
+var API_BASE_URL 		= 'http://frost-and-co-lite.estate-fusion.com/api/v1/';
+//var API_BASE_URL 		= 'http://localhost:8080/estatefusionapi/v1/';
 var LOGIN_URL 			= API_BASE_URL + 'users/login';
 var SIMPLE_BUNDLES_URL	= API_BASE_URL + 'bundles/all';
 var OPTIONS_BUNDLES_URL	= API_BASE_URL + 'bundles/options';
