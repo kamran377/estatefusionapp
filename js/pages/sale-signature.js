@@ -2,9 +2,16 @@ var $sigdiv;
 var $sigdiv2;
 function addSignaturePlugin(sfw) {
 	$sigdiv = $("#signature");
-	$sigdiv.jSignature();
+	if($sigdiv.find(".jSignature").length == 0){
+		$sigdiv.jSignature();
+	}
+}
+function addSignaturePlugin2(sfw){
 	$sigdiv2 = $("#signature2");
-	$sigdiv2.jSignature();
+	if($sigdiv2.find(".jSignature").length == 0){
+		$sigdiv2.jSignature();
+	}
+	$sigdiv2.resize()
 }
 function resetSignature() {
 	$sigdiv.jSignature("reset");

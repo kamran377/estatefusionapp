@@ -112,6 +112,7 @@ div.terms {
 #signature2 canvas{
 	
 	color :#000;
+	height:325px !important;
 }
 #sellerDetailsTable tr td {
 	text-align:left;

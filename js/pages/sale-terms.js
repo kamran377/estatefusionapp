@@ -25,8 +25,20 @@ function handleTermsPage(sfw) {
 		// iterate over the services purchased
 		bundleText += "<h3>Services Purchased:-</h3>";
 		$('td.highlighted .service-checkbox-paid:checked').each(function(){
-			var $check = $(this);	
-			bundleText += '<p class="terms-service">' + $check.attr('data-name') + '<span class="terms-price">&pound;'+  $check.attr('data-price')+'</span></p>';
+			var $check = $(this);
+			var $td	= $check.closest('td');
+			if($td.attr('data-upfront') == 'false') {
+				bundleText += '<p class="terms-service">' + $check.attr('data-name') + '<span class="terms-price">&pound;'+  $check.attr('data-price')+'</span></p>';
+			}
+		});
+		// iterate over the services purchased
+		bundleText += "<h3>Upfront Services Purchased:-</h3>";
+		$('td.highlighted .service-checkbox-paid:checked').each(function(){
+			var $check = $(this);
+			var $td	= $check.closest('td');
+			if($td.attr('data-upfront') == 'true') {
+				bundleText += '<p class="terms-service">' + $check.attr('data-name') + '<span class="terms-price">&pound;'+  $check.attr('data-price')+'</span></p>';
+			}
 		});
 		// iterate over the options purchased
 		var options = '';

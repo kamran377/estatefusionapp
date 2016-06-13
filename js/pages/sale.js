@@ -80,6 +80,7 @@ function applyWizard() {
 			$('#sigFirstOwner').html(getFirstCustomerName() /* from sale-seller.js */ + ' &mdash; <b>Signature</b>');
 			if($('#ownership').val() == 2) {
 				$('#sigSecondOwnerDiv').removeClass('hidden');
+				addSignaturePlugin2(sfw);
 				$('#sigSecondOwner').html(getSecondCustomerName() /* from sale-seller.js */ + ' &mdash; <b>Signature</b>');
 			}
 		}
