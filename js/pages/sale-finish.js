@@ -27,7 +27,12 @@ $(document).on('ready',function(){
 			postRequest(ADD_CUSTOMER_URL /* from settings.js */,data,access_token, function(obj){
 				$('#uploadCustomer').prop('disabled', false);
 				$('#uploadCustomer i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
-				
+				if(obj.status == STATUS_ERROR) {
+					alert('Some error occured, you can try again or save the customer details locally, for upload later');
+					$('#saveLocalCustomer').removeClass('hidden');
+					refreshStep();
+					return false;
+				}
 				var res = obj.result;
 				if(res.status == 'success') {
 					alert('Customer uploaded successfully');
