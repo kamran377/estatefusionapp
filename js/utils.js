@@ -704,9 +704,13 @@ function makeCustomerObject() {
 	// set the customer signature
 	Customer.signature = sig[1];
 	// get the customer signature
-	var sig2 = $("#signature2").jSignature("getData","base30");
-	// set the customer signature
-	Customer.signature2 = sig2[1];
+	if($('#ownership').val() == 2) {
+		var sig2 = $("#signature2").jSignature("getData","base30");
+		// set the customer signature
+		Customer.signature2 = sig2[1];
+	} else {
+		Customer.signature2 = "";
+	}
 	return Customer;
 }
 // this function will return the customer Bundle object for uploading

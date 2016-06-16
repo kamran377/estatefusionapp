@@ -172,46 +172,8 @@ function attachServicesEvents() {
 		if(cls && $('th.' + cls).hasClass('highlighted')) {
 			// uncheck all discount checkboxes
 			$('.discount-checkbox').not(this).prop('checked',false);
-			var _percentage = $td.attr('data-percentage');
-			// get double
-			var percentage = getFloat(_percentage) /* from utils.js*/
-			// get the grand total
-			var _total = $('#services-table .vat-total-price span').text();
-			if(_total == 'Total') {
-				_total = 0;
-			}
-			// convert to double
-			var total = getFloat(_total) /* from utils.js*/;
-			// get the discount percentage
-			var discount = total * ( percentage / 100);
-			if( total > 0 ) {
-				// get the discounted total
-				var discountedTotal = total - discount;
-				// get the pay now and later
-				// get pay now
-				var _now = $td.closest('tr').attr('data-now');
-				var now = getFloat(_now) /* from utils.js*/;
-				var payNow = discountedTotal * ( now / 100);
-				// get pay later
-				var payLater = discountedTotal - payNow;
-				
-				
-				// add upfront payment to payNow
-				var upfrontTotal = $('#services-table tr.upfront-price-total td.highlighted  span').text();
-				if(upfrontTotal == 'Total') {
-					upfrontTotal = 0;
-				}
-				upfrontTotal = getFloat(upfrontTotal) /* from util.js */;
-				var payNowTotal = payNow + upfrontTotal;
-				
-				payNow = payNowTotal.toFixed(2);
-				payLater = payLater.toFixed(2);
-				// update the pay now and later columns
-				$('#services-table .total-price-now .total-now-' + cls + ' span').text(payNow);
-				// update the pay now and later columns
-				$('#services-table .total-price-later .total-later-' + cls + ' span').text(payLater);
-				
-			}
+			
+			updateTotals(cls);
 		} else {
 			return false;
 		}
@@ -305,7 +267,8 @@ function clearTotal() {
 	$('#services-table .upfront-price-vat  span').text('VAT');
 	// clear the upfront services total column
 	$('#services-table .upfront-price-total  span').text('Total');
-	
+	// clear the discount
+	//$('#services-table .total-discount span').text('');
 }
 // this function updates the total based on subtotals 
 function updateTotals(cls) {	
@@ -325,19 +288,7 @@ function updateTotals(cls) {
 	var total = firstprice + secondprice;
 	// update the total without VAT
 	$('#services-table .total-price .total-' + cls + ' span').text(total);
-	// calculate the VAT
-	total  = getFloat(total) /* from utils.js*/;
-	var vatTotal = total * VAT / 100;
-	vatTotal = getFloat(vatTotal) /* from utils.js*/;
 	
-	// update the VAT column
-	$('#services-table .vat-price span').text(vatTotal.toFixed(2));
-	// calculate the grand total
-	var grandTotal = total + vatTotal;
-	grandTotal = getFloat(grandTotal) /* from utils.js*/;
-	grandTotal = grandTotal.toFixed(2);
-	// update the grand total column
-	$('#services-table .vat-total-price span').text(grandTotal);
 	updatePayNow(cls);
 }
 
@@ -356,24 +307,42 @@ function updatePayNow(cls) {
 		// get double
 		var percentage = getFloat(_percentage) /* from utils.js*/
 		// get the grand total
-		var _total = $('#services-table .vat-total-price span').text();
+		var _total = $('#services-table .total-price .total-' + cls + ' span').text();
 		if(_total == 'Total') {
 			_total = 0;
 		}
+		
 		// convert to double
 		var total = getFloat(_total) /* from utils.js*/;
 		// get the discount percentage
 		var discount = total * ( percentage / 100);
+		// update the discounts column
+		$('#services-table .total-discount .total-discount-' + cls + ' span').text(discount.toFixed(2));
+		// calculate the VAT
+		
 		if( total > 0 ) {
 			// get the discounted total
 			var discountedTotal = total - discount;
+			
+			var vatTotal = discountedTotal * VAT / 100;
+			vatTotal = getFloat(vatTotal) /* from utils.js*/;
+			
+			// update the VAT column
+			$('#services-table .vat-price span').text(vatTotal.toFixed(2));
+			// calculate the grand total
+			var grandTotal = discountedTotal + vatTotal;
+			grandTotal = getFloat(grandTotal) /* from utils.js*/;
+			grandTotal = grandTotal.toFixed(2);
+			// update the grand total column
+			$('#services-table .vat-total-price span').text(grandTotal);	
+			
 			// get the pay now and later
 			// get pay now
 			var _now = $td.closest('tr').attr('data-now');
 			var now = getFloat(_now) /* from utils.js*/;
-			var payNow = discountedTotal * ( now / 100);
+			var payNow = grandTotal * ( now / 100);
 			// get pay later
-			var payLater = discountedTotal - payNow;
+			var payLater = grandTotal - payNow;
 			
 			
 			// add upfront payment to payNow
@@ -619,26 +588,7 @@ function displayBundlesData() {
 							$tr.append($('<td/>').addClass('total-' + numberArray[t]).html('&pound; <span>Total</span>'));
 						}
 					$('#services-table tbody').append($tr);
-					//adding empty row
-					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').attr('colspan',emptyColSpan).html(''));
-					$('#services-table tbody').append($tr);
-					// add the VAT price row
-					$tr = $('<tr/>').addClass('vat-price')
-						.append($('<td/>').addClass('price')
-							.text('Total VAT @ 20%'))
-						.append($('<td/>').attr('colspan',(emptyColSpan -1 )).addClass('vat-price').html('&pound; <span>Total VAT</span>'));
-					$('#services-table tbody').append($tr);
-					//adding empty row
-					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').attr('colspan',emptyColSpan).html(''));
-					$('#services-table tbody').append($tr);
-					// add the total including VAT row
-					$tr = $('<tr/>').addClass('vat-total-price')
-						.append($('<td/>').addClass('price')
-							.text('Total Including VAT'))
-						.append($('<td/>').attr('colspan',(emptyColSpan - 1)).addClass('vat-total-price').html('&pound; <span>Grand Total</span>'));
-					$('#services-table tbody').append($tr);
+					
 					/**
 					* Display - Options End
 					*/
@@ -680,6 +630,40 @@ function displayBundlesData() {
 						$tr = $('<tr/>').addClass('')
 							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
 						$('#services-table tbody').append($tr);
+						// add the discount
+						$tr = $('<tr/>').addClass('total-discount')
+							.append($('<td/>').addClass('price')
+								.text('Discount'));
+							
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').addClass('total-discount-' + numberArray[t]).html('&pound; <span></span>'));
+						}
+						$('#services-table tbody').append($tr);
+						//adding empty row
+						$tr = $('<tr/>').addClass('')
+							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
+						$('#services-table tbody').append($tr);
+						// add the VAT price row
+						$tr = $('<tr/>').addClass('vat-price')
+							.append($('<td/>').addClass('price')
+								.text('Total VAT @ 20%'))
+							.append($('<td/>').attr('colspan',(emptyColSpan -1 )).addClass('vat-price').html('&pound; <span>Total VAT</span>'));
+						$('#services-table tbody').append($tr);
+						//adding empty row
+						$tr = $('<tr/>').addClass('')
+							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
+						$('#services-table tbody').append($tr);
+						// add the total including VAT row
+						$tr = $('<tr/>').addClass('vat-total-price')
+							.append($('<td/>').addClass('price')
+								.text('Total Including VAT'))
+							.append($('<td/>').attr('colspan',(emptyColSpan - 1)).addClass('vat-total-price').html('&pound; <span>Grand Total</span>'));
+						$('#services-table tbody').append($tr);
+						//adding empty row
+						$tr = $('<tr/>').addClass('')
+							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
+						$('#services-table tbody').append($tr);
+						
 						// add the total due now
 						$tr = $('<tr/>').addClass('total-price-now')
 							.append($('<td/>').addClass('price')
