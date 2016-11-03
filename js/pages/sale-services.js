@@ -523,90 +523,91 @@ function displayBundlesData() {
 				*/
 				// get all options 
 				getOptionsBundles(function(options){
-					// we have only one option bundle for the tablet
-					var option = options[0];
-					var bundleid = option['id'];
-					var bundleservices = [];
-					//console.log(services);
-					// get the services for the current bundle					
-					for(var j=0;j<slen;j++) {
-						if(services[j]['bundle_id'] == bundleid) {
-							bundleservices.push(services[j]);
+					if(options && options.length) {
+						// we have only one option bundle for the tablet
+						var option = options[0];
+						var bundleid = option['id'];
+						var bundleservices = [];
+						//console.log(services);
+						// get the services for the current bundle					
+						for(var j=0;j<slen;j++) {
+							if(services[j]['bundle_id'] == bundleid) {
+								bundleservices.push(services[j]);
+							}
 						}
-					}
-					//adding empty row
-					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').attr('colspan',emptyColSpan).html(''));
-					$('#services-table tbody').append($tr);
-					//apply options header
-					$tr = $('<tr/>').addClass('')
-					.append($('<td/>').addClass('header')
-						.text('Options'))
-					.append($('<td/>').attr('colspan', (emptyColSpan -1 )).addClass('').html(''));
-					$('#services-table tbody').append($tr);			
-					
-					// display the actual options now
-					// display services in the first column
-					var klen = 	bundleservices.length;
-					// loop through the services
-					for(var k=0;k<klen;k++) {
-						var service = bundleservices[k];
-							
+						//adding empty row
 						$tr = $('<tr/>').addClass('')
-							.append($('<td/>').addClass('tooltip1 serviceTitle').attr('title',service['info'])
-								.text(service['name']));
-						// add option columns as per the number of bundles
-						for(var t = 0; t < bundles.length;t++) {
-							$tr.append(
-								$('<td/>').addClass('options-col').attr('data-class',numberArray[t]).attr('data-price',service['price']).append(
-									$('<div class="checkbox checkbox-success checkbox-circle"><input data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'" data-name="'+service['name']+'" class="option-checkbox" id="checkbox-option-'+(t+1)+k+'" type="checkbox"><label for="checkbox-option-'+(t+1)+k+'">&pound;'+service['price']+'</label></div>')
-								)
-							);
-						}
+							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
 						$('#services-table tbody').append($tr);
-					}
-					// add the options sub total
-					// add the price row
-					$tr = $('<tr/>').addClass('sub-price-2')
-						.append($('<td/>').addClass('price')
-							.text('Options Price'));
+						//apply options header
+						$tr = $('<tr/>').addClass('')
+						.append($('<td/>').addClass('header')
+							.text('Options'))
+						.append($('<td/>').attr('colspan', (emptyColSpan -1 )).addClass('').html(''));
+						$('#services-table tbody').append($tr);			
 						
-					for(var t = 0; t<bundles.length;t++) {
-						$tr.append($('<td/>').addClass('option-' + numberArray[t]).html('&pound; <span>Sub Total</span>'));
-					}
-					$('#services-table tbody').append($tr);	
-					//adding empty row
-					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').addClass('empty').attr('colspan',emptyColSpan).html(''));
-					$('#services-table tbody').append($tr);
-					// add the total price
-					$tr = $('<tr/>').addClass('total-price')
-						.append($('<td/>').addClass('price')
-							.text('Total Price'));
-						
-						for(var t = 0; t<bundles.length;t++) {
-							$tr.append($('<td/>').addClass('total-' + numberArray[t]).html('&pound; <span>Total</span>'));
+						// display the actual options now
+						// display services in the first column
+						var klen = 	bundleservices.length;
+						// loop through the services
+						for(var k=0;k<klen;k++) {
+							var service = bundleservices[k];
+								
+							$tr = $('<tr/>').addClass('')
+								.append($('<td/>').addClass('tooltip1 serviceTitle').attr('title',service['info'])
+									.text(service['name']));
+							// add option columns as per the number of bundles
+							for(var t = 0; t < bundles.length;t++) {
+								$tr.append(
+									$('<td/>').addClass('options-col').attr('data-class',numberArray[t]).attr('data-price',service['price']).append(
+										$('<div class="checkbox checkbox-success checkbox-circle"><input data-bundle-id="'+service['bundle_id']+'" data-service-id="'+service['id']+'" data-price="'+service['price']+'" data-name="'+service['name']+'" class="option-checkbox" id="checkbox-option-'+(t+1)+k+'" type="checkbox"><label for="checkbox-option-'+(t+1)+k+'">&pound;'+service['price']+'</label></div>')
+									)
+								);
+							}
+							$('#services-table tbody').append($tr);
 						}
-					$('#services-table tbody').append($tr);
-					
-					/**
-					* Display - Options End
-					*/
-					/**
-					* Display - Discounts Start
-					*/
-					//adding empty row
-					$tr = $('<tr/>').addClass('')
-						.append($('<td/>').attr('colspan',emptyColSpan).html(''));
-					$('#services-table tbody').append($tr);
-					// add discount options header
-					//apply discounts header
-					$tr = $('<tr/>').addClass('')
-					.append($('<td/>').addClass('header')
-						.text('Discount Options'))
-					.append($('<td/>').addClass('').attr('colspan',(emptyColSpan - 1)).html(''));
-					$('#services-table tbody').append($tr);			
-					
+						// add the options sub total
+						// add the price row
+						$tr = $('<tr/>').addClass('sub-price-2')
+							.append($('<td/>').addClass('price')
+								.text('Options Price'));
+							
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').addClass('option-' + numberArray[t]).html('&pound; <span>Sub Total</span>'));
+						}
+						$('#services-table tbody').append($tr);	
+						//adding empty row
+						$tr = $('<tr/>').addClass('')
+							.append($('<td/>').addClass('empty').attr('colspan',emptyColSpan).html(''));
+						$('#services-table tbody').append($tr);
+						// add the total price
+						$tr = $('<tr/>').addClass('total-price')
+							.append($('<td/>').addClass('price')
+								.text('Total Price'));
+							
+							for(var t = 0; t<bundles.length;t++) {
+								$tr.append($('<td/>').addClass('total-' + numberArray[t]).html('&pound; <span>Total</span>'));
+							}
+						$('#services-table tbody').append($tr);
+						
+						/**
+						* Display - Options End
+						*/
+						/**
+						* Display - Discounts Start
+						*/
+						//adding empty row
+						$tr = $('<tr/>').addClass('')
+							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
+						$('#services-table tbody').append($tr);
+						// add discount options header
+						//apply discounts header
+						$tr = $('<tr/>').addClass('')
+						.append($('<td/>').addClass('header')
+							.text('Discount Options'))
+						.append($('<td/>').addClass('').attr('colspan',(emptyColSpan - 1)).html(''));
+						$('#services-table tbody').append($tr);			
+					}
 					getAllDiscounts(function(discounts){
 						// get length of discount 
 						var dlen = discounts.length;
