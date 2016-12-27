@@ -293,3 +293,14 @@ h3.signature-heading {
     font-weight: bold;
     margin-left: 10px;
 }
+
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
+	background-color:#fff !important;
+}
+.ui-page-theme-a .ui-btn {
+	background-color:#fff !important;
+}
+.ui-page-theme-a .ui-btn.ui-btn-active {
+    background-color: #3388cc!important;
+    border-color: #3388cc !important;
+}

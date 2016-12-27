@@ -19,19 +19,23 @@ function getRequest(url, data,access_token, callback) {
 // this is the default ajax function for app to avoid code duplication in each page
 // the results are passed to a callback function passed as an argument by the calling method
 function ajaxRequest(url, data,access_token, type, callback) {
-	var headers = {
-		'AUTHENTICATION' : access_token
-	};
+	$.ajaxSetup({
+	  headers: {
+		'Authorization': "Bearer " + access_token
+	  }
+	});
 	$.ajax({
 		url  	: url,
 		data 	: data,
-		headers : headers,
 		type 	: type,
 		crossDomain: true,
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader ("Authorization", "Bearer " + access_token);
+		},
 	})
 	.done(function(res){
 		var obj = {
-			'status':STATUS_SUCCESS /* from settings.js*/,
+			'status':res.status /* from settings.js*/,
 			'result':res
 		};
 		callback(obj);

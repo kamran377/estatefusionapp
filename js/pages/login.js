@@ -72,18 +72,19 @@ function checkOnlineLogin() {
 	var email = $('#email').val();
 	var password = $('#password').val();
 	var data = {'email':email,'password':password}
-	showLoader(/* from utils.js */);
+	showLoader("Authenticating ..."/* from utils.js */);
 	$.post(LOGIN_URL, data)
 	.done(function(res) {
-		var json = $.parseJSON(res);
-		
+		var json = res;
+		console.log(json.status);
 		if(json.status == 'success') {
 			var data = json.user;
 			insertUserWhosme(email,data.access_token, data.name, function(){
 				if(data.access_token) {
+					hideLoader(/* from utils.js */);
+					showLoader("Loading Bundles Data ..."/* from utils.js */);
 					loadBundlesData(data.access_token);
 					loadTermsData(data.access_token);
-					
 				}
 				hideLoader(/* from utils.js */);
 				$.mobile.changePage('#welcomePage');
@@ -91,6 +92,7 @@ function checkOnlineLogin() {
 			
 		} else {
 			alert(json.message);
+			hideLoader(/* from utils.js */);
 		}
 	})
 	.fail(function() {
@@ -105,7 +107,7 @@ function loadTermsData(access_token) {
 	postRequest(TERMS_URL /* from settings.js */,'',access_token, function(obj){
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
 			emptyTermsTable(function(){
-				var terms = obj.result;
+				var terms = obj.result.terms;
 				$.each(terms, function(){
 					var term = this;
 					insertTerms(term); /* from database.js */
@@ -117,12 +119,14 @@ function loadTermsData(access_token) {
 }
 // this function load and store bundles data from server to local db
 function loadBundlesData(access_token) {
-	postRequest(SIMPLE_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
+	getRequest(SIMPLE_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
+		console.log(obj);
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
 			emptyBundlesTable()   /* from database.js*/;
 			emptyServicesTable()  /* from database.js*/;
 			emptyDiscountsTable() /* from database.js*/;
-			var bundles = obj.result; // return bundles from server
+			var bundles = obj.result.bundles; // return bundles from server
+			console.log(bundles);
 			$.each(bundles, function(){
 				var bundle = this;
 				insertSimpleBundle(bundle); /* from database.js */
@@ -140,16 +144,20 @@ function loadBundlesData(access_token) {
 function loadOptionsData(access_token) {
 	postRequest(OPTIONS_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
-			var bundles = obj.result; // return bundles from server
-			$.each(bundles, function(){
+			var bundles = obj.result.bundles; // return bundles from server
+			if(bundles && bundles.length) {
+				$.each(bundles, function(){
 				var bundle = this;
 				insertOptionsBundle(bundle); /* from database.js */
-				var services = bundle.services;
-				$.each(services, function(){
-					var service = this;
-					insertService(service); /* from database.js*/
+					var services = bundle.services;
+					if(services && services.length) {
+						$.each(services, function(){
+							var service = this;
+							insertService(service); /* from database.js*/
+						});
+					}
 				});
-			});
+			}		
 			// load the discounts data from the server
 			loadDiscountsData(access_token);
 		}	
@@ -158,7 +166,7 @@ function loadOptionsData(access_token) {
 function loadDiscountsData(access_token) {
 	postRequest(DISCOUNTS_URL /* from settings.js */,'',access_token, function(obj){
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
-			var discounts = obj.result; // return bundles from server
+			var discounts = obj.result.discounts; // return bundles from server
 			$.each(discounts, function(){
 				var discount = this;
 				insertDiscount(discount); /* from database.js */

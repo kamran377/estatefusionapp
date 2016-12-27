@@ -278,9 +278,12 @@ function updateTotals(cls) {
 	var firstprice = getFloat(_firstprice) /* from utils.js*/;
 	
 	// get the options sub total
-	var _secondprice = $('#services-table .sub-price-2 .option-' + cls + ' span').text();
-	if(_secondprice == 'Sub Total') {
-		_secondprice = 0;
+	_secondprice = 0;
+	if($('#services-table .sub-price-2 .option-' + cls + ' span').length) {
+		var _secondprice = $('#services-table .sub-price-2 .option-' + cls + ' span').text();
+		if(_secondprice == 'Sub Total') {
+			_secondprice = 0;
+		}
 	}
 	// convert it to float
 	var secondprice = getFloat(_secondprice) /* from utils.js*/;
@@ -304,13 +307,16 @@ function updatePayNow(cls) {
 		var $td = $check.closest('td');
 		
 		var _percentage = $td.attr('data-percentage');
+		
 		// get double
 		var percentage = getFloat(_percentage) /* from utils.js*/
+		
 		// get the grand total
 		var _total = $('#services-table .total-price .total-' + cls + ' span').text();
 		if(_total == 'Total') {
 			_total = 0;
 		}
+		
 		
 		// convert to double
 		var total = getFloat(_total) /* from utils.js*/;
@@ -576,38 +582,40 @@ function displayBundlesData() {
 							$tr.append($('<td/>').addClass('option-' + numberArray[t]).html('&pound; <span>Sub Total</span>'));
 						}
 						$('#services-table tbody').append($tr);	
-						//adding empty row
-						$tr = $('<tr/>').addClass('')
-							.append($('<td/>').addClass('empty').attr('colspan',emptyColSpan).html(''));
-						$('#services-table tbody').append($tr);
-						// add the total price
-						$tr = $('<tr/>').addClass('total-price')
-							.append($('<td/>').addClass('price')
-								.text('Total Price'));
-							
-							for(var t = 0; t<bundles.length;t++) {
-								$tr.append($('<td/>').addClass('total-' + numberArray[t]).html('&pound; <span>Total</span>'));
-							}
-						$('#services-table tbody').append($tr);
 						
-						/**
-						* Display - Options End
-						*/
-						/**
-						* Display - Discounts Start
-						*/
-						//adding empty row
-						$tr = $('<tr/>').addClass('')
-							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
-						$('#services-table tbody').append($tr);
-						// add discount options header
-						//apply discounts header
-						$tr = $('<tr/>').addClass('')
-						.append($('<td/>').addClass('header')
-							.text('Discount Options'))
-						.append($('<td/>').addClass('').attr('colspan',(emptyColSpan - 1)).html(''));
-						$('#services-table tbody').append($tr);			
+							
 					}
+					//adding empty row
+					$tr = $('<tr/>').addClass('')
+						.append($('<td/>').addClass('empty').attr('colspan',emptyColSpan).html(''));
+					$('#services-table tbody').append($tr);
+					// add the total price
+					$tr = $('<tr/>').addClass('total-price')
+						.append($('<td/>').addClass('price')
+							.text('Total Price'));
+						
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').addClass('total-' + numberArray[t]).html('&pound; <span>Total</span>'));
+						}
+					$('#services-table tbody').append($tr);
+					
+					/**
+					* Display - Options End
+					*/
+					/**
+					* Display - Discounts Start
+					*/
+					//adding empty row
+					$tr = $('<tr/>').addClass('')
+						.append($('<td/>').attr('colspan',emptyColSpan).html(''));
+					$('#services-table tbody').append($tr);
+					// add discount options header
+					//apply discounts header
+					$tr = $('<tr/>').addClass('')
+					.append($('<td/>').addClass('header')
+						.text('Discount Options'))
+					.append($('<td/>').addClass('').attr('colspan',(emptyColSpan - 1)).html(''));
+					$('#services-table tbody').append($tr);		
 					getAllDiscounts(function(discounts){
 						// get length of discount 
 						var dlen = discounts.length;

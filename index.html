@@ -5,7 +5,6 @@
 		<meta http-equiv="Content-Security-Policy"/>
 		<title>Estate Fusion</title>
 		<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 		<link href='css/open_sans.css' rel='stylesheet' type='text/css'>
 		
@@ -233,13 +232,13 @@
 											<input name='homeLine1' id='homeLine1' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
-									<tr>
+									<tr style="display:none">
 										<td class='' colspan=4>
 											<label>Line 2</label>
 											<input name='homeLine2' id='homeLine2' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
-									<tr>
+									<tr style="display:none">
 										<td class='' colspan=4>
 											<label>Line 3</label>
 											<input name='homeLine3' id='homeLine3' data-role="none" type='text' class='form-control'/>	
@@ -299,13 +298,13 @@
 											<input name='propertyLine1' id='propertyLine1' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
-									<tr>
+									<tr style="display:none">
 										<td class='' colspan=4>
 											<label>Line 2</label>
 											<input name='propertyLine2' id='propertyLine2' data-role="none" type='text' class='form-control'/>	
 										</td>
 									</tr>
-									<tr>
+									<tr style="display:none">
 										<td class='' colspan=4>
 											<label>Line 3</label>
 											<input name='propertyLine3' id='propertyLine3' data-role="none" type='text' class='form-control'/>	
@@ -454,7 +453,24 @@
 						<legend>Terms &amp; Conditions</legend>
 						<div class="row">
 							<div class="col-lg-12">
-								<div id='termsDiv' class='terms'> <p>Terms &amp; Conditions</p> </div>
+								<div id='termsDiv' class='terms'>
+									<div data-role="tabs" id="tabs">
+										<div data-role="navbar">
+											<ul>
+												<li><a href="#terms-1" class="ui-btn-active" data-ajax="false">Pay now Terms</a></li>
+												<li><a href="#terms-2" data-ajax="false">Pay Later Terms</a></li>
+											</ul>
+										</div>
+										<div id="terms-1" class="">
+											<h3>First tab contents</h3>
+											<p></p>
+										</div>
+										<div id="terms-2">
+											<h3>Second tab contents</h3>
+											<p></p>	
+										</div>
+									</div>
+								</div>
 								<div class=" checkbox checkbox-success">
 									<input data-role="none" class="terms-checkbox" id="checkbox-term-condition" type="checkbox">
 									<label data-role="none" for="checkbox-term-condition">I've read and accept the terms &amp; conditions</label>

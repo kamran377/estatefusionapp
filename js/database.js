@@ -8,7 +8,7 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
-var versionNumber = 'V160616.A';
+var versionNumber = 'V271216.A';
 
 $(document).on('ready',function(){
 	FastClick.attach(document.body);
@@ -326,8 +326,31 @@ function createTermsTable() {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
+				tx.executeSql('CREATE TABLE IF NOT EXISTS newterms \
+					(id TEXT NOT NULL,\
+					now_flag TEXT NOT NULL,\
+					default_flag TEXT NOT NULL,\
+					title TEXT NOT NULL,\
+					terms TEXT NOT NULL)',[],onSuccessExecuteSql,onError);
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+
+function createNewTermsTable() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('DROP TABLE terms');
+			});
+			estateAppDB.transaction(function(tx) {
 				tx.executeSql('CREATE TABLE IF NOT EXISTS terms \
 								(id TEXT NOT NULL,\
+								now_flag TEXT NOT NULL,\
+								default_flag TEXT NOT NULL,\
+								title TEXT NOT NULL,\
 								terms TEXT NOT NULL)');
 			});
 		}
@@ -349,6 +372,8 @@ function updateDbSchema() {
 				tx.executeSql('ALTER TABLE services ADD row int',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE services ADD upfront TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD signature_2 TEXT',[],onSuccessExecuteSql,onError);
+				
+
 			});
 		}
 	} catch(e) {
@@ -400,6 +425,7 @@ function insertOptionsBundle(bundle) {
 function insertBundle(bundle, type) {
 	try {
 		if (estateAppDB) {
+			var discount = bundle.discount ? bundle.discount : 0;
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('INSERT INTO bundles (id,name,type,price,default_bundle,discount,position) values (?,?,?,?,?,?,?)'
 				,[bundle.id,bundle.name,type,bundle.price,bundle.def,bundle.discount,bundle.position],
@@ -489,8 +515,8 @@ function insertTerms(terms) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO terms (id,terms) values (?,?)'
-				,[terms.id,terms.terms,],
+				tx.executeSql('INSERT INTO newterms (id,now_flag,default_flag, title, terms) values (?,?,?,?,?)'
+				,[terms.id,terms.now_flag,terms.default_flag, terms.title, terms.terms,],
 				function(tx,results){
 					return true;
 				});
@@ -677,7 +703,7 @@ function emptyTermsTable(callback){
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('delete from terms'
+				tx.executeSql('delete from newterms'
 				,[],
 				function(tx,results){
 					callback();
@@ -840,20 +866,20 @@ function getAllDiscounts(callback) {
 	}
 }
 // This function returns all the terms data for the local db
-function getTerms(callback) {
+function getTerms(defaultBundle, callback) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('select * from terms'
-				,[],
+				tx.executeSql('select * from newterms where default_flag = ?'
+				,[defaultBundle],
 				function(tx,results){
 					var len = results.rows.length;
-					//var array = [];
+					var array = [];
 					for(var i=0; i<len; i++) {
 						var row = results.rows.item(i);
-						callback(row);
+						array[i] = row;
 					}
-					
+					callback(array);
 				});
 			});
 		}
