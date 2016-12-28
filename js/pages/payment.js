@@ -49,11 +49,13 @@ $(document).on("pageshow","#paymentPage",function() {
 		$('#uploadCustomerOther').prop('disabled', true);
 		$('#uploadCustomerOther i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
 		makeCustomerObjectFromDB(function(Customer, Bundle, Services, CustomerPhotos ){
+			var Property        = makePropertyObject(Customer)/* from utils.js*/;
 			var data = {
 				'Customer' : Customer,
 				'Bundle' : Bundle,
 				'Services': Services,
 				'CustomerPhotos': CustomerPhotos,
+				'Property' : Property
 			};
 			getAccessToken(function(access_token){
 				postRequest(ADD_CUSTOMER_URL /* from settings.js */,data,access_token, function(obj){

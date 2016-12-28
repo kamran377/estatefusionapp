@@ -531,7 +531,7 @@
 												<p>Utility Bill</p>
 											</div>
 										</div>
-										<button id='firstPhotoButton' class='ui-btn btn btn-primary btn-block' data-role="none"  onclick="capturePhotoWithData();"><i class='fa fa-camera'></i> Capture Photo</button>
+										<button id='firstPhotoButton' class='ui-btn btn btn-primary btn-block ui-btn-active' data-role="none"  onclick="capturePhotoWithData();"><i class='fa fa-camera'></i> Capture Photo</button>
 										<select id='photoType1' class='form-control'  data-role="none">
 											<option value="1">ID</option>
 											<option value="2">Driver's License</option>
@@ -553,7 +553,7 @@
 												<p>Utility Bill</p>
 											</div>
 										</div>
-										<button class='ui-btn btn btn-primary btn-block' data-role="none"  onclick="capturePhotoWithData2();"><i class='fa fa-camera'></i> Capture Photo 2</button>
+										<button class='ui-btn btn btn-primary btn-block ui-btn-active' data-role="none"  onclick="capturePhotoWithData2();"><i class='fa fa-camera'></i> Capture Photo 2</button>
 										<select id='photoType2' class='form-control'  data-role="none">
 											<option value="1">ID</option>
 											<option value="2">Driver's License</option>
@@ -586,8 +586,8 @@
 									<input id='cccvc' data-role='none' class='form-control' data-stripe="cvc" placeholder="CVC" type="text" name="cvc">
 								</div>
 								
-								<button id="payNow" class='btn btn-primary btn-block btn-lg'><i class='fa fa-cc'></i> Pay</button>
-								<button id="processLaterBtn" class='btn btn-primary btn-block btn-lg hidden'><i class='fa fa-exchange'></i> Process Payment later</button>
+								<button id="payNow" class='btn btn-primary btn-block btn-lg ui-btn-active'><i class='fa fa-cc'></i> Pay</button>
+								<button id="processLaterBtn" class='btn btn-primary btn-block btn-lg hidden ui-btn-active'><i class='fa fa-exchange'></i> Process Payment later</button>
 							</div>
 							
 						</div>
@@ -599,8 +599,8 @@
 								<div class='sale-success'>
 									<p class='text-success icon'><i class='fa fa-check-circle-o'></i></p>
 									<p class='text-success text'>Completed Sale</p>
-									<button id='uploadCustomer' class='btn btn-primary btn-lg hidden'><i class='fa fa-upload'></i> Upload Customer</button>
-									<button id='saveLocalCustomer' class='btn btn-primary btn-lg'><i class='fa fa-save'></i> Save Locally</button>
+									<button id='uploadCustomer' class='btn btn-primary btn-lg hidden ui-btn-active'><i class='fa fa-upload'></i> Upload Customer</button>
+									<button id='saveLocalCustomer' class='btn btn-primary btn-lg ui-btn-active'><i class='fa fa-save'></i> Save Locally</button>
 									
 								</div>
 							</div>

@@ -12,16 +12,18 @@ $(document).on('ready',function(){
 		$('#uploadCustomer').prop('disabled', true);
 		$('#uploadCustomer i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
 		
-		var Customer 	= makeCustomerObject()/* from utils.js*/;
-		var Bundle 		= makeCustomerBundleObject()/* from utils.js*/;
-		var Services 	= makeCustomerBundleServicesObject()/* from utils.js*/;
+		var Customer 	    = makeCustomerObject()/* from utils.js*/;
+		var Bundle 		    = makeCustomerBundleObject()/* from utils.js*/;
+		var Services 	    = makeCustomerBundleServicesObject()/* from utils.js*/;
 		var CustomerPhotos 	= makeCustomerPhotosObject()/* from utils.js*/;
-		console.log(CustomerPhotos);
+		var Property        = makePropertyObject(Customer)/* from utils.js*/;
+		
 		var data = {
-			'Customer' : Customer,
+			'Customers' : Customer,
 			'Bundle' : Bundle,
 			'Services': Services,
 			'CustomerPhotos': CustomerPhotos,
+			'Property' : Property
 		};
 		getAccessToken(function(access_token){
 			postRequest(ADD_CUSTOMER_URL /* from settings.js */,data,access_token, function(obj){

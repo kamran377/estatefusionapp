@@ -748,10 +748,12 @@ function getPayableObject() {
 	var later = $('#services-table tbody tr.total-price-later td:nth-child('+index+') span').text();
 	var total = parseFloat(now) + parseFloat(later);
 	total = total.toFixed(2);	
+	var vat = $('#services-table tbody tr.vat-price td.vat-price span').text();
 	return {
 		'payNow':now,
 		'payLater':later,
-		'total':total
+		'total':total,
+		'vat' : vat
 	};
 }
 // this function will return the services purchased in bundle
