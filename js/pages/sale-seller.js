@@ -115,6 +115,19 @@ function attachSellerEvents() {
 			$('#fixedPrice').val('');
 		}
 	});
+	// the event to show relevant twon as per selected county
+	$('#homeCountry').on('change',function(){
+		var value = $(this).val();
+		$("#homeTown option:not([data-region='"+ value +"'])").hide();
+		
+		$("#homeTown option[data-region='"+ value +"']").show();
+	});
+	$('#propertyCountry').on('change',function(){
+		var value = $(this).val();
+		$("#propertyCountry option:not([data-region='"+ value +"'])").hide();
+		
+		$("#propertyCountry option[data-region='"+ value +"']").show();
+	});
 	// update the price
 	$('#percValue').on('change',function(){
 		var value = $(this).val();
@@ -215,6 +228,33 @@ function attachSellerEvents() {
 		unhighlight: function(element, errorClass) {
 			sfw.refresh();
 		}
+	});
+	addDropdownOptions();
+}
+function addDropdownOptions() {
+	getRegions(function(regions){ /* from database.js */
+		// if we have regions in the local database
+		if(regions && regions.length) {
+			var str = "<option value=''>Select County</option>";
+			$.each(regions, function(){
+				var region = this;
+				str += "<option value='" + region['id'] + "'>" + region['name'] + "</option>";
+			});
+			$('#homeCountry').html($(str));
+			$('#propertyCountry').html($(str));
+		}
+		getTowns(function(towns){ /* from database.js */
+			// if we have regions in the local database
+			if(towns && towns.length) {
+				var str = "<option value=''>Select Town</option>";
+				$.each(towns, function(){
+					var town = this;
+					str += "<option data-region='" + town['region_id'] + "' value='" + town['id'] + "'>" + town['name'] + "</option>";
+				});
+				$('#homeTown').html($(str));
+				$('#propertyTown').html($(str));
+			}
+		});
 	});
 }
 // this function will handle saving customer data to the localdb

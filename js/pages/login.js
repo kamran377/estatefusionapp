@@ -85,9 +85,11 @@ function checkOnlineLogin() {
 					showLoader("Loading Bundles Data ..."/* from utils.js */);
 					loadBundlesData(data.access_token);
 					loadTermsData(data.access_token);
+					loadRegionsData(data.access_token);
+					loadTownsData(data.access_token);
 				}
-				hideLoader(/* from utils.js */);
-				$.mobile.changePage('#welcomePage');
+				//hideLoader(/* from utils.js */);
+				//$.mobile.changePage('#welcomePage');
 			}); /* from database.js */
 			
 		} else {
@@ -111,6 +113,36 @@ function loadTermsData(access_token) {
 				$.each(terms, function(){
 					var term = this;
 					insertTerms(term); /* from database.js */
+				});
+			}) /* from database.js*/;
+			
+		}
+	});/* from ajax.js*/
+}
+// this function laods and store the regions data in local storage
+function loadRegionsData(access_token) {
+	postRequest(REGIONS_URL /* from settings.js */,'',access_token, function(obj){
+		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
+			emptyRegionsTable(function(){
+				var regions = obj.result.regions;
+				$.each(regions, function(){
+					var region = this;
+					insertRegion(region); /* from database.js */
+				});
+			}) /* from database.js*/;
+			
+		}
+	});/* from ajax.js*/
+}
+// this function laods and store the towns data in local storage
+function loadTownsData(access_token) {
+	postRequest(TOWNS_URL /* from settings.js */,'',access_token, function(obj){
+		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
+			emptyTownsTable(function(){
+				var towns = obj.result.towns;
+				$.each(towns, function(){
+					var town = this;
+					insertTown(town); /* from database.js */
 				});
 			}) /* from database.js*/;
 			
@@ -175,6 +207,8 @@ function loadDiscountsData(access_token) {
 			//hideLoader(/* from utils.js */);
 			//alert('Bundles data loaded successfully');
 			//show the page
+			hideLoader(/* from utils.js */);
+			$.mobile.changePage('#welcomePage');
 			
 		}	
 	});

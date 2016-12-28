@@ -12,10 +12,12 @@ $(document).on("pageshow","#salePage",function() {
 	attachServicesEvents();
 	// attach card event to card
 	applyCardEvent();
+	
 });
 /**
 * Events - End - Sale Page
 */
+
 function applyCardEvent() {
 	$('.form-container').card({
 		// a selector or DOM element for the container

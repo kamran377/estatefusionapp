@@ -35,7 +35,7 @@ function onDeviceReady() {
 	// do everything here.
 	prepDB();
 	if(!window.location.hash) {
-		//emptyLocalDB();
+		emptyLocalDB();
 	}
 	createWhosemeTable();
 	createBundlesTable();
@@ -47,6 +47,8 @@ function onDeviceReady() {
 	createBundlesPurchasedTable();
 	createBundlesServicesPurchasedTable();
 	createCustomerPhotosTable();
+	createRegionsTable();
+	createTownsTable();
 	updateDbSchema();
 	$('#footer').text(versionNumber);
 	$('.versionNumber').text(versionNumber);
@@ -67,7 +69,7 @@ function prepDB() {
 	if (window.openDatabase) {
 		try {
 			// open database
-			estateAppDB = openDatabase('estatefusion','1.0','A place to store agnet data offline',50 * 1024 * 1024);
+			estateAppDB = openDatabase('estatefusion','1.0','A place to store property data offline',50 * 1024 * 1024);
 		}
 		catch (e) {
 			console.log(e);
@@ -91,7 +93,10 @@ function emptyLocalDB() {
 				tx.executeSql('DROP TABLE customers');
 				tx.executeSql('DROP TABLE properties');
 				tx.executeSql('DROP TABLE bundles_purchased');
-				tx.executeSql('DROP TABLE bundles_services_purchased');				
+				tx.executeSql('DROP TABLE bundles_services_purchased');	
+				tx.executeSql('DROP TABLE regions');
+				tx.executeSql('DROP TABLE towns');
+				tx.executeSql('DROP TABLE newterms');					
 			});
 		}
 	} catch(e) {
@@ -146,7 +151,7 @@ function createBundlesTable() {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('CREATE TABLE IF NOT EXISTS bundles \
-								(id TEXT NOT NULL,\
+								(id INTEGER NOT NULL,\
 								name TEXT NOT NULL,\
 								price TEXT NOT NULL,\
 								default_bundle TEXT NOT NULL,\
@@ -165,7 +170,7 @@ function createServicesTable() {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('CREATE TABLE IF NOT EXISTS services \
-								(id TEXT NOT NULL,\
+								(id INTEGER NOT NULL,\
 								name TEXT NOT NULL,\
 								price TEXT NOT NULL,\
 								bundle_id TEXT NOT NULL,\
@@ -184,7 +189,7 @@ function createDiscountsTable() {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('CREATE TABLE IF NOT EXISTS discounts \
-								(id TEXT NOT NULL,\
+								(id INTEGER NOT NULL,\
 								name TEXT NOT NULL,\
 								percentage TEXT NOT NULL,\
 								now TEXT NOT NULL,\
@@ -327,7 +332,7 @@ function createTermsTable() {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('CREATE TABLE IF NOT EXISTS newterms \
-					(id TEXT NOT NULL,\
+					(id INTEGER NOT NULL,\
 					now_flag TEXT NOT NULL,\
 					default_flag TEXT NOT NULL,\
 					title TEXT NOT NULL,\
@@ -339,25 +344,37 @@ function createTermsTable() {
 	}
 }
 
-function createNewTermsTable() {
+// this function creates the regions table
+function createRegionsTable() {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('DROP TABLE terms');
-			});
-			estateAppDB.transaction(function(tx) {
-				tx.executeSql('CREATE TABLE IF NOT EXISTS terms \
-								(id TEXT NOT NULL,\
-								now_flag TEXT NOT NULL,\
-								default_flag TEXT NOT NULL,\
-								title TEXT NOT NULL,\
-								terms TEXT NOT NULL)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS regions \
+					(id INTEGER NOT NULL,\
+					name TEXT NOT NULL)',[],onSuccessExecuteSql,onError);
 			});
 		}
 	} catch(e) {
 		console.log(e);
 	}
 }
+
+// this function creates the towns table
+function createTownsTable() {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('CREATE TABLE IF NOT EXISTS towns \
+					(id INTEGER NOT NULL,\
+					name TEXT NOT NULL,\
+					region_id INTEGER NOT NULL)',[],onSuccessExecuteSql,onError);
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+
 // this function will add extra columns to the tables in local db
 function updateDbSchema() {
 	try {
@@ -368,8 +385,8 @@ function updateDbSchema() {
 				tx.executeSql('ALTER TABLE customers ADD perc_value TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD agent_fee TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD default_bundle TEXT',[],onSuccessExecuteSql,onError);
-				tx.executeSql('ALTER TABLE bundles ADD position int',[],onSuccessExecuteSql,onError);
-				tx.executeSql('ALTER TABLE services ADD row int',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE bundles ADD position INTEGER',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE services ADD row INTEGER',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE services ADD upfront TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD signature_2 TEXT',[],onSuccessExecuteSql,onError);
 				
@@ -517,6 +534,39 @@ function insertTerms(terms) {
 			estateAppDB.transaction(function(tx) {
 				tx.executeSql('INSERT INTO newterms (id,now_flag,default_flag, title, terms) values (?,?,?,?,?)'
 				,[terms.id,terms.now_flag,terms.default_flag, terms.title, terms.terms,],
+				function(tx,results){
+					return true;
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+// this function inserts region in the local regions table
+function insertRegion(region) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('INSERT INTO regions (id,name) values (?,?)'
+				,[region.id,region.name],
+				function(tx,results){
+					return true;
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+
+// this function inserts town in the local towns table
+function insertTown(town) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('INSERT INTO towns (id,name,region_id) values (?,?,?)'
+				,[town.id,town.name,town.regionId],
 				function(tx,results){
 					return true;
 				});
@@ -714,6 +764,40 @@ function emptyTermsTable(callback){
 		console.log(e);
 	}
 }
+
+//empty the regions table for insertion of new regions data
+function emptyRegionsTable(callback){
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('delete from regions'
+				,[],
+				function(tx,results){
+					callback();
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+
+//empty the towns table for insertion of new towns data
+function emptyTownsTable(callback){
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('delete from towns'
+				,[],
+				function(tx,results){
+					callback();
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
 // this function will delete the draft customer form the local db
 function deleteDraftCustomer(id, callback) {
 	//var sql1 = "delete c,p, b, s from customers c, properties p, bundles_purchased b, bundles_services_purchased s where p.customer_id = c.id and b.property_id = p.id and s.bundle_id = b.id and c.id = ?"
@@ -887,6 +971,53 @@ function getTerms(defaultBundle, callback) {
 		console.log(e);
 	}
 }
+
+// This function returns all the regions data for the local db
+function getRegions(callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from regions'
+				,[],
+				function(tx,results){
+					var len = results.rows.length;
+					var array = [];
+					for(var i=0; i<len; i++) {
+						var row = results.rows.item(i);
+						array[i] = row;
+					}
+					callback(array);
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+
+// This function returns all the regions data for the local db
+function getTowns(callback) {
+	try {
+		if (estateAppDB) {
+			estateAppDB.transaction(function(tx) {
+				tx.executeSql('select * from towns'
+				,[],
+				function(tx,results){
+					var len = results.rows.length;
+					var array = [];
+					for(var i=0; i<len; i++) {
+						var row = results.rows.item(i);
+						array[i] = row;
+					}
+					callback(array);
+				});
+			});
+		}
+	} catch(e) {
+		console.log(e);
+	}
+}
+
 // This function returns all the customers stored in the local db
 function getCustomers(isDraft, callback) {
 	if(isDraft) {
