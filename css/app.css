@@ -304,3 +304,7 @@ h3.signature-heading {
     background-color: #3388cc!important;
     border-color: #3388cc !important;
 }
+.red {
+	border:1px solid red !important;
+	color:red !important;
+}

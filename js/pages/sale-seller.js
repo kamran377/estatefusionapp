@@ -116,7 +116,7 @@ function attachSellerEvents() {
 		}
 	});
 	// the event to show relevant twon as per selected county
-	$('#homeCountry').on('change',function(){
+	/*$('#homeCountry').on('change',function(){
 		var value = $(this).val();
 		$("#homeTown option:not([data-region='"+ value +"'])").hide();
 		
@@ -127,7 +127,7 @@ function attachSellerEvents() {
 		$("#propertyCountry option:not([data-region='"+ value +"'])").hide();
 		
 		$("#propertyCountry option[data-region='"+ value +"']").show();
-	});
+	});*/
 	// update the price
 	$('#percValue').on('change',function(){
 		var value = $(this).val();
@@ -229,7 +229,7 @@ function attachSellerEvents() {
 			sfw.refresh();
 		}
 	});
-	addDropdownOptions();
+	//addDropdownOptions();
 }
 function addDropdownOptions() {
 	getRegions(function(regions){ /* from database.js */
