@@ -127,7 +127,7 @@
 					<fieldset>
 						<legend>Payment</legend>
 						<div id="paymentOther">
-							<input type='hidden' id='paymentOtherFlag' value='F' />
+							<input type='hidden' id='paymentOtherFlag' value='T' />
 							<h2 id="totalPaymentCheckoutOther"></h2>
 							<div class="card-wrapperOther"></div>
 							<div id='paymentFormOther' class="form-containerOther active">
@@ -336,9 +336,8 @@
 										</td>
 										<td class='' colspan=2>
 											<label>Property Tenure</label>
-											<select name='propertyTenure' id='propertyTenure'  data-role="none" class='form-control'>
-												<option value="">Property Tenure</option>
-												<option value='1'>Freehold</option>
+											<select readonly="readonly" name='propertyTenure' id='propertyTenure'  data-role="none" class='red form-control'>
+												<option selected="selected" value='1'>Freehold</option>
 												<option value='2'>Leasehold</option>
 												<option value='3'>Share of Freehold</option>
 												<option value='4'>Commonhold</option>
@@ -570,7 +569,7 @@
 							
 							<h2 id="totalPaymentCheckout"></h2>
 							<div class="card-wrapper"></div>
-							<input type='hidden' id='paymentFlag' value='F' />
+							<input type='hidden' id='paymentFlag' value='T' />
 							<div id='paymentFrom' class="form-container active">
 								<label class="alert alert-danger hidden"></label>
 								<div class="form-group">

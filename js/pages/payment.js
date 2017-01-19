@@ -29,7 +29,7 @@ $(document).on("pageshow","#paymentPage",function() {
 		}, 2000);
 	});
 	$('#payNowOther').on('click',function(){
-		var ccnumber = $('#ccnumberOther').val();
+		/*var ccnumber = $('#ccnumberOther').val();
 		var ccname = $('#ccnameOther').val();
 		var ccexp = $('#ccexpOther').val();
 		var cccvc = $('#cccvcOther').val();
@@ -42,7 +42,8 @@ $(document).on("pageshow","#paymentPage",function() {
 				number: $('#ccnumberOther').val(),
 				exp: $('#ccexpOther').val()
 			}, stripeResponseHandlerOther);
-		}
+		}*/
+		gotoFinalStepOther();
 		
 	});
 	$('#uploadCustomerOther').on('click',function(){
