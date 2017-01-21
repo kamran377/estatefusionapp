@@ -83,6 +83,7 @@ function handleTermsPage(sfw) {
 			
 			$('#terms-' + i + " h3").html(terms.title);
 			$('#terms-' + i + " p").html(text);
+			i = i + 1;
 		});
 		
 		

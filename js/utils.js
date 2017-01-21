@@ -139,7 +139,8 @@ function saveCustomer(isDraft,callback) {
 		// get the customer signature
 		sig = $("#signature2").jSignature("getData","base30");
 		// set the customer signature
-		customer.signature2 = sig[1];
+		if(sig)
+			customer.signature2 = sig[1];
 	}
 	// set empty 
 	// fee to be collected from user
@@ -582,7 +583,7 @@ function makeCustomerObjectFromDB(callback) {
 			// set the customer signature
 			Customer.signature = dbCustomer['signature'];
 			// set the customer signature
-			Customer.signature2 = dbCustomer['signature2'];
+			Customer.signature2 = dbCustomer['signature_2'];
 			
 			// get the bundles purchased
 			getCustomerBundlesPurchased(id, function(bundle){

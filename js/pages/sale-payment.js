@@ -21,7 +21,7 @@ $(document).on('ready',function(){
 	});
 	$('#payNow').on('click',function(){
 		
-		/*var ccnumber = $('#ccnumber').val();
+		var ccnumber = $('#ccnumber').val();
 		var ccname = $('#ccname').val();
 		var ccexp = $('#ccexp').val();
 		var cccvc = $('#cccvc').val();
@@ -34,8 +34,8 @@ $(document).on('ready',function(){
 				number: $('#ccnumber').val(),
 				exp: $('#ccexp').val()
 			}, stripeResponseHandler);
-		}*/
-		gotoFinalStep()/* from sale.js*/;
+		}
+		//gotoFinalStep()/* from sale.js*/;
 		
 	});
 	$('#processLaterBtn').on('click',function(){

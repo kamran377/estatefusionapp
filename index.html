@@ -133,19 +133,19 @@
 							<div id='paymentFormOther' class="form-containerOther active">
 								<label class="alert alert-danger hidden"></label>
 								<div class="form-group">
-									<input id='ccnumberOther' data-role='none' class='form-control' data-stripe="number" placeholder="Card number" type="text" name="number">
+									<input id='ccnumberOther' data-role='none' readonly="readonly" value="4242 4242 4242 4242" class='red form-control' data-stripe="number" placeholder="Card number" type="text" name="number">
 								</div>
 								<div class="form-group">	
-									<input id='ccnameOther' data-role='none' class='form-control' placeholder="Full name" type="text" name="name">
+									<input id='ccnameOther' data-role='none' readonly="readonly" value="John Doe" class='red form-control' placeholder="Full name" type="text" name="name">
 								</div>
 								<div class="form-group">	
-									<input id='ccexpOther' data-role='none' class='form-control' data-stripe="exp" type="text" name="expiry">
+									<input id='ccexpOther' data-role='none' readonly="readonly" value="0917" class='red form-control' data-stripe="exp" type="text" name="expiry">
 								</div>
 								<div class="form-group">	
-									<input id='cccvcOther' data-role='none' class='form-control' data-stripe="cvc" placeholder="CVC" type="text" name="cvc">
+									<input id='cccvcOther' data-role='none' readonly="readonly" value="432" class='red form-control' data-stripe="cvc" placeholder="CVC" type="text" name="cvc">
 								</div>
 								
-								<button id="payNowOther" class='btn btn-primary btn-block btn-lg'><i class='fa fa-cc'></i> Pay</button>
+								<button id="payNowOther" class='btn btn-primary btn-block btn-lg ui-btn-active'><i class='fa fa-cc'></i> Pay</button>
 								
 							</div>
 							
@@ -158,7 +158,7 @@
 								<div class='sale-success'>
 									<p class='text-success icon'><i class='fa fa-check-circle-o'></i></p>
 									<p class='text-success text'>Completed Sale</p>
-									<button id='uploadCustomerOther' class='btn btn-primary btn-lg'><i class='fa fa-upload'></i> Upload Customer</button>
+									<button id='uploadCustomerOther' class='btn btn-primary btn-lg ui-btn-active'><i class='fa fa-upload'></i> Upload Customer</button>
 								</div>
 							</div>
 						</div>
@@ -273,11 +273,11 @@
 									<tr>
 										<td class='' colspan=2>
 											<label>Mobile Phone</label>
-											<input name='mobile' id='mobile' readonly="readonly" value="07890 123456"  data-role="none" type='text' class='red form-control'/>
+											<input name='mobile' id='mobile' readonly="readonly" value="07890123456"  data-role="none" type='text' class='red form-control'/>
 										</td>
 										<td class='' colspan=2>
 											<label>Home Phone</label>
-											<input name='phone' id='phone' readonly="readonly" value="01234 567890"  data-role="none" type='text' class='red form-control'/>
+											<input name='phone' id='phone' readonly="readonly" value="01234567890"  data-role="none" type='text' class='red form-control'/>
 										</td>
 									</tr>
 									<tr>
@@ -598,6 +598,7 @@
 								<div class='sale-success'>
 									<p class='text-success icon'><i class='fa fa-check-circle-o'></i></p>
 									<p class='text-success text'>Completed Sale</p>
+									<div id='finalErrorDiv' class='hidden alert alert-danger alert-fill'></div>
 									<button id='uploadCustomer' class='btn btn-primary btn-lg hidden ui-btn-active'><i class='fa fa-upload'></i> Upload Customer</button>
 									<button id='saveLocalCustomer' class='btn btn-primary btn-lg ui-btn-active'><i class='fa fa-save'></i> Save Locally</button>
 									
