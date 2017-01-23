@@ -1,10 +1,18 @@
 $(document).on('ready',function(){
 	$('#saveLocalCustomer').on('click',function(){
+		$('#saveLocalCustomer').prop('disabled', true);
+		$('#saveLocalCustomer i').removeClass('fa-save').addClass('fa-circle-o-notch fa-spin');
+		
 		saveCustomer(false, function(status){
 			if(status == true) {
 				alert('Customer details saved successfully in db');
 				// take the agent back to welcome screen
 				loadWelcomePage() /* from utils.js*/;
+			} else {
+				alert("Error Occured! try again later");
+				$('#saveLocalCustomer').prop('disabled', false);
+			$('#saveLocalCustomer i').addClass('fa-save').removeClass('fa-circle-o-notch fa-spin');
+		
 			}
 		});
 	});

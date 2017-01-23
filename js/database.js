@@ -35,7 +35,7 @@ function onDeviceReady() {
 	// do everything here.
 	prepDB();
 	if(!window.location.hash) {
-		emptyLocalDB();
+		//emptyLocalDB();
 	}
 	createWhosemeTable();
 	createBundlesTable();
