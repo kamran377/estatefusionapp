@@ -589,6 +589,9 @@ function makeCustomerObjectFromDB(callback) {
 			Customer.email_1 =dbCustomer['email_1'];
 			// customer secondary email
 			Customer.email_2 = dbCustomer['email_2'];
+			// customer default bundle
+			Customer.default_bundle = dbCustomer['default_bundle'];
+			
 			// customer property address
 			var property_address_1 = dbCustomer['property_address_1'];
 			// customer property Line1
@@ -735,6 +738,8 @@ function makeCustomerObject() {
 	Customer.joint_agency_name = $('#agencyName').val();
 	// customer property price
 	Customer.asking_price = $('#price').val();
+	// customer default bundle
+	Customer.default_bundle = $('#default-bundle-check').prop('checked');;	
 	// we don't have signature, photo for the draft customer
 	// get the customer signature
 	var sig = $("#signature").jSignature("getData","base30");

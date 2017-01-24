@@ -20,6 +20,7 @@ function handleTermsPage(sfw) {
 			text = text.replace('{OwnerName}',sellerDetails);
 			text = text.replace('{price}',$('#price').val());
 			text = text.replace('{tenure}',$('#propertyTenure option:selected').text());
+			text = text.replace('{Signature}','');
 			// get the bundle text 
 			$th = $('#services-table thead tr th.highlighted');
 			var bundleText = $('label', $th).text();
