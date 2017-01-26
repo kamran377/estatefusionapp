@@ -47,11 +47,11 @@ $(document).on("pageshow","#paymentPage",function() {
 	});
 	$('#uploadCustomerOther').on('click',function(){
 		$('#uploadCustomerOther').prop('disabled', true);
-		$('#uploadCustomerOther i').removeClass('fa-cc').addClass('fa-circle-o-notch fa-spin');
+		$('#uploadCustomerOther i').removeClass('fa-upload').addClass('fa-circle-o-notch fa-spin');
 		makeCustomerObjectFromDB(function(Customer, Bundle, Services, CustomerPhotos ){
 			var Property        = makePropertyObject(Customer)/* from utils.js*/;
 			var data = {
-				'Customer' : Customer,
+				'Customers' : Customer,
 				'Bundle' : Bundle,
 				'Services': Services,
 				'CustomerPhotos': CustomerPhotos,
@@ -60,7 +60,7 @@ $(document).on("pageshow","#paymentPage",function() {
 			getAccessToken(function(access_token){
 				postRequest(ADD_CUSTOMER_URL /* from settings.js */,data,access_token, function(obj){
 					$('#uploadCustomerOther').prop('disabled', false);
-					$('#uploadCustomerOther i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-cc');
+					$('#uploadCustomerOther i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-upload');
 					
 					var res = obj.result;
 					if(res.status == 'success') {

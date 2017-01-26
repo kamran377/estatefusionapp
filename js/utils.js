@@ -139,7 +139,8 @@ function saveCustomer(isDraft,callback) {
 		// get the customer signature
 		sig = $("#signature2").jSignature("getData","base30");
 		// set the customer signature
-		customer.signature2 = sig[1];
+		if(sig)
+			customer.signature2 = sig[1];
 	}
 	// set empty 
 	// fee to be collected from user
@@ -265,7 +266,8 @@ function saveCustomer(isDraft,callback) {
 								// add service to local db
 								insertPurchasedBundleService(service, function(status, results){}) /* from database.js */;
 							});
-							// save customer photos 
+							// save customer photos
+							//alert(isDraft);
 							if(!isDraft) {
 								//alert(1);
 								//alert(customer_id);
@@ -280,52 +282,87 @@ function saveCustomer(isDraft,callback) {
 								// set photo type id
 								customerPhoto.owner = CUSTOMER_OWNER_FIRST /* from settings.js*/;
 								// insert ID photo
-								insertCustomerPhoto(customerPhoto, function(){});
-								// now insert the Driver's License Photo
-								// set photo type id
-								customerPhoto.photo_type_id = CUSTOMER_PHOTO_LICENSE /* from settings.js*/;
-								// set photo 
-								customerPhoto.photo = $('#smallImage-2').attr('src');
-								// insert License photo
-								insertCustomerPhoto(customerPhoto, function(){});
-								// now insert the Utility Bill Photo
-								// set photo type id
-								customerPhoto.photo_type_id = CUSTOMER_PHOTO_BILL /* from settings.js*/;
-								// set photo 
-								customerPhoto.photo = $('#smallImage-3').attr('src');
-								// insert License photo
-								insertCustomerPhoto(customerPhoto, function(){});
-								// now check if have second owner as well
-								if($('#ownership').val() == 2) {
-									// set photo owner
-									customerPhoto.owner = CUSTOMER_OWNER_SECOND /* from settings.js*/;
-									// set customer id for customer photo
-									customerPhoto.customer_id = customer_id;
-									// set photo 
-									customerPhoto.photo = $('#smallImage2-1').attr('src');
-									// set photo type id
-									customerPhoto.photo_type_id = CUSTOMER_PHOTO_ID /* from settings.js*/;
-									// insert ID photo
-									insertCustomerPhoto(customerPhoto, function(){});
+								insertCustomerPhoto(customerPhoto, function(){
+									var customerPhoto2 = {};
 									// now insert the Driver's License Photo
+									// set customer id for customer photo
+									customerPhoto2.customer_id = customer_id;// set photo type id
 									// set photo type id
-									customerPhoto.photo_type_id = CUSTOMER_PHOTO_LICENSE /* from settings.js*/;
+									customerPhoto2.photo_type_id = CUSTOMER_PHOTO_LICENSE /* from settings.js*/;
 									// set photo 
-									customerPhoto.photo = $('#smallImage2-2').attr('src');
-									// insert License photo
-									insertCustomerPhoto(customerPhoto, function(){});
-									// now insert the Utility Bill Photo
+									customerPhoto2.photo = $('#smallImage-2').attr('src');
 									// set photo type id
-									customerPhoto.photo_type_id = CUSTOMER_PHOTO_BILL /* from settings.js*/;
-									// set photo 
-									customerPhoto.photo = $('#smallImage2-3').attr('src');
+									customerPhoto2.owner = CUSTOMER_OWNER_FIRST /* from settings.js*/;
 									// insert License photo
-									insertCustomerPhoto(customerPhoto, function(){});
-									
-								}
-								
+									insertCustomerPhoto(customerPhoto2, function(){
+										// now insert the Utility Bill Photo
+										var customerPhoto3 = {};
+										// now insert the Driver's License Photo
+										// set customer id for customer photo
+										customerPhoto3.customer_id = customer_id;// set photo type id
+										// set photo type id
+										customerPhoto3.photo_type_id = CUSTOMER_PHOTO_BILL /* from settings.js*/;
+										// set photo 
+										customerPhoto3.photo = $('#smallImage-3').attr('src');
+										// set photo type id
+										customerPhoto3.owner = CUSTOMER_OWNER_FIRST /* from settings.js*/;
+										// insert License photo
+										insertCustomerPhoto(customerPhoto3, function(){
+											if($('#ownership').val() == 2) {
+												var customerPhoto4 = {};
+												// now insert the Driver's License Photo
+												// set photo owner
+												customerPhoto4.owner = CUSTOMER_OWNER_SECOND /* from settings.js*/;
+												// set customer id for customer photo
+												customerPhoto4.customer_id = customer_id;
+												// set photo 
+												customerPhoto4.photo = $('#smallImage2-1').attr('src');
+												// set photo type id
+												customerPhoto4.photo_type_id = CUSTOMER_PHOTO_ID /* from settings.js*/;
+												// insert ID photo
+												insertCustomerPhoto(customerPhoto4, function(){
+													// now insert the Driver's License Photo
+													var customerPhoto5 = {};
+													// now insert the Driver's License Photo
+													// set photo owner
+													customerPhoto5.owner = CUSTOMER_OWNER_SECOND /* from settings.js*/;
+													// set customer id for customer photo
+													customerPhoto5.customer_id = customer_id;
+													// set photo type id
+													customerPhoto5.photo_type_id = CUSTOMER_PHOTO_LICENSE /* from settings.js*/;
+													// set photo 
+													customerPhoto5.photo = $('#smallImage2-2').attr('src');
+													// insert License photo
+													insertCustomerPhoto(customerPhoto5, function(){
+														// now insert the Utility Bill Photo
+														var customerPhoto6 = {};
+														// now insert the Driver's License Photo
+														// set photo owner
+														customerPhoto6.owner = CUSTOMER_OWNER_SECOND /* from settings.js*/;
+														// set customer id for customer photo
+														customerPhoto6.customer_id = customer_id;
+														// set photo type id
+														customerPhoto6.photo_type_id = CUSTOMER_PHOTO_BILL /* from settings.js*/;
+														// set photo 
+														customerPhoto6.photo = $('#smallImage2-3').attr('src');
+														// insert License photo
+														insertCustomerPhoto(customerPhoto6, function(){
+															callback(true);
+														});
+													});
+												});
+											} else {
+												callback(true);
+											}
+										});
+										
+										
+									});
+								});																			
+							} else {
+								callback(true);
 							}
-							callback(true);
+							
 						}
 					}) /* from database.js */ ;
 				}
@@ -552,6 +589,9 @@ function makeCustomerObjectFromDB(callback) {
 			Customer.email_1 =dbCustomer['email_1'];
 			// customer secondary email
 			Customer.email_2 = dbCustomer['email_2'];
+			// customer default bundle
+			Customer.default_bundle = dbCustomer['default_bundle'];
+			
 			// customer property address
 			var property_address_1 = dbCustomer['property_address_1'];
 			// customer property Line1
@@ -582,7 +622,7 @@ function makeCustomerObjectFromDB(callback) {
 			// set the customer signature
 			Customer.signature = dbCustomer['signature'];
 			// set the customer signature
-			Customer.signature2 = dbCustomer['signature2'];
+			Customer.signature2 = dbCustomer['signature_2'];
 			
 			// get the bundles purchased
 			getCustomerBundlesPurchased(id, function(bundle){
@@ -698,6 +738,8 @@ function makeCustomerObject() {
 	Customer.joint_agency_name = $('#agencyName').val();
 	// customer property price
 	Customer.asking_price = $('#price').val();
+	// customer default bundle
+	Customer.default_bundle = $('#default-bundle-check').prop('checked');;	
 	// we don't have signature, photo for the draft customer
 	// get the customer signature
 	var sig = $("#signature").jSignature("getData","base30");
