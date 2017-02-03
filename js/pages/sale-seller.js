@@ -118,15 +118,24 @@ function attachSellerEvents() {
 	// the event to show relevant twon as per selected county
 	$('#homeCountry').on('change',function(){
 		var value = $(this).val();
-		$("#homeTown option:not([data-region='"+ value +"'])").hide();
-		
-		$("#homeTown option[data-region='"+ value +"']").show();
+		if(value) {
+			$("#homeTown option:not([data-region='"+ value +"'])").hide();
+			$("#homeTown option[data-region='"+ value +"']").show();
+		} else {
+			$("#homeTown option").show();
+			$('#homeTown').prop('selectedIndex',0);
+		}
 	});
 	$('#propertyCountry').on('change',function(){
 		var value = $(this).val();
-		$("#propertyCountry option:not([data-region='"+ value +"'])").hide();
+		if(value) {
+			$("#propertyTown option:not([data-region='"+ value +"'])").hide();
+			$("#propertyTown option[data-region='"+ value +"']").show();
+		} else {
+			$("#propertyTown option").show();
+			$('#propertyTown').prop('selectedIndex',0);
+		}
 		
-		$("#propertyCountry option[data-region='"+ value +"']").show();
 	});
 	// update the price
 	$('#percValue').on('change',function(){

@@ -409,22 +409,26 @@ function displayBundlesData() {
 					var bundle = bundles[i];
 					var bundleid = bundle['id'];
 					var bundleservices = [];
+					var allservices = [];
 					// class to applied to different columns
 					var cls = numberArray[i];
 					// get the services for the current bundle
 					for(var j=0;j<slen;j++) {
 						if(services[j]['bundle_id'] == bundleid) {
-							bundleservices.push(services[j]);
+							bundleservices.push(services[j]['id']);
+						}
+						if(!services[j]['bundle_id']){
+							allservices.push(services[j]);
 						}
 					}
 					// show table header
 					var $headerCheck = $('<div class=" checkbox checkbox-success checkbox-circle"><input class="header-checkbox" id="checkbox-header'+i+'" type="checkbox"><label for="checkbox-header'+i+'">'+bundle['name']+'</label></div>');
 					$('#services-table thead tr th:nth-child('+ colIndex +')').attr('data-default',bundle['default_bundle']).attr('data-original-price',bundle['price']).attr('data-bundle-price',bundle['price']).attr('data-bundle-id',bundle['id']).append($headerCheck);
 					// display services in the first column
-					var klen = 	bundleservices.length;
+					var klen = 	allservices.length;
 					//console.log(klen);
 					for(var k=0;k<klen;k++) {
-						var service = bundleservices[k];
+						var service = allservices[k];
 						if(colIndex == 2) {
 							// append all columns for all bundles in first loop
 							// later bundles will only add their values
@@ -447,7 +451,7 @@ function displayBundlesData() {
 						}
 						$tr = $('#services-table tbody tr:nth-child('+ (k+1) +')');
 						
-						if(service.free == 'true') {
+						if(bundleservices.indexOf(service['id']) !== -1) {
 							var $serviceCheck = $('<div class="checkbox checkbox-success checkbox-circle"><input checked="checked" disabled="disabled" data-name="'+service['name']+'" class="service-checkbox service-checkbox-free" id="checkbox-service-'+colIndex+'-'+k+'" type="checkbox"><label for="checkbox-service-'+colIndex+'-'+k+'">&nbsp;</label></div>');
 							$('td:nth-child(' + colIndex + ')', $tr).addClass(cls).append($serviceCheck);
 						} else {

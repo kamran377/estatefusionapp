@@ -173,6 +173,22 @@ function loadBundlesData(access_token) {
 	});/* from ajax.js*/
 }
 // this function load and store bundles data from server to local db
+function loadServicesData(access_token) {
+	postRequest(ALL_SERVICES_URL /* from settings.js */,'',access_token, function(obj){
+		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
+			var services = obj.result.services; // return bundles from server
+			if(services && services.length) {
+				$.each(services, function(){
+					var service = this;
+					insertService(service); /* from database.js*/
+				});
+			}		
+			// load the discounts data from the server
+			loadDiscountsData(access_token);
+		}	
+	});/* from ajax.js*/
+}
+// this function load and store bundles data from server to local db
 function loadOptionsData(access_token) {
 	postRequest(OPTIONS_BUNDLES_URL /* from settings.js */,'',access_token, function(obj){
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
@@ -191,7 +207,7 @@ function loadOptionsData(access_token) {
 				});
 			}		
 			// load the discounts data from the server
-			loadDiscountsData(access_token);
+			loadServicesData(access_token);
 		}	
 	});/* from ajax.js*/
 }
