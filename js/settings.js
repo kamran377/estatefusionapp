@@ -20,6 +20,7 @@ var PAYMENT_URL			= API_BASE_URL + 'payment/charge';
 var ADD_CUSTOMER_URL	= API_BASE_URL + 'customers/add';
 var REGIONS_URL	        = API_BASE_URL + 'bundles/regions';
 var TOWNS_URL	        = API_BASE_URL + 'bundles/towns';
+var ALL_SERVICES_URL	= API_BASE_URL + 'bundles/all-services';
 var SIMPLE_BUNDLE_TYPE 	= "SIM";
 var OPTIONS_BUNDLE_TYPE = "OPT";
 var CUSTOMER_PHOTO_ID   = "1";

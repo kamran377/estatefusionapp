@@ -11,16 +11,43 @@ function handleTermsPage(sfw) {
 			var terms = this;
 			console.log(terms);
 			var text = terms.terms;
-			var propertyAddress = $('#propertyAddress').val();
+			var propertyCounty = $('#propertyCountry option:selected').text();
+			var propertyTown = $('#propertyTown option:selected').text();
+			var propertyAddress = $('#propertyAddress').val() + ' ,' + propertyTown + ' ,' + propertyCounty;;
+			
+			var homeCounty = $('#homeCountry option:selected').text();
+			var homeTown = $('#homeTown option:selected').text();
+			var homeAddress = $('#homeAddress').val() + ' ,' + homeTown + ' ,' + homeCounty;;
+			
+			var ownerEmail = $('#primaryEmail').val();
+			
+			var feeType = $('#fixed-price-check').prop('checked') ? 'Fixed' : 'Percentage';
+			
+			var contractLength = $('#term option:selected').text();
+			
+			var agencyContract = $('#agencyType option:selected').text();
+			
+			var mobile = $('#mobile').val();
+			//var date = new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear();
+			
 			var sellerDetails = $('#firstName').val() + ' ' + $('#surname').val(); 
 			if($('#firstName2').val()){
 				sellerDetails += " / " + $('#firstName2').val() + ' ' + $('#surname2').val(); 
 			}
-			text = text.replace('{property_address}',propertyAddress);
-			text = text.replace('{OwnerName}',sellerDetails);
-			text = text.replace('{price}',$('#price').val());
-			text = text.replace('{tenure}',$('#propertyTenure option:selected').text());
-			text = text.replace('{Signature}','');
+			text = text.replaceAll('{property_address}',propertyAddress);
+			text = text.replaceAll('{OwnerName}',sellerDetails);
+			text = text.replaceAll('{price}',$('#price').val());
+			text = text.replaceAll('{tenure}',$('#propertyTenure option:selected').text());
+			text = text.replaceAll('{Signature}','');
+			text = text.replaceAll('{OwnerAddress}', homeAddress);
+			text = text.replaceAll('{OwnerEmail}', ownerEmail);
+			text = text.replaceAll('{FeeType}', feeType);
+			text = text.replaceAll('{ContractLength}', contractLength);
+			text = text.replaceAll('{AgencyContract}', agencyContract);
+			text = text.replaceAll('{OwnerPhone}', mobile);
+			//text = text.replaceAll('{Date}', date);
+			
+			
 			// get the bundle text 
 			$th = $('#services-table thead tr th.highlighted');
 			var bundleText = $('label', $th).text();
@@ -58,29 +85,33 @@ function handleTermsPage(sfw) {
 			
 			//options = options.replace(/,\s*$/, "");
 			var discount = '';
+			var discountDescription = '';
 			$.each($('.discount-checkbox:checked'),function(){
 				$tr = $(this).closest('tr');
 				var stext = $('td.discountTitle',$tr).text();
 				discount += stext;
-				discount += '<p class="terms-service">'+ $(this).attr('data-info')+'</p>';
+				discountDescription = $(this).attr('data-info');
 			});
 			index = $('#services-table thead tr th').index($th);
 			index = index + 1;
 			
-			text = text.replace('{BundleName}', bundleText);
-			text = text.replace('{Services}', serviceText);
-			text = text.replace('{Options}',options);
-			text = text.replace('{DiscountName}',discount);
+			text = text.replaceAll('{BundleName}', bundleText);
+			text = text.replaceAll('{Services}', serviceText);
+			text = text.replaceAll('{Options}',options);
+			text = text.replaceAll('{DiscountName}',discount);
+			text = text.replaceAll('{DiscountDescription}',discount);
 			
 			var now = $('#services-table tbody tr.total-price-now td:nth-child('+index+') span').text();
 			var later = $('#services-table tbody tr.total-price-later td:nth-child('+index+') span').text();
-			var total = parseFloat(now) + parseFloat(later);
-			total = total.toFixed(2);
-			text = text.replace('{TotalPaidNow}',now);
-			text = text.replace('{TotalPayOnSale}',later);
-			text = text.replace('{TotalCost}',total);
+			var discount = $('#services-table tbody tr.total-discount td:nth-child('+index+') span').text();
+			var total = $('#services-table tbody tr.vat-total-price td.vat-total-price span').text();
+			text = text.replaceAll('{TotalPaidNow}','&pound;' + now);
+			text = text.replaceAll('{TotalPayOnSale}','&pound;' + later);
+			text = text.replaceAll('{TotalCost}','&pound;' + total);
+			text = text.replaceAll('{TotalDiscount}','&pound;' + discount);
 			var date = moment().format("DD/MM/YYYY");
-			text = text.replace('{Date}',date);
+			//alert(date);
+			text = text.replaceAll('{Date}',date);
 			
 			$('#terms-' + i + " h3").html(terms.title);
 			$('#terms-' + i + " p").html(text);

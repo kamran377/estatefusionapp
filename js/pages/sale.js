@@ -38,7 +38,7 @@ function applyWizard() {
 		height: 'auto',
 		theme:'circle',
 		transition:'none',
-		//startStep: 2,
+		//startStep: 1,
 		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
 		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		finishBtn:$('<a class="finish-btn sf-right sf-btn  btn btn-primary hidden" href="#"><i class="fa fa-stop"></i> FINISH</a>'),
@@ -74,6 +74,7 @@ function applyWizard() {
 		if(from == 1 && to == 2) {
 			// this function will handle saving customer data to the localdb	
 			handleServiceData(e)/* from sale-services.js*/;
+			sfw.refresh();
 			
 		}
 		// from terms page to signature page

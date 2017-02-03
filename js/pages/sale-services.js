@@ -747,17 +747,19 @@ function getPurchasedBundle() {
 function getPayableObject() {
 	var $th = getPurchasedBundle();
 	index = $('#services-table thead tr th').index($th);
+	var cls = numberArray[index];
 	index = index + 1;
 	var now = $('#services-table tbody tr.total-price-now td:nth-child('+index+') span').text();
 	var later = $('#services-table tbody tr.total-price-later td:nth-child('+index+') span').text();
-	var total = parseFloat(now) + parseFloat(later);
-	total = total.toFixed(2);	
+	var discount = $('#services-table tbody tr.total-discount td:nth-child('+index+') span').text();
+	var total = $('#services-table tbody tr.vat-total-price td.vat-total-price span').text();
 	var vat = $('#services-table tbody tr.vat-price td.vat-price span').text();
 	return {
 		'payNow':now,
 		'payLater':later,
 		'total':total,
-		'vat' : vat
+		'vat' : vat,
+		'discount' : discount
 	};
 }
 // this function will return the services purchased in bundle
