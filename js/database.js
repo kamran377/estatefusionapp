@@ -8,7 +8,7 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
-var versionNumber = 'MAIN-V030217.A';
+var versionNumber = 'MAIN-V040217.A';
 
 $(document).on('ready',function(){
 	FastClick.attach(document.body);

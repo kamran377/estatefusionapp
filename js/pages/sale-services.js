@@ -747,7 +747,6 @@ function getPurchasedBundle() {
 function getPayableObject() {
 	var $th = getPurchasedBundle();
 	index = $('#services-table thead tr th').index($th);
-	var cls = numberArray[index];
 	index = index + 1;
 	var now = $('#services-table tbody tr.total-price-now td:nth-child('+index+') span').text();
 	var later = $('#services-table tbody tr.total-price-later td:nth-child('+index+') span').text();
