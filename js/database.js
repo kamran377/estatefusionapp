@@ -389,6 +389,7 @@ function updateDbSchema() {
 				tx.executeSql('ALTER TABLE services ADD row INTEGER',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE services ADD upfront TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD signature_2 TEXT',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE bundles_purchased ADD discount_id TEXT',[],onSuccessExecuteSql,onError);
 				
 
 			});
@@ -607,13 +608,14 @@ function insertPurchasedBundle(bundle, callback) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO bundles_purchased (customer_id,property_id,bundle_id,status,cost,total_paid_now,total_to_pay_on_sale,balance_paid_method,vat,default_bundle,discount) values (?,?,?,?,?,?,?,?,?,?,?)'
+				tx.executeSql('INSERT INTO bundles_purchased (customer_id,property_id,bundle_id,status,cost,total_paid_now,total_to_pay_on_sale,balance_paid_method,vat,default_bundle,discount, discount_id) values (?,?,?,?,?,?,?,?,?,?,?,?)'
 				,[
 					bundle.customer_id,bundle.property_id,
 					bundle.bundle_id , bundle.status,
 					bundle.cost, bundle.payNow,
 					bundle.payLater, bundle.paymentMethod,
-					bundle.vat, bundle.default_bundle,bundle.discount
+					bundle.vat, bundle.default_bundle,bundle.discount,
+					bundle.discount_id
 				],
 				function(tx,results){
 					callback(true,results);

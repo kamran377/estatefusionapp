@@ -753,12 +753,14 @@ function getPayableObject() {
 	var discount = $('#services-table tbody tr.total-discount td:nth-child('+index+') span').text();
 	var total = $('#services-table tbody tr.vat-total-price td.vat-total-price span').text();
 	var vat = $('#services-table tbody tr.vat-price td.vat-price span').text();
+	var Dis = getSelectedDiscount() /* from sale-services.js */ ;
 	return {
 		'payNow':now,
 		'payLater':later,
 		'total':total,
 		'vat' : vat,
-		'discount' : discount
+		'discount' : discount,
+		'discountID' : Dis.attr('data-percentage')
 	};
 }
 // this function will return the services purchased in bundle

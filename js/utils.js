@@ -229,7 +229,8 @@ function saveCustomer(isDraft,callback) {
 					bundle.default_bundle = defaultBundle;
 					// get the selected discount
 					var $discount = getSelectedDiscount() /* from sale-services.js */ ;
-					bundle.discount = $discount.attr('data-percentage');
+					bundle.discount_id = $discount.attr('data-percentage');
+					bundle.discount = payable.discount;
 					// insert purchased bundle in local db
 					insertPurchasedBundle(bundle, function(status, results){
 						if(status == true) {
@@ -593,6 +594,8 @@ function makeCustomerObjectFromDB(callback) {
 			Customer.email_1 =dbCustomer['email_1'];
 			// customer secondary email
 			Customer.email_2 = dbCustomer['email_2'];
+			// customer fee type
+			Customer.fee_type = customer['fixed_price_check'] == "true" ? "Fixed" : "Percentage";
 			// customer default bundle
 			Customer.default_bundle = dbCustomer['default_bundle'];
 			
@@ -631,7 +634,8 @@ function makeCustomerObjectFromDB(callback) {
 			// get the bundles purchased
 			getCustomerBundlesPurchased(id, function(bundle){
 				var Bundle = {};
-				Bundle.bundle_id = bundle['bundle_id'];Bundle.status = 'paid';
+				Bundle.bundle_id = bundle['bundle_id'];
+				Bundle.status = 'paid';
 				// bundle status
 				Bundle.status = 'paid';
 				// pay now
@@ -642,6 +646,7 @@ function makeCustomerObjectFromDB(callback) {
 				Bundle.cost = bundle['cost'];
 				// bundle discount
 				Bundle.discount = bundle['discount'];
+				Bundle.discountID = bundle['discount_id'];
 				Bundle.tax = bundle['vat'];
 				var Services = [];
 				getCustomerBundlesServicesPurchased(id, function(services){
@@ -742,6 +747,8 @@ function makeCustomerObject() {
 	Customer.joint_agency_name = $('#agencyName').val();
 	// customer property price
 	Customer.asking_price = $('#price').val();
+	// customer fee type
+	Customer.fee_type = $('#fixed-price-check').prop('checked') ? 'Fixed' : 'Percentage';
 	// customer default bundle
 	Customer.default_bundle = $('#default-bundle-check').prop('checked');;	
 	// we don't have signature, photo for the draft customer
@@ -780,8 +787,9 @@ function makeCustomerBundleObject() {
 	// bundle tax
 	Bundle.tax = payable.vat;
 	// bundle discount
-	var $discount = getSelectedDiscount() /* from sale-services.js */ ;
-	Bundle.discount = $discount.attr('data-percentage');
+	Bundle.discount = payable.discount;
+	// bundle discount
+	Bundle.discountID = payable.discountID;
 	// return bundle
 	return Bundle;
 }
