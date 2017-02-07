@@ -518,47 +518,51 @@
 								<tr>
 									<td>
 										<div class='photo-cover'>
+											<input type='hidden' id="hiddenPhotoID" />
 											<div class='cover'>
-												<img src="images/placeholder.png" style="" id="smallImage-1" alt="" />	
-												<p>ID</p>
+												<a href='javascript://' onclick="capturePhotoWithData('1');">
+													<img src="images/placeholder.png" style="" id="smallImage-1" alt="" />	
+													<p>ID 1</p>
+												</a>
 											</div>
 											<div class='cover'>
-												<img src="images/placeholder.png" style="" id="smallImage-2" alt="" />
-												<p>Driver's License</p>
+												<a href='javascript://'  onclick="capturePhotoWithData('2');">
+													<img src="images/placeholder.png" style="" id="smallImage-2" alt="" />
+													<p>ID 2</p>
+												</a>
 											</div>
 											<div class='cover'>
-												<img src="images/placeholder.png" style="" id="smallImage-3" alt="" />			
-												<p>Utility Bill</p>
+												<a href='javascript://'  onclick="capturePhotoWithData('3');">
+													<img src="images/placeholder.png" style="" id="smallImage-3" alt="" />			
+													<p>ID 3</p>
+												</a>
 											</div>
 										</div>
-										<button id='firstPhotoButton' class='ui-btn btn btn-primary btn-block ui-btn-active' data-role="none"  onclick="capturePhotoWithData();"><i class='fa fa-camera'></i> Capture Photo</button>
-										<select id='photoType1' class='form-control'  data-role="none">
-											<option value="1">ID</option>
-											<option value="2">Driver's License</option>
-											<option value="3">Utility Bill</option>
-										</select>
+										
 									</td>
 									<td id='secondPhoto' class='hidden'>
 										<div class='photo-cover'>
+											<input type='hidden' id="hiddenPhotoID2" />
 											<div class='cover'>
-												<img src="images/placeholder.png" style="" id="smallImage2-1" alt="" />	
-												<p>ID</p>
+												<a href='javascript://'  onclick="capturePhotoWithData2('1');">
+													<img src="images/placeholder.png" style="" id="smallImage2-1" alt="" />	
+													<p>ID</p>
+												</a>
 											</div>
 											<div class='cover'>
-												<img src="images/placeholder.png" style="" id="smallImage2-2" alt="" />
-												<p>Driver's License</p>
+												<a href='javascript://'  onclick="capturePhotoWithData2('2');">
+													<img src="images/placeholder.png" style="" id="smallImage2-2" alt="" />
+													<p>Driver's License</p>
+												</a>
 											</div>
 											<div class='cover'>
-												<img src="images/placeholder.png" style="" id="smallImage2-3" alt="" />			
-												<p>Utility Bill</p>
+												<a href='javascript://'  onclick="capturePhotoWithData2('3');">
+													<img src="images/placeholder.png" style="" id="smallImage2-3" alt="" />			
+													<p>Utility Bill</p>
+												</a>
 											</div>
 										</div>
-										<button class='ui-btn btn btn-primary btn-block ui-btn-active' data-role="none"  onclick="capturePhotoWithData2();"><i class='fa fa-camera'></i> Capture Photo 2</button>
-										<select id='photoType2' class='form-control'  data-role="none">
-											<option value="1">ID</option>
-											<option value="2">Driver's License</option>
-											<option value="3">Utility Bill</option>
-										</select>
+										
 									</td>
 								</tr>
 							</table>
