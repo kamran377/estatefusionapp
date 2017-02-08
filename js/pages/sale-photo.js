@@ -21,8 +21,8 @@ function onFail(message) {
 function onPhotoDataSuccess(imageData) {
 	// Get image handle
 	//
-	var type = $('#hiddenPhotoID2').val();
-	$('#hiddenPhotoID2').val('');
+	var type = $('#hiddenPhotoID').val();
+	$('#hiddenPhotoID').val('');
 	var smallImage = document.getElementById('smallImage-' + type);
 	// Unhide image elements
 	//
@@ -39,8 +39,8 @@ function onPhotoDataSuccess(imageData) {
 function onPhotoDataSuccess2(imageData) {
   // Get image handle
   //
-	var type = $('#hiddenPhotoID').val();
-	$('#hiddenPhotoID').val('');
+	var type = $('#hiddenPhotoID2').val();
+	$('#hiddenPhotoID2').val('');
 	var smallImage = document.getElementById('smallImage2-'+ type);
   // Unhide image elements
   //
