@@ -50,14 +50,14 @@ $(document).on('ready',function(){
 				var res = obj.result;
 				if(res.status == 'success') {
 					alert('Customer uploaded successfully');
-					//var custid = $('#customerIDHidden').val();
-					//if(custid) {
-						//deleteDraftCustomer(custid, function(){
-							//loadWelcomePage() /* from utils.js*/;
-						//}) /* from database.js*/;
-					//} else {
-						//loadWelcomePage() /* from utils.js*/;
-					//}
+					var custid = $('#customerIDHidden').val();
+					if(custid) {
+						deleteDraftCustomer(custid, function(){
+							loadWelcomePage() /* from utils.js*/;
+						}) /* from database.js*/;
+					} else {
+						loadWelcomePage() /* from utils.js*/;
+					}
 					// take the agent back to welcome screen
 					//loadWelcomePage() /* from utils.js*/;
 				} else {
