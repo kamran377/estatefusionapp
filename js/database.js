@@ -8,7 +8,6 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
-var versionNumber = 'MAIN-V080217.A';
 
 $(document).on('ready',function(){
 	FastClick.attach(document.body);
@@ -979,7 +978,7 @@ function getRegions(callback) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('select * from regions'
+				tx.executeSql('select * from regions order by name'
 				,[],
 				function(tx,results){
 					var len = results.rows.length;
@@ -1002,7 +1001,7 @@ function getTowns(callback) {
 	try {
 		if (estateAppDB) {
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('select * from towns'
+				tx.executeSql('select * from towns order by name'
 				,[],
 				function(tx,results){
 					var len = results.rows.length;
