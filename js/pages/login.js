@@ -28,7 +28,7 @@ $(document).on('ready',function() {
 			checkOfflineLogin();
 		}
 	});
-	$('#password').on('focus',function(){
+	/*$('#password').on('focus',function(){
 		pageHeight = $('#loginPage').height();
 		pageHeight = pageHeight + 150;
 		$('#loginPage').css({'height':pageHeight+'px'});
@@ -43,7 +43,7 @@ $(document).on('ready',function() {
 		$('html, body').animate({
 			scrollTop: $("#loginPage").offset().top
 		}, 2000);
-	});
+	});*/
 	/**
 	* Events - End - Login Page
 	*/
