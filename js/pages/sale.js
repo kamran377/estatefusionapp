@@ -11,10 +11,7 @@ $(document).on("pageshow","#salePage",function() {
 	// attach and call methods for service step
 	attachServicesEvents();
 	// attach card event to card
-	applyCardEvent();
-	//
-	//alert(1);
-	
+	applyCardEvent();	
 });
 /**
 * Events - End - Sale Page
@@ -40,7 +37,7 @@ function applyWizard() {
 		height: 'auto',
 		theme:'circle',
 		transition:'none',
-		startStep: 1,
+		//startStep: 1,
 		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
 		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		finishBtn:$('<a class="finish-btn sf-right sf-btn  btn btn-primary hidden" href="#"><i class="fa fa-stop"></i> FINISH</a>'),

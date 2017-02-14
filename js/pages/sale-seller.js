@@ -2,24 +2,6 @@ var formVld;
 var VAT = 20;
 function attachSellerEvents() {
 	// event for softkeyboard
-	/*$('#percValue, #percAmount, #fixedPrice').on('focus',function(){
-		var $field = $(this);
-		pageHeight = $('#salePage').height();
-		pageHeight = pageHeight + 150;
-		$('#salePage').css({'height':pageHeight+'px'});
-		$('html, body').animate({
-			scrollTop: $field.offset().top
-		}, 2000);
-	});
-	$('#percValue, #percAmount, #fixedPrice').on('blur',function(){
-		var $field = $(this);
-		pageHeight = $('#salePage').height();
-		pageHeight = pageHeight - 150;
-		$('#salePage').css({'height':pageHeight+'px'});
-		$('html, body').animate({
-			scrollTop: $('#price').offset().top
-		}, 2000);
-	});*/
 	$('#firstName, #surname,#firstName2, #surname2').upperFirstAll()
 	// event for change in price
 	$('#price').on('change',function(){
