@@ -415,10 +415,17 @@ function displayBundlesData() {
 					var cls = numberArray[i];
 					// get the services for the current bundle
 					for(var j=0;j<slen;j++) {
+						//console.log(services[j]);
 						if(services[j]['bundle_id'] == bundleid) {
 							bundleservices.push(services[j]['id']);
 						} else if(!services[j]['bundle_id']){
-							allservices.push(services[j]);
+							if(!checkArrayItem(allservices,services[j]['id'])){
+								console.log(services[j]['name'] + ' added in array');
+								allservices.push(services[j]);
+							} else {
+								console.log(services[j]['name'] + 'already there');
+							}
+							
 						}
 					}
 					// show table header
@@ -730,6 +737,17 @@ function displayBundlesData() {
 			})/* from database.js */;
 		}
 	}) /* from database.js */;
+}
+
+function checkArrayItem(array, id){
+	var len = array.length;
+	for(var i=0; i< len;i++) {
+		var obj = array[i];
+		if(obj.id == id) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function handleServiceData(e) {

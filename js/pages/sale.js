@@ -13,7 +13,7 @@ $(document).on("pageshow","#salePage",function() {
 	// attach card event to card
 	applyCardEvent();
 	//
-	alert(1);
+	//alert(1);
 	
 });
 /**
