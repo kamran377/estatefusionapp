@@ -416,8 +416,7 @@ function displayBundlesData() {
 					for(var j=0;j<slen;j++) {
 						if(services[j]['bundle_id'] == bundleid) {
 							bundleservices.push(services[j]['id']);
-						}
-						if(!services[j]['bundle_id']){
+						} else if(!services[j]['bundle_id']){
 							allservices.push(services[j]);
 						}
 					}
