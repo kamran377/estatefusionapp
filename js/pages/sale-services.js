@@ -3,7 +3,7 @@
 */
 function attachServicesEvents() {
 	// display the bundles data
-	setTimeout(function(){displayBundlesData();},1000);
+	//setTimeout(function(){displayBundlesData();},1000);
 	/**
 	* This section holds the event handlers for different elements on the page
 	*/
@@ -245,6 +245,7 @@ function attachServicesEvents() {
 			return false;
 		}
 	});
+	displayBundlesData();
 }
 
 // this function clears the total column 
