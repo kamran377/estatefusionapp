@@ -549,7 +549,10 @@ function displayBundlesData() {
 						// get the services for the current bundle					
 						for(var j=0;j<slen;j++) {
 							if(services[j]['bundle_id'] == bundleid) {
-								bundleservices.push(services[j]);
+								if(!checkArrayItem(bundleservices,services[j]['id'])){
+									console.log(services[j]['name'] + ' added in array');
+									bundleservices.push(services[j]);
+								} 
 							}
 						}
 						//adding empty row
