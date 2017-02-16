@@ -79,6 +79,7 @@ function checkOnlineLogin() {
 		console.log(json.status);
 		if(json.status == 'success') {
 			var data = json.user;
+			alert(json.status);
 			insertUserWhosme(email,data.access_token, data.name, function(){
 				if(data.access_token) {
 					hideLoader(/* from utils.js */);
