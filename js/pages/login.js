@@ -15,37 +15,6 @@ $(document).on('ready',function() {
 		}
 	});
 	/**
-	* Events - Start - Login Page
-	*/
-	/*$('#loginSubmit').on('click',function(){
-		//window.location.href= 'wizard.html';
-		//return false;
-		if(isDeviceOnline() /* from utils.js*/ //) {
-			// online login
-			//checkOnlineLogin();
-		//} else {
-			// offline login
-			//checkOfflineLogin();
-		//}
-	//});*/
-	/*$('#password').on('focus',function(){
-		pageHeight = $('#loginPage').height();
-		pageHeight = pageHeight + 150;
-		$('#loginPage').css({'height':pageHeight+'px'});
-		$('html, body').animate({
-			scrollTop: $("#password").offset().top
-		}, 2000);
-	});
-	$('#password').on('blur',function(){
-		pageHeight = $('#loginPage').height();
-		pageHeight = pageHeight-150;
-		$('#loginPage').css({'height':pageHeight+'px'});
-		$('html, body').animate({
-			scrollTop: $("#loginPage").offset().top
-		}, 2000);
-	});*/
-	
-	/**
 	* Events - End - Login Page
 	*/
 });
@@ -80,7 +49,7 @@ function checkOnlineLogin() {
 		console.log(json.status);
 		if(json.status == 'success') {
 			var data = json.user;
-			alert(json.status);
+			
 			insertUserWhosme(email,data.access_token, data.name, function(){
 				if(data.access_token) {
 					hideLoader(/* from utils.js */);
@@ -126,9 +95,7 @@ function loadRegionsData(access_token) {
 	postRequest(REGIONS_URL /* from settings.js */,'',access_token, function(obj){
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
 			emptyRegionsTable(function(){
-				var regions = obj.result.regions;
-				alert('Regions Count' + regions.length);
-			
+				var regions = obj.result.regions;				
 				$.each(regions, function(){
 					var region = this;
 					insertRegion(region); /* from database.js */
@@ -144,8 +111,6 @@ function loadTownsData(access_token) {
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
 			emptyTownsTable(function(){
 				var towns = obj.result.towns;
-				alert('Towns Count' + towns.length);
-			
 				$.each(towns, function(){
 					var town = this;
 					insertTown(town); /* from database.js */
