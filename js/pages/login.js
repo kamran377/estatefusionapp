@@ -125,6 +125,8 @@ function loadRegionsData(access_token) {
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
 			emptyRegionsTable(function(){
 				var regions = obj.result.regions;
+				alert('Regions Count' + regions.length);
+			
 				$.each(regions, function(){
 					var region = this;
 					insertRegion(region); /* from database.js */
@@ -140,6 +142,8 @@ function loadTownsData(access_token) {
 		if(obj.status == STATUS_SUCCESS /* from settings.js */) {
 			emptyTownsTable(function(){
 				var towns = obj.result.towns;
+				alert('Towns Count' + towns.length);
+			
 				$.each(towns, function(){
 					var town = this;
 					insertTown(town); /* from database.js */

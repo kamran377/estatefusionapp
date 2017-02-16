@@ -226,7 +226,6 @@ function addDropdownOptions() {
 	getRegions(function(regions){ /* from database.js */
 		// if we have regions in the local database
 		if(regions && regions.length) {
-			alert('Regions Count' + regions.length);
 			var str = "<option value=''>Select County</option>";
 			$.each(regions, function(){
 				var region = this;
@@ -238,8 +237,6 @@ function addDropdownOptions() {
 		getTowns(function(towns){ /* from database.js */
 			// if we have regions in the local database
 			if(towns && towns.length) {
-				alert('Towns Count' + regions.length);
-			
 				var str = "<option value=''>Select Town</option>";
 				$.each(towns, function(){
 					var town = this;
