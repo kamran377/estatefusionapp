@@ -17,17 +17,17 @@ $(document).on('ready',function() {
 	/**
 	* Events - Start - Login Page
 	*/
-	$('#loginSubmit').on('click',function(){
+	/*$('#loginSubmit').on('click',function(){
 		//window.location.href= 'wizard.html';
 		//return false;
-		if(isDeviceOnline() /* from utils.js*/ ) {
+		if(isDeviceOnline() /* from utils.js*/ //) {
 			// online login
-			checkOnlineLogin();
-		} else {
+			//checkOnlineLogin();
+		//} else {
 			// offline login
-			checkOfflineLogin();
-		}
-	});
+			//checkOfflineLogin();
+		//}
+	//});*/
 	/*$('#password').on('focus',function(){
 		pageHeight = $('#loginPage').height();
 		pageHeight = pageHeight + 150;
@@ -44,6 +44,7 @@ $(document).on('ready',function() {
 			scrollTop: $("#loginPage").offset().top
 		}, 2000);
 	});*/
+	
 	/**
 	* Events - End - Login Page
 	*/
