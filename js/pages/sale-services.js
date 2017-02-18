@@ -288,8 +288,14 @@ function updateTotals(cls) {
 	}
 	// convert it to float
 	var secondprice = getFloat(_secondprice) /* from utils.js*/;
+	// add upfront payment to payNow
+	var upfrontTotal = $('#services-table tr.upfront-price-total td.highlighted  span').text();
+	if(upfrontTotal == 'Total') {
+		upfrontTotal = 0;
+	}
+	upfrontTotal = getFloat(upfrontTotal) /* from util.js */;
 	// calculate final price
-	var total = firstprice + secondprice;
+	var total = firstprice + secondprice + upfrontTotal;
 	// update the total without VAT
 	$('#services-table .total-price .total-' + cls + ' span').text(total);
 	
@@ -352,13 +358,8 @@ function updatePayNow(cls) {
 			var payLater = grandTotal - payNow;
 			
 			
-			// add upfront payment to payNow
-			var upfrontTotal = $('#services-table tr.upfront-price-total td.highlighted  span').text();
-			if(upfrontTotal == 'Total') {
-				upfrontTotal = 0;
-			}
-			upfrontTotal = getFloat(upfrontTotal) /* from util.js */;
-			var payNowTotal = payNow + upfrontTotal;
+			
+			var payNowTotal = payNow;// + upfrontTotal;
 			
 			payNow = payNowTotal.toFixed(2);
 			payLater = payLater.toFixed(2);
