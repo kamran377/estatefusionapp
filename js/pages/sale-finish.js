@@ -17,6 +17,12 @@ $(document).on('ready',function(){
 		});
 	});
 	$('#uploadCustomer').on('click',function(){
+		if(checkDeviceOnline() == false){
+			alert("There is some issue with network connection of this device");
+			$('#saveLocalCustomer').prop('disabled', false);
+			$('#saveLocalCustomer i').addClass('fa-save').removeClass('fa-circle-o-notch fa-spin');
+			return;
+		}
 		$('#uploadCustomer').prop('disabled', true);
 		$('#uploadCustomer i').removeClass('fa-upload').addClass('fa-circle-o-notch fa-spin');
 		$('#finalErrorDiv').addClass('hidden').html('');

@@ -29,6 +29,10 @@ $(document).on("pageshow","#paymentPage",function() {
 		}, 2000);
 	});
 	$('#payNowOther').on('click',function(){
+		if(checkDeviceOnline() == false){
+			alert("There is some issue with network connection of this device");
+			return;
+		}
 		var ccnumber = $('#ccnumberOther').val();
 		var ccname = $('#ccnameOther').val();
 		var ccexp = $('#ccexpOther').val();
@@ -46,6 +50,10 @@ $(document).on("pageshow","#paymentPage",function() {
 		
 	});
 	$('#uploadCustomerOther').on('click',function(){
+		if(checkDeviceOnline() == false){
+			alert("There is some issue with network connection of this device");
+			return;
+		}
 		$('#uploadCustomerOther').prop('disabled', true);
 		$('#uploadCustomerOther i').removeClass('fa-upload').addClass('fa-circle-o-notch fa-spin');
 		makeCustomerObjectFromDB(function(Customer, Bundle, Services, CustomerPhotos ){

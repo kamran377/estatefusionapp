@@ -21,6 +21,12 @@ $(document).on('ready',function(){
 	});
 	$('#payNow').on('click',function(){
 		
+		if(checkDeviceOnline() == false){
+			alert("There is some issue with network connection of this device");
+			$('#paymentFlag').val('T');
+			gotoFinalStep()/* from sale.js*/;
+			return;
+		}
 		var ccnumber = $('#ccnumber').val();
 		var ccname = $('#ccname').val();
 		var ccexp = $('#ccexp').val();

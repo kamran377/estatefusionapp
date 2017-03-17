@@ -18,6 +18,25 @@ var draftServices;
 function isDeviceOnline() {
 	return navigator.onLine;
 }
+
+function checkDeviceOnline() {
+	if(window.isphone) {
+		var networkState = navigator.connection.type;
+		if(networkState == Connection.NONE) {
+			return false;
+		} else if (networkState == Connection.WIFI) {
+			return true;
+		} else {
+			return true;
+		}
+	} else {
+		if(isDeviceOnline()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
 // this function will set the connection icon
 function checkConnection() {
 	//alert(window.isphone);
