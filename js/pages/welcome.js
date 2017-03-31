@@ -42,9 +42,9 @@ function loadStoredCustomers() {
 				$('#customersTable').append($tr);
 			});
 			$('#customersTableDiv').removeClass('hidden');
-			//hideLoader() /* from util.js*/;
+			hideLoader() /* from util.js*/;
 		} else {
-			//hideLoader() /* from util.js*/;
+			hideLoader() /* from util.js*/;
 		}
 	})/* from database.js*/;
 	getCustomers(false,function(customers){
@@ -72,6 +72,7 @@ function loadStoredCustomers() {
 			hideLoader() /* from util.js*/;
 		}
 	})/* from database.js*/;
+	hideLoader() /* from util.js*/;
 }
 
 /**

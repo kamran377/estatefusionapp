@@ -26,7 +26,9 @@ $(document).on('ready',function(){
 	
 	// stripe key token
 	if(typeof Stripe != 'undefined') {
-		Stripe.setPublishableKey('pk_test_UTPtoJhL9PHHassAMqzLVs7p');  //for frost and co
+		
+		Stripe.setPublishableKey('pk_live_mcPiiCv0DPHtTY73cw83BHwX');  //for frost and co live
+		//Stripe.setPublishableKey('pk_test_UTPtoJhL9PHHassAMqzLVs7p');  //for frost and co test
 		//Stripe.setPublishableKey('pk_test_v2DTosStxmJG8SnaKs4tDnfe'); // for dev account
 	}
 });
