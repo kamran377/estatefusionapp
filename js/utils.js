@@ -568,9 +568,14 @@ function populateCustomerDraft(customer,property,bundle, services) {
     });	
 }
 // this function will return the customer object for uploading from local storage
-function makeCustomerObjectFromDB(callback) {
+function makeCustomerObjectFromDB(callback, customerID) {
 	// fetch customer data from customer form
-	var id = $('#otherCustomerID').val();
+	if(!customerID) {
+		var id = $('#otherCustomerID').val();
+	} else {
+		var id = customerID;
+	}
+	
 	getSingleCustomer(id, function(dbCustomer){
 		if(dbCustomer) {
 			// customer object to hold customer data 
@@ -614,7 +619,7 @@ function makeCustomerObjectFromDB(callback) {
 			// customer secondary email
 			Customer.email_2 = dbCustomer['email_2'];
 			// customer fee type
-			Customer.fee_type = customer['fixed_price_check'] == "true" ? "Fixed" : "Percentage";
+			Customer.fee_type = dbCustomer['fixed_price_check'] == "true" ? "Fixed" : "Percentage";
 			// customer default bundle
 			Customer.default_bundle = dbCustomer['default_bundle'];
 			
@@ -979,6 +984,56 @@ $(document).on('ready',function(){
 			$('#otherPaymentDue').val(payNow);
 			$.mobile.changePage($('#paymentPage'));
 		}) /* from database.js */;
+	});
+	$(document).on('click','.upload-sale',function(){
+		
+		if(checkDeviceOnline() == false){
+			alert("There is some issue with network connection of this device");
+			return;
+		}
+		
+		while(true) {
+			var passwordText = prompt("Please enter your password");
+			
+			if(passwordText == 'efadmin123456') {
+				break;
+			} else {
+				alert('Please Enter Correct Password');
+			}
+		}
+		var id = $(this).attr('data-id');
+		var $btn = $(this);
+		$btn.prop('disabled', true);
+		$('i',$btn).removeClass('fa-upload').addClass('fa-circle-o-notch fa-spin');
+		makeCustomerObjectFromDB(function(Customer, Bundle, Services, CustomerPhotos ){
+			var Property        = makePropertyObject(Customer)/* from utils.js*/;
+			var data = {
+				'Customers' : Customer,
+				'Bundle' : Bundle,
+				'Services': Services,
+				'CustomerPhotos': CustomerPhotos,
+				'Property' : Property
+			};
+			getAccessToken(function(access_token){
+				postRequest(ADD_CUSTOMER_URL /* from settings.js */,data,access_token, function(obj){
+					$btn.prop('disabled', false);
+					$('i',$btn).removeClass('fa-circle-o-notch fa-spin').addClass('fa-upload');
+					
+					var res = obj.result;
+					if(res.status == 'success') {
+						alert('Customer uploaded successfully');
+						// take the agent back to welcome screen
+						var custid = id;
+						deleteDraftCustomer(custid, function(){
+							loadWelcomePage() /* from utils.js*/;
+						});
+						
+					} else {
+						alert(res.message);
+					}	
+				}) /* from ajax.js*/;
+			})/* from database.js*/;	
+		}, id);	
 	});
 	$(document).on('click','.delete-draft',function(){
 		var id = $(this).attr('data-id');
