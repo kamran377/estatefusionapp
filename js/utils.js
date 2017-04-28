@@ -945,9 +945,14 @@ function makePropertyObject(Customer) {
 // this will handle logout button
 $(document).on('ready',function(){
 	$('.logout').on('click',function(){
+		var r = confirm("Are you sure you want to logout?");
+		if (r == true) {
+			window.location.reload();
+			window.location.href = 'index.html';
+		} else {
+			
+		}
 		
-		window.location.reload();
-		window.location.href = 'index.html';
 	});
 	$('#exitApp').on('click',function(){
 		navigator.app.exitApp(); // To exit the app!
