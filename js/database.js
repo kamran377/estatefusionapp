@@ -8,7 +8,7 @@
  * This file contains the methods / utilities related to the offline storage of app
  *
  *************************************************/
-var versionNumber = 'MAIN-V280417.A';
+var versionNumber = 'MAIN-V110817.A';
 
 $(document).on('ready',function(){
 	FastClick.attach(document.body);
@@ -392,6 +392,7 @@ function updateDbSchema() {
 				tx.executeSql('ALTER TABLE services ADD upfront TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE customers ADD signature_2 TEXT',[],onSuccessExecuteSql,onError);
 				tx.executeSql('ALTER TABLE bundles_purchased ADD discount_id TEXT',[],onSuccessExecuteSql,onError);
+				tx.executeSql('ALTER TABLE bundles ADD bundle_cost_flag TEXT',[],onSuccessExecuteSql,onError);
 				
 
 			});
@@ -447,8 +448,8 @@ function insertBundle(bundle, type) {
 		if (estateAppDB) {
 			var discount = bundle.discount ? bundle.discount : 0;
 			estateAppDB.transaction(function(tx) {
-				tx.executeSql('INSERT INTO bundles (id,name,type,price,default_bundle,discount,position) values (?,?,?,?,?,?,?)'
-				,[bundle.id,bundle.name,type,bundle.price,bundle.def,bundle.discount,bundle.position],
+				tx.executeSql('INSERT INTO bundles (id,name,type,price,default_bundle,discount,position,bundle_cost_flag) values (?,?,?,?,?,?,?,?)'
+				,[bundle.id,bundle.name,type,bundle.price,bundle.def,bundle.discount,bundle.position,bundle.bundle_cost_flag],
 				function(tx,results){
 					return true;
 				},

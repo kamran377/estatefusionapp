@@ -224,6 +224,7 @@ function attachSellerEvents() {
 }
 function addDropdownOptions() {
 	getRegions(function(regions){ /* from database.js */
+		console.log(regions);
 		// if we have regions in the local database
 		if(regions && regions.length) {
 			var str = "<option value=''>Select County</option>";
@@ -351,14 +352,22 @@ function updateBundlePrices(price) {
 				$('span',$td).text(price);
 				$('#services-table thead tr th[data-default=true]').attr('data-bundle-price',price);
 			} else {
-				var discount = $td.attr('data-discount');
-				discount = parseFloat(discount);
-				newprice = price - (price * discount / 100);
-				newprice = newprice.toFixed(2);
-				$('span',$td).text(newprice);
-				var index = $tds.index($td);
-				index = index + 1;
-				$('#services-table thead tr th:nth-child('+index+')').attr('data-bundle-price',newprice);
+				var bundle_cost_flag = $td.attr('data-bundle_cost_flag');
+				console.log(bundle_cost_flag);
+				console.log(bundle_cost_flag == 'true');
+				if(bundle_cost_flag == 'true') {
+					
+				} else {
+					var discount = $td.attr('data-discount');
+					discount = parseFloat(discount);
+					newprice = price - (price * discount / 100);
+					newprice = newprice.toFixed(2);
+					$('span',$td).text(newprice);
+					var index = $tds.index($td);
+					index = index + 1;
+					$('#services-table thead tr th:nth-child('+index+')').attr('data-bundle-price',newprice);
+				}
+				
 			}	
 		});
 	} else {

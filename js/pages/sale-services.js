@@ -421,10 +421,10 @@ function displayBundlesData() {
 							bundleservices.push(services[j]['id']);
 						} else if(!services[j]['bundle_id']){
 							if(!checkArrayItem(allservices,services[j]['id'])){
-								console.log(services[j]['name'] + ' added in array');
+								//console.log(services[j]['name'] + ' added in array');
 								allservices.push(services[j]);
 							} else {
-								console.log(services[j]['name'] + 'already there');
+								//console.log(services[j]['name'] + 'already there');
 							}
 							
 						}
@@ -487,6 +487,7 @@ function displayBundlesData() {
 				for(var i=0;i<len;i++) {
 					$('td:nth-child(' + (i+2) + ')').attr('data-default',bundles[i]['default_bundle']);
 					$('td:nth-child(' + (i+2) + ')').attr('data-discount',bundles[i]['discount']);
+					$('td:nth-child(' + (i+2) + ')').attr('data-bundle_cost_flag',bundles[i]['bundle_cost_flag']);
 					
 					$('td:nth-child(' + (i+2) + ') span',$tr).text(bundles[i]['price']);
 				}
@@ -551,7 +552,7 @@ function displayBundlesData() {
 						for(var j=0;j<slen;j++) {
 							if(services[j]['bundle_id'] == bundleid) {
 								if(!checkArrayItem(bundleservices,services[j]['id'])){
-									console.log(services[j]['name'] + ' added in array');
+									//console.log(services[j]['name'] + ' added in array');
 									bundleservices.push(services[j]);
 								} 
 							}

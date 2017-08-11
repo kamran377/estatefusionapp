@@ -8,7 +8,7 @@
  * This file contains the general utility methods used in the app
  *
  *************************************************/
-// these variables will hold the data fro draft customer continue function
+// these variables will hold the data for draft customer continue function
 var draftCustomer;
 var draftProperty;
 var draftBundle;
