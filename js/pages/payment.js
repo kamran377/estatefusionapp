@@ -131,13 +131,7 @@ function applyWizardOther() {
 	});
 	
 	$("#wizard_exampleOther").on('sf-step-before', function(e, from, to, data) {
-		sfwOther.refresh();
-		// from payment to finish page
-		if(from == 0 && to == 1) {
-			if($('#paymentOtherFlag').val() == 'F') {
-				e.preventDefault();
-			}
-		}
+		
 		//e.preventDefault(); // this you have to call if you need to interrupt transition to next step
 	});
 }

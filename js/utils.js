@@ -81,6 +81,10 @@ function hideLoader() {
 function getFloat(number) {
 	return parseFloat(number);
 }
+// this will return the parsed value for the number
+function getInteger(number) {
+	return parseInt(number,10);
+}
 // this function will save the customer draft data into the local db
 function saveCustomer(isDraft,callback) {
 	// fetch customer data from customer form

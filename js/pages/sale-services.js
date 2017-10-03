@@ -93,24 +93,24 @@ function attachServicesEvents() {
 				
 				// update the grand total
 				updateTotals(cls);
-			} else {
+			} //else {
 			
-				// get the sub total
-				var _subtotal = $('#services-table tr.sub-price-1 td.highlighted span').text();
-				// convert it to int
-				var subtotal = getFloat(_subtotal) /* from utils.js*/;
-				if($(this).prop('checked')) {
-					// get the new total
-					var newtotal = price + subtotal;
-				} else {
-					// get the new total
-					var newtotal = subtotal - price;
-				}
-				// update the sub total
-				$('#services-table tr.sub-price-1 td.highlighted span').text(newtotal);
-				// update the grand total
-				updateTotals(cls);
+			// get the sub total
+			var _subtotal = $('#services-table tr.sub-price-1 td.highlighted span').text();
+			// convert it to int
+			var subtotal = getFloat(_subtotal) /* from utils.js*/;
+			if($(this).prop('checked')) {
+				// get the new total
+				var newtotal = price + subtotal;
+			} else {
+				// get the new total
+				var newtotal = subtotal - price;
 			}
+			// update the sub total
+			$('#services-table tr.sub-price-1 td.highlighted span').text(newtotal);
+			// update the grand total
+			updateTotals(cls);
+			//}
 		} else {
 			// do nothing if the bundle is not selected
 			return false;
@@ -289,15 +289,22 @@ function updateTotals(cls) {
 	// convert it to float
 	var secondprice = getFloat(_secondprice) /* from utils.js*/;
 	// add upfront payment to payNow
-	var upfrontTotal = $('#services-table tr.upfront-price-total td.highlighted  span').text();
-	if(upfrontTotal == 'Total') {
-		upfrontTotal = 0;
-	}
-	upfrontTotal = getFloat(upfrontTotal) /* from util.js */;
+	//var upfrontTotal = $('#services-table tr.upfront-price-total td.highlighted  span').text();
+	//if(upfrontTotal == 'Total') {
+		//upfrontTotal = 0;
+	//}
+	//upfrontTotal = getFloat(upfrontTotal) /* from util.js */;
 	// calculate final price
-	var total = firstprice + secondprice + upfrontTotal;
+	var total = firstprice + secondprice; //+ upfrontTotal;
 	// update the total without VAT
 	$('#services-table .total-price .total-' + cls + ' span').text(total);
+	
+	$('#services-table .total-price-without-discount .total-' + cls + ' span').text(total);
+	
+	var _vat = getFloat(total * VAT / 100);
+	var newTotal = getFloat(total + _vat);
+	
+	$('#services-table .total-price-without-discount-vat .total-' + cls + ' span').text(newTotal);
 	
 	updatePayNow(cls);
 }
@@ -319,33 +326,42 @@ function updatePayNow(cls) {
 		var percentage = getFloat(_percentage) /* from utils.js*/
 		
 		// get the grand total
-		var _total = $('#services-table .total-price .total-' + cls + ' span').text();
-		if(_total == 'Total') {
+		//$('#services-table .total-price-without-discount .total-' + cls + ' span').text(total);
+		var _total = $('#services-table .total-price-without-discount .total-' + cls + ' span').text();
+		if(_total == 'Price Before Discount ex VAT') {
 			_total = 0;
 		}
 		
+		// add upfront payment to payNow
+		var upfrontTotal = $('#services-table tr.upfront-price-subtotal td.highlighted  span').text();
+		if(upfrontTotal == 'Upfront Cost') {
+			upfrontTotal = 0;
+		}
+		upfrontTotal = getInteger(upfrontTotal) /* from util.js */;
 		
 		// convert to double
 		var total = getFloat(_total) /* from utils.js*/;
 		// get the discount percentage
-		var discount = total * ( percentage / 100);
+		var discount = getFloat((total - upfrontTotal) * ( percentage / 100));
 		// update the discounts column
-		$('#services-table .total-discount .total-discount-' + cls + ' span').text(discount.toFixed(2));
+		$('#services-table .total-discount .total-discount-' + cls + ' span').text(Math.round(discount));
 		// calculate the VAT
+		var newPrice = getFloat(total - discount);
+		$('#services-table .new-price-ex-vat .new-price-' + cls + ' span').text(Math.round(newPrice));
 		
 		if( total > 0 ) {
 			// get the discounted total
-			var discountedTotal = total - discount;
+			var discountedTotal = newPrice;
 			
 			var vatTotal = discountedTotal * VAT / 100;
 			vatTotal = getFloat(vatTotal) /* from utils.js*/;
 			
 			// update the VAT column
-			$('#services-table .vat-price span').text(vatTotal.toFixed(2));
+			$('#services-table .vat-price span').text(Math.round(vatTotal));
 			// calculate the grand total
 			var grandTotal = discountedTotal + vatTotal;
 			grandTotal = getFloat(grandTotal) /* from utils.js*/;
-			grandTotal = grandTotal.toFixed(2);
+			grandTotal = Math.round(grandTotal);
 			// update the grand total column
 			$('#services-table .vat-total-price span').text(grandTotal);	
 			
@@ -361,8 +377,18 @@ function updatePayNow(cls) {
 			
 			var payNowTotal = payNow;// + upfrontTotal;
 			
-			payNow = payNowTotal.toFixed(2);
-			payLater = payLater.toFixed(2);
+			payNow = Math.round(payNowTotal);
+			payLater = Math.round(payLater);
+			if(payNow == 0) {
+				var upfrontTotal = $('#services-table tr.upfront-price-total td.highlighted  span').text();
+				if(upfrontTotal == 'Total Due Upfront') {
+					upfrontTotal = 0;
+				}
+				upfrontTotal = getInteger(upfrontTotal) /* from util.js */;
+				payNow = upfrontTotal;
+				payLater = grandTotal - payNow;
+			}
+			
 			// update the pay now and later columns
 			$('#services-table .total-price-now .total-now-' + cls + ' span').text(payNow);
 			// update the pay now and later columns
@@ -473,7 +499,7 @@ function displayBundlesData() {
 				// add the price row
 				$tr = $('<tr/>').addClass('sub-price-1')
 					.append($('<td/>').addClass('price')
-						.text('Price'));
+						.text('Total'));
 				
 				$('#services-table tbody').append($tr);
 
@@ -498,10 +524,10 @@ function displayBundlesData() {
 				
 				$tr = $('<tr/>').addClass('upfront-price-subtotal')
 					.append($('<td/>').addClass('price upfront-price')
-						.text('Upfront Services Sub Price'));
+						.text('Upfront Cost'));
 						
 				for(var t = 0; t<bundles.length;t++) {
-					$tr.append($('<td/>').addClass(numberArray[t]).html('&pound;  <span>Sub Total</span>'));
+					$tr.append($('<td/>').addClass(numberArray[t]).html('&pound;  <span>Upfront Cost</span>'));
 				}
 				
 				$('#services-table tbody').append($tr);
@@ -512,10 +538,10 @@ function displayBundlesData() {
 				
 				$tr = $('<tr/>').addClass('upfront-price-vat')
 					.append($('<td/>').addClass('price')
-						.text('Upfront Services VAT'));
+						.text('Upfront VAT'));
 						
 				for(var t = 0; t<bundles.length;t++) {
-					$tr.append($('<td/>').addClass(numberArray[t]).html('&pound;  <span>VAT</span>'));
+					$tr.append($('<td/>').addClass(numberArray[t]).html('&pound;  <span>Upfront VAT</span>'));
 				}
 				
 				$('#services-table tbody').append($tr);
@@ -526,10 +552,10 @@ function displayBundlesData() {
 				
 				$tr = $('<tr/>').addClass('upfront-price-total')
 					.append($('<td/>').addClass('price')
-						.text('Upfront Services Total'));
+						.text('Total Due Upfront'));
 						
 				for(var t = 0; t<bundles.length;t++) {
-					$tr.append($('<td/>').addClass(numberArray[t]).html('&pound;  <span>Total</span>'));
+					$tr.append($('<td/>').addClass(numberArray[t]).html('&pound;  <span>Total Due Upfront</span>'));
 				}
 				
 				$('#services-table tbody').append($tr);
@@ -606,12 +632,25 @@ function displayBundlesData() {
 						.append($('<td/>').addClass('empty').attr('colspan',emptyColSpan).html(''));
 					$('#services-table tbody').append($tr);
 					// add the total price
-					$tr = $('<tr/>').addClass('total-price')
+					$tr = $('<tr/>').addClass('total-price-without-discount')
 						.append($('<td/>').addClass('price')
-							.text('Total Price'));
+							.text('Price Before Discount ex VAT'));
 						
 						for(var t = 0; t<bundles.length;t++) {
-							$tr.append($('<td/>').addClass('total-' + numberArray[t]).html('&pound; <span>Total</span>'));
+							$tr.append($('<td/>').addClass('total-' + numberArray[t]).html('&pound; <span>Price Before Discount ex VAT</span>'));
+						}
+					$('#services-table tbody').append($tr);
+					//adding empty row
+					$tr = $('<tr/>').addClass('')
+						.append($('<td/>').addClass('empty').attr('colspan',emptyColSpan).html(''));
+					$('#services-table tbody').append($tr);
+					
+					$tr = $('<tr/>').addClass('total-price-without-discount-vat')
+						.append($('<td/>').addClass('price')
+							.text('Price Before Discount inc VAT'));
+						
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').addClass('total-' + numberArray[t]).html('&pound; <span>Price Before Discount inc VAT</span>'));
 						}
 					$('#services-table tbody').append($tr);
 					
@@ -658,12 +697,27 @@ function displayBundlesData() {
 						// add the discount
 						$tr = $('<tr/>').addClass('total-discount')
 							.append($('<td/>').addClass('price')
-								.text('Discount'));
+								.text('Discount'));							
 							
 						for(var t = 0; t<bundles.length;t++) {
 							$tr.append($('<td/>').addClass('total-discount-' + numberArray[t]).html('&pound; <span></span>'));
 						}
 						$('#services-table tbody').append($tr);
+						
+						
+						$tr = $('<tr/>').addClass('')
+							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
+						$('#services-table tbody').append($tr);
+						// add the new price ex VAT
+						$tr = $('<tr/>').addClass('new-price-ex-vat')
+							.append($('<td/>').addClass('price')
+								.text('New Price ex VAT'));							
+							
+						for(var t = 0; t<bundles.length;t++) {
+							$tr.append($('<td/>').addClass('new-price-' + numberArray[t]).html('&pound; <span></span>'));
+						}
+						$('#services-table tbody').append($tr);
+						
 						//adding empty row
 						$tr = $('<tr/>').addClass('')
 							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
@@ -697,6 +751,10 @@ function displayBundlesData() {
 						for(var t = 0; t<bundles.length;t++) {
 							$tr.append($('<td/>').addClass('total-now-' + numberArray[t]).html('&pound; <span>Total</span>'));
 						}
+						$('#services-table tbody').append($tr);
+						//adding empty row
+						$tr = $('<tr/>').addClass('')
+							.append($('<td/>').attr('colspan',emptyColSpan).html(''));
 						$('#services-table tbody').append($tr);
 						// add the total due later
 						$tr = $('<tr/>').addClass('total-price-later')

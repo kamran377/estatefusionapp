@@ -37,7 +37,7 @@ function applyWizard() {
 		height: 'auto',
 		theme:'circle',
 		transition:'none',
-		//startStep: 1,
+		startStep: 1,
 		nextBtn:$('<a class="next-btn sf-right sf-btn btn btn-primary" href="#">NEXT <i class="fa fa-arrow-right"></i> </a>'),
 		prevBtn:$('<a class="prev-btn sf-left sf-btn  btn btn-primary" href="#"><i class="fa fa-arrow-left"></i> PREV</a>'),
 		finishBtn:$('<a class="finish-btn sf-right sf-btn  btn btn-primary hidden" href="#"><i class="fa fa-stop"></i> FINISH</a>'),
@@ -100,53 +100,18 @@ function applyWizard() {
 		// from photo page to payment page
 		if(from == 4 && to == 5) {
 			handlePhotoPage(e) /* from sale-photo.js */;
-			if(isDeviceOnline() == true) {
-				var payable = getPayableObject() /* from sale-service.js*/;
-				var payNow = getFloat(payable.payNow)
-				if(payNow > 0) {
-					$('#totalPaymentCheckout').html('Total Payment Due: &pound;' + payable.payNow);
-				} else {
-					$('#saveLocalCustomer').addClass('hidden');
-					$('#uploadCustomer').removeClass('hidden');
-					sfw.disableStep(5);
-					sfw.removeAnimating();
-					var res = sfw.goTo(6);
-					e.preventDefault();
-					
-				}
-			} else {
-				//sfw.activeStep(6);
-				sfw.disableStep(5);
-				sfw.removeAnimating();
-				var res = sfw.goTo(6);
-				e.preventDefault();
-				
-			}
 		}
-		// from payment to finish page
-		if(from == 5 && to == 6) {
-			if($('#paymentFlag').val() == 'F') {
-				e.preventDefault();
-			}
-			else if($('#paymentFlag').val() == 'I'){
-				$('#saveLocalCustomer').removeClass('hidden');
-				$('#uploadCustomer').addClass('hidden');
-			}
-			else {
-				$('#saveLocalCustomer').addClass('hidden');
-				$('#uploadCustomer').removeClass('hidden');
-			}
-		}
+		
 		//e.preventDefault(); // this you have to call if you need to interrupt transition to next step
 	});
 }
 function gotoFinalStep() {
 	// this will show the final step
-	sfw.goTo(6);
+	sfw.goTo(5);
 }
 function gotoFinalStepFromPayment() {
 	// this will show the final step
-	sfw.goTo(6);
+	sfw.goTo(5);
 }
 function refreshStep()
 {

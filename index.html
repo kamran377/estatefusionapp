@@ -127,33 +127,6 @@
 					<input type='hidden' id='otherPaymentDue' />
 					<a href="javascript://" id='startAgainOther' class='btn btn-danger ui-btn-right'><i class='fa fa-refresh'></i> Back</a>
 					<fieldset>
-						<legend>Payment</legend>
-						<div id="paymentOther">
-							<input type='hidden' id='paymentOtherFlag' value='F' />
-							<h2 id="totalPaymentCheckoutOther"></h2>
-							<div class="card-wrapperOther"></div>
-							<div id='paymentFormOther' class="form-containerOther active">
-								<label class="alert alert-danger hidden"></label>
-								<div class="form-group">
-									<input id='ccnumberOther' data-role='none' class='form-control' data-stripe="number" placeholder="Card number" type="text" name="number">
-								</div>
-								<div class="form-group">	
-									<input id='ccnameOther' data-role='none' class='form-control' placeholder="Full name" type="text" name="name">
-								</div>
-								<div class="form-group">	
-									<input id='ccexpOther' data-role='none' class='form-control' data-stripe="exp" type="text" name="expiry">
-								</div>
-								<div class="form-group">	
-									<input id='cccvcOther' data-role='none' class='form-control' data-stripe="cvc" placeholder="CVC" type="text" name="cvc">
-								</div>
-								
-								<button id="payNowOther" class='btn btn-primary btn-block btn-lg ui-btn-active'><i class='fa fa-cc'></i> Pay</button>
-								
-							</div>
-							
-						</div>
-					</fieldset>	
-					<fieldset>
 						<legend>Finish</legend>
 						<div class="row">
 							<div class="col-lg-12">
@@ -570,34 +543,7 @@
 							</table>
 						</div>
 					</fieldset>
-					<fieldset>
-						<legend>Payment</legend>
-						<div id="payment">
-							
-							<h2 id="totalPaymentCheckout"></h2>
-							<div class="card-wrapper"></div>
-							<input type='hidden' id='paymentFlag' value='F' />
-							<div id='paymentFrom' class="form-container active">
-								<label class="alert alert-danger hidden"></label>
-								<div class="form-group">
-									<input id='ccnumber' data-role='none' class='form-control' data-stripe="number" placeholder="Card number" type="text" name="number">
-								</div>
-								<div class="form-group">	
-									<input id='ccname' data-role='none' class='form-control' placeholder="Full name" type="text" name="name">
-								</div>
-								<div class="form-group">	
-									<input id='ccexp' data-role='none' class='form-control' data-stripe="exp" type="text" name="expiry">
-								</div>
-								<div class="form-group">	
-									<input id='cccvc' data-role='none' class='form-control' data-stripe="cvc" placeholder="CVC" type="text" name="cvc">
-								</div>
-								
-								<button id="payNow" class='btn btn-primary btn-block btn-lg ui-btn-active'><i class='fa fa-cc'></i> Pay</button>
-								<button id="processLaterBtn" class='btn btn-primary btn-block btn-lg hidden ui-btn-active'><i class='fa fa-exchange'></i> Process Payment later</button>
-							</div>
-							
-						</div>
-					</fieldset>	
+					
 					<fieldset>
 						<legend>Finish</legend>
 						<div class="row">
