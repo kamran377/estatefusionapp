@@ -334,7 +334,7 @@ function updatePayNow(cls) {
 		
 		// add upfront payment to payNow
 		var upfrontTotal = $('#services-table tr.upfront-price-subtotal td.highlighted  span').text();
-		if(upfrontTotal == 'Upfront Cost') {
+		if(upfrontTotal == 'Sub Total') {
 			upfrontTotal = 0;
 		}
 		upfrontTotal = getInteger(upfrontTotal) /* from util.js */;
@@ -381,7 +381,7 @@ function updatePayNow(cls) {
 			payLater = Math.round(payLater);
 			if(payNow == 0) {
 				var upfrontTotal = $('#services-table tr.upfront-price-total td.highlighted  span').text();
-				if(upfrontTotal == 'Total Due Upfront') {
+				if(upfrontTotal == 'Total') {
 					upfrontTotal = 0;
 				}
 				upfrontTotal = getInteger(upfrontTotal) /* from util.js */;
