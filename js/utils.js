@@ -1000,16 +1000,6 @@ $(document).on('ready',function(){
 			alert("There is some issue with network connection of this device");
 			return;
 		}
-		
-		while(true) {
-			var passwordText = prompt("Please enter your password");
-			
-			if(passwordText == 'efadmin123456') {
-				break;
-			} else {
-				alert('Please Enter Correct Password');
-			}
-		}
 		var id = $(this).attr('data-id');
 		var $btn = $(this);
 		$btn.prop('disabled', true);

@@ -57,12 +57,6 @@ function loadStoredCustomers() {
 					.append($('<td/>').text(customer.home_address_1.replace('|',' ')))
 					.append($('<td/>').css('width','20%')
 						.append(
-							$('<a/>').addClass('btn btn-primary continue-payment btn-block').attr({'href':'javascript://','data-id':customer['id']}).text(' Process Payment ').prepend($('<i class="fa fa-cc"></i>'))
-						)
-						.append(
-							$("<div/>").addClass('clearfix visible-xs').css({'height': '10px'})
-						)
-						.append(
 							$('<a/>').addClass('btn btn-primary upload-sale btn-block').attr({'href':'javascript://','data-id':customer['id']}).text(' Upload Sale').prepend($('<i class="fa fa-upload"></i>'))
 						)
 						
